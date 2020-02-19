@@ -1,0 +1,8 @@
+# NPM packages lock file
+package-lock.json
+
+# Dependency directory
+node_modules
+
+# Elm Dependency directory
+elm-stuff
