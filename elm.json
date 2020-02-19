@@ -6,6 +6,7 @@
     "version": "1.0.0",
     "exposed-modules": [
         "Css.Reset",
+        "Css.Reset.EricMeyer",
         "Css.Reset.Html5Doctor",
         "Css.Reset.Normalize",
         "Css.Reset.Ress"
