@@ -1,6 +1,46 @@
 module Css.Reset.Html5Doctor exposing (html5Doctor)
 
-import Css exposing (..)
+import Css
+    exposing
+        ( backgroundColor
+        , baseline
+        , block
+        , bold
+        , border
+        , borderBottom2
+        , borderCollapse
+        , borderSpacing
+        , borderTop3
+        , collapse
+        , color
+        , cursor
+        , display
+        , dotted
+        , fontSize
+        , fontStyle
+        , fontWeight
+        , height
+        , help
+        , hex
+        , int
+        , italic
+        , lineHeight
+        , lineThrough
+        , listStyle
+        , margin
+        , margin2
+        , middle
+        , none
+        , outline
+        , padding
+        , pct
+        , property
+        , px
+        , solid
+        , textDecoration
+        , verticalAlign
+        , zero
+        )
 import Css.Global exposing (..)
 
 
@@ -30,20 +70,20 @@ html5Doctor =
         , h6
         , p
         , blockquote
-        , Css.Global.pre
+        , pre
         , typeSelector "abbr"
         , typeSelector "address"
         , typeSelector "cite"
         , code
         , typeSelector "del"
         , typeSelector "dfn"
-        , Css.Global.em
+        , em
         , img
         , typeSelector "ins"
         , typeSelector "kbd"
         , q
         , typeSelector "samp"
-        , Css.Global.small
+        , small
         , strong
         , typeSelector "sub"
         , typeSelector "sup"
@@ -60,7 +100,7 @@ html5Doctor =
         , form
         , label
         , legend
-        , Css.Global.table
+        , table
         , caption
         , tbody
         , tfoot
@@ -157,7 +197,7 @@ html5Doctor =
         [ borderBottom2 (px 1) dotted
         , cursor help
         ]
-    , Css.Global.table
+    , table
         [ borderCollapse collapse
         , borderSpacing zero
         ]
