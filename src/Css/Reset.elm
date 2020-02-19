@@ -9,9 +9,13 @@ import Html.Styled exposing (toUnstyled)
 
 html5Doctor : Html msg
 html5Doctor =
-    toUnstyled <| global Html5Doctor.html5Doctor
+    Html5Doctor.html5Doctor
+        |> global
+        |> toUnstyled
 
 
 ress : Html msg
 ress =
-    toUnstyled <| global Ress.ress
+    Ress.ress
+        |> global
+        |> toUnstyled
