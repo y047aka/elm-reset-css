@@ -79,7 +79,7 @@ generalElements =
     , summary
         [ display listItem -- Add the correct display in all browsers
         ]
-    , typeSelector "small"
+    , Css.Global.small
         [ fontSize (pct 80) -- Set font-size to 80% in `small` elements
         ]
     , selector "[hidden]"
@@ -104,12 +104,12 @@ generalElements =
     , each
         [ code
         , typeSelector "kbd"
-        , typeSelector "pre"
+        , Css.Global.pre
         , typeSelector "samp"
         ]
         [ fontFamilies [ monospace.value, monospace.value ] --/* Specify the font family of code elements
         ]
-    , typeSelector "pre"
+    , Css.Global.pre
         [ fontSize (Css.em 1) -- Correct the odd `em` font sizing in all browsers
         ]
     , each
@@ -259,7 +259,7 @@ forms =
     , legend
         [ border zero -- Correct `color` not being inherited in IE 8/9/10/11
         , color inherit -- Correct the color inheritance from `fieldset` elements in IE
-        , property "display" "table" -- Correct the text wrapping in Edge and IE
+        , display Css.table -- Correct the text wrapping in Edge and IE
         , maxWidth (pct 100) -- Correct the text wrapping in Edge and IE
         , whiteSpace normal -- Correct the text wrapping in Edge and IE
         , maxWidth (pct 100) -- Correct the text wrapping in Edge 18- and IE
@@ -286,7 +286,7 @@ specifyMediaElementStyle =
         ]
 
     -- Add the correct vertical alignment in Chrome, Firefox, and Opera
-    , typeSelector "progress"
+    , Css.Global.progress
         [ verticalAlign baseline
         ]
     , svg
@@ -318,7 +318,7 @@ accessibility =
 
     --  Specify the progress cursor of updating elements
     , selector "[aria-busy=\"true\"]"
-        [ property "cursor" "progress"
+        [ cursor Css.progress
         ]
 
     -- Specify the pointer cursor of trigger elements

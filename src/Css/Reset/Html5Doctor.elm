@@ -30,20 +30,20 @@ html5Doctor =
         , h6
         , p
         , blockquote
-        , typeSelector "pre"
+        , Css.Global.pre
         , typeSelector "abbr"
         , typeSelector "address"
         , typeSelector "cite"
         , code
         , typeSelector "del"
         , typeSelector "dfn"
-        , typeSelector "em"
+        , Css.Global.em
         , img
         , typeSelector "ins"
         , typeSelector "kbd"
         , q
         , typeSelector "samp"
-        , typeSelector "small"
+        , Css.Global.small
         , strong
         , typeSelector "sub"
         , typeSelector "sup"
@@ -60,7 +60,7 @@ html5Doctor =
         , form
         , label
         , legend
-        , typeSelector "table"
+        , Css.Global.table
         , caption
         , tbody
         , tfoot
@@ -91,7 +91,7 @@ html5Doctor =
         , border zero
         , outline zero
         , fontSize (pct 100)
-        , property "vertical-align" "baseline"
+        , verticalAlign baseline
         , property "background" "transparent"
         ]
     , body
@@ -133,7 +133,7 @@ html5Doctor =
         [ margin zero
         , padding zero
         , fontSize (pct 100)
-        , property "vertical-align" "baseline"
+        , verticalAlign baseline
         , property "background" "transparent"
         ]
     , -- change colours to suit your needs
@@ -172,6 +172,6 @@ html5Doctor =
         ]
     , each
         [ input, select ]
-        [ property "vertical-align" "middle"
+        [ verticalAlign middle
         ]
     ]
