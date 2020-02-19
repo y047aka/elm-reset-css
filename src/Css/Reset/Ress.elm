@@ -93,7 +93,7 @@ generalElements =
         , textDecoration2 underline dotted
         ]
     , a
-        [ backgroundColor transparent -- Remove the gray background on active links in IE 10
+        [ property "background" "transparent" -- Remove the gray background on active links in IE 10
         ]
     , each
         [ selector "a:active"
@@ -241,7 +241,7 @@ forms =
         , select
         , textarea
         ]
-        [ backgroundColor transparent
+        [ property "background" "transparent"
         , borderStyle none
         ]
 
