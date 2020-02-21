@@ -1,18 +1,23 @@
 module Css.Reset.EricMeyer exposing (ericMeyer)
 
+{-| Eric Meyer’s Reset CSS which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+
+@docs ericMeyer
+
+-}
+
 import Css exposing (baseline, block, border, borderCollapse, borderSpacing, collapse, display, fontSize, int, lineHeight, listStyle, margin, none, padding, pct, property, verticalAlign, zero)
 import Css.Global exposing (..)
 
 
-{-|
-
-    http://meyerweb.com/eric/tools/css/reset/
-    v2.0 | 20110126
-    License: none (public domain)
-
+{-| Compile it with your elm-css code.
 -}
 ericMeyer : List Snippet
 ericMeyer =
+    {- http://meyerweb.com/eric/tools/css/reset/
+       v2.0 | 20110126
+       License: none (public domain)
+    -}
     [ each
         [ html
         , body

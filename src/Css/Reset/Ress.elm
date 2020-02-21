@@ -1,19 +1,24 @@
 module Css.Reset.Ress exposing (ress)
 
+{-| ress which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+
+@docs ress
+
+-}
+
 import Css exposing (..)
 import Css.Global exposing (..)
 import Css.Media exposing (only, screen)
 
 
-{-|
-
-  - ress.css • v2.0.4
-  - MIT License
-  - github.com/filipelinhares/ress
-
+{-| Compile it with your elm-css code.
 -}
 ress : List Snippet
 ress =
+    {- ress.css • v2.0.4
+       MIT License
+       github.com/filipelinhares/ress
+    -}
     List.concat
         [ grobalSelectors
         , generalElements

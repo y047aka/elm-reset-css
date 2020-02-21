@@ -1,5 +1,11 @@
 module Css.Reset.Html5Doctor exposing (html5Doctor)
 
+{-| html5doctor.com Reset Stylesheet which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+
+@docs html5Doctor
+
+-}
+
 import Css
     exposing
         ( backgroundColor
@@ -44,17 +50,16 @@ import Css
 import Css.Global exposing (..)
 
 
-{-|
-
-    html5doctor.com Reset Stylesheet
-    v1.6.1
-    Last Updated: 2010-09-17
-    Author: Richard Clark - http://richclarkdesign.com
-    Twitter: @rich_clark
-
+{-| Compile it with your elm-css code.
 -}
 html5Doctor : List Snippet
 html5Doctor =
+    {- html5doctor.com Reset Stylesheet
+       v1.6.1
+       Last Updated: 2010-09-17
+       Author: Richard Clark - http://richclarkdesign.com
+       Twitter: @rich_clark
+    -}
     [ each
         [ html
         , body

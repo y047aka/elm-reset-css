@@ -1,15 +1,20 @@
 module Css.Reset.Normalize exposing (normalize)
 
+{-| Normalize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+
+@docs normalize
+
+-}
+
 import Css exposing (..)
 import Css.Global exposing (..)
 
 
-
--- normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css
-
-
+{-| Compile it with your elm-css code.
+-}
 normalize : List Snippet
 normalize =
+    -- normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css
     List.concat
         [ document
         , sections
@@ -23,8 +28,9 @@ normalize =
 
 
 
--- Document
--- ==========================================================================
+{- Document
+   ==========================================================================
+-}
 
 
 document : List Snippet
@@ -39,8 +45,9 @@ document =
 
 
 
--- Sections
--- ==========================================================================
+{- Sections
+   ==========================================================================
+-}
 
 
 sections : List Snippet
@@ -62,8 +69,9 @@ sections =
 
 
 
--- Grouping content
--- ==========================================================================
+{- Grouping content
+   ==========================================================================
+-}
 
 
 groupingContent : List Snippet
@@ -86,8 +94,9 @@ groupingContent =
 
 
 
--- Text-level semantics
--- ==========================================================================
+{- Text-level semantics
+   ==========================================================================
+-}
 
 
 textLevelSemantics : List Snippet
@@ -144,8 +153,9 @@ textLevelSemantics =
 
 
 
--- Embedded content
--- ========================================================================== */
+{- Embedded content
+   ========================================================================== */
+-}
 
 
 embeddedContent : List Snippet
@@ -157,8 +167,9 @@ embeddedContent =
 
 
 
--- Forms
--- ========================================================================== */
+{- Forms
+   ========================================================================== */
+-}
 
 
 forms : List Snippet
@@ -289,8 +300,9 @@ forms =
 
 
 
--- Interactive
--- ========================================================================== */
+{- Interactive
+   ========================================================================== */
+-}
 
 
 interactive : List Snippet
@@ -306,8 +318,9 @@ interactive =
 
 
 
--- Misc
--- ========================================================================== */
+{- Misc
+   ========================================================================== */
+-}
 
 
 misc : List Snippet
