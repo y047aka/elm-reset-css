@@ -3,13 +3,14 @@
     "name": "y047aka/elm-reset-css",
     "summary": "The Collection of Reset CSS",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "exposed-modules": [
         "Css.Reset",
         "Css.Reset.EricMeyer",
         "Css.Reset.Html5Doctor",
         "Css.Reset.Normalize",
-        "Css.Reset.Ress"
+        "Css.Reset.Ress",
+        "Css.Reset.Sanitize"
     ],
     "elm-version": "0.19.1 <= v < 0.20.0",
     "dependencies": {
