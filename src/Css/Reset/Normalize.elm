@@ -52,7 +52,7 @@ document =
 
 sections : List Snippet
 sections =
-    [ --Remove the margin in all browsers.
+    [ -- Remove the margin in all browsers.
       body
         [ margin zero ]
 
@@ -285,9 +285,7 @@ forms =
         ]
 
     -- Remove the inner padding in Chrome and Safari on macOS.
-    , each
-        [ selector "[type=\"search\"]::-webkit-search-decoration"
-        ]
+    , selector "[type=\"search\"]::-webkit-search-decoration"
         [ property "-webkit-appearance" "none" ]
 
     -- 1. Correct the inability to style clickable types in iOS and Safari.

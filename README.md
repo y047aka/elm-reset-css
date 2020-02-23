@@ -36,3 +36,11 @@ License: MIT
 Last Updated: 2020-01-18  
 Author: Filipe Linhares  
 https://github.com/filipelinhares/ress
+
+## sanitize.css
+
+Version: 10.0.0
+License: CC0 1.0 Universal
+Last Updated: 2019-06-04
+Author: CSS Tools
+https://github.com/csstools/sanitize.css
