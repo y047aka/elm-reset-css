@@ -3,8 +3,6 @@
 This package is the Collection of Reset CSS in Elm.
 It helps you to reset base styles.
 
-You can use this package with `elm/html` or [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
-
 ## Eric Meyer’s Reset CSS
 
 Version: 2.0  
