@@ -31,9 +31,9 @@ https://github.com/necolas/normalize.css/
 
 ## ress
 
-Version: 2.0.4  
+Version: 3.0.0  
 License: MIT  
-Last Updated: 2020-01-18  
+Last Updated: 2020-07-25  
 Author: Filipe Linhares  
 https://github.com/filipelinhares/ress
 

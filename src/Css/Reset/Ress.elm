@@ -15,7 +15,7 @@ import Css.Media exposing (only, screen)
 -}
 ress : List Snippet
 ress =
-    {- ress.css • v2.0.4
+    {- ress.css • v3.0.0
        MIT License
        github.com/filipelinhares/ress
     -}
@@ -98,7 +98,7 @@ generalElements =
         , textDecoration2 underline dotted
         ]
     , a
-        [ property "background" "transparent" -- Remove the gray background on active links in IE 10
+        [ backgroundColor transparent -- Remove the gray background on active links in IE 10
         ]
     , each
         [ selector "a:active"
@@ -242,7 +242,7 @@ forms =
         , select
         , textarea
         ]
-        [ property "background" "transparent"
+        [ backgroundColor transparent
         , borderStyle none
         ]
 
@@ -289,10 +289,6 @@ specifyMediaElementStyle =
     -- Add the correct vertical alignment in Chrome, Firefox, and Opera
     , Css.Global.progress
         [ verticalAlign baseline ]
-    , svg
-        [ pseudoClass "not([fill])"
-            [ fill currentColor ]
-        ]
     ]
 
 
