@@ -116,9 +116,8 @@ html5Doctor =
         ]
         [ display block ]
     , nav
-        [ adjacentSiblings
-            [ ul [ listStyle none ]
-            ]
+        [ descendants
+            [ ul [ listStyle none ] ]
         ]
     , each
         [ blockquote, q ]
