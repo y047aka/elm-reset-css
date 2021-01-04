@@ -12,7 +12,7 @@ module Css.Reset exposing (ericMeyer, html5Doctor, normalize, ress, sanitize)
 
 -}
 
-import Css.Global exposing (Snippet, global)
+import Css.Global exposing (Snippet)
 import Css.Reset.EricMeyer as EricMeyer
 import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize

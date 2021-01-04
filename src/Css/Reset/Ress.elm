@@ -135,11 +135,9 @@ generalElements =
         , verticalAlign baseline
         ]
     , typeSelector "sub"
-        [ bottom (Css.em -0.25)
-        ]
+        [ bottom (Css.em -0.25) ]
     , typeSelector "sup"
-        [ top (Css.em -0.5)
-        ]
+        [ top (Css.em -0.5) ]
     ]
 
 
@@ -152,13 +150,11 @@ generalElements =
 forms : List Snippet
 forms =
     [ input
-        [ borderRadius zero
-        ]
+        [ borderRadius zero ]
 
     -- Replace pointer cursor in disabled elements
     , selector "[disabled]"
-        [ cursor default
-        ]
+        [ cursor default ]
     , each
         [ selector "[type=\"number\"]::-webkit-inner-spin-button"
         , selector "[type=\"number\"]::-webkit-outer-spin-button"
@@ -292,12 +288,10 @@ specifyMediaElementStyle =
 
     -- Add the correct vertical alignment in Chrome, Firefox, and Opera
     , Css.Global.progress
-        [ verticalAlign baseline
-        ]
+        [ verticalAlign baseline ]
     , svg
         [ pseudoClass "not([fill])"
-            [ fill currentColor
-            ]
+            [ fill currentColor ]
         ]
     ]
 
@@ -313,8 +307,7 @@ accessibility =
     [ -- Hide content from screens but not screenreaders
       media [ only screen [] ]
         [ selector "[hidden~=\"screen\"]"
-            [ display inherit
-            ]
+            [ display inherit ]
         , selector "[hidden~=\"screen\"]:not(:active):not(:focus):not(:target)"
             [ position absolute |> important
             , property "clip" "rect(0 0 0 0)" |> important
@@ -323,16 +316,13 @@ accessibility =
 
     --  Specify the progress cursor of updating elements
     , selector "[aria-busy=\"true\"]"
-        [ cursor Css.progress
-        ]
+        [ cursor Css.progress ]
 
     -- Specify the pointer cursor of trigger elements
     , selector "[aria-controls]"
-        [ cursor pointer
-        ]
+        [ cursor pointer ]
 
     -- Specify the unstyled cursor of disabled, not-editable, or otherwise inoperable elements
     , selector "[aria-disabled]"
-        [ cursor default
-        ]
+        [ cursor default ]
     ]

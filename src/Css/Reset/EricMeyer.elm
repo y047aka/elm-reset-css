@@ -130,10 +130,10 @@ ericMeyer =
     , each [ blockquote, q ]
         [ property "quotes" "none" ]
     , each
-        [ selector "blockquote::before"
-        , selector "blockquote::after"
-        , selector "q::before"
-        , selector "q::after"
+        [ selector "blockquote:before"
+        , selector "blockquote:after"
+        , selector "q:before"
+        , selector "q:after"
         ]
         [ property "content" "''"
         , property "content" "none"

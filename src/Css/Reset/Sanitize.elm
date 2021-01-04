@@ -334,8 +334,7 @@ forms =
         [ selector "[type=\"checkbox\"]"
         , selector "[type=\"radio\"]"
         ]
-        [ padding zero
-        ]
+        [ padding zero ]
 
     -- 1. Correct the odd appearance in Chrome, Edge, and Safari.
     -- 2. Correct the outline style in Safari.
@@ -493,8 +492,7 @@ accessibility =
         [ selector "[aria-disabled=\"true\"]"
         , selector "[disabled]"
         ]
-        [ cursor notAllowed
-        ]
+        [ cursor notAllowed ]
 
     -- Change the display on visually hidden accessible elements in all browsers (opinionated).
     , selector "[aria-hidden=\"false\"][hidden]"

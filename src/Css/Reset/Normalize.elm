@@ -60,7 +60,9 @@ sections =
     , main_
         [ display block ]
 
-    -- Correct the font size and margin on `h1` elements within `section` and `article` contexts in Chrome, Firefox, and Safari.
+    {- Correct the font size and margin on `h1` elements within `section` and
+       `article` contexts in Chrome, Firefox, and Safari.
+    -}
     , h1
         [ fontSize (Css.em 2)
         , margin2 (Css.em 0.67) zero
@@ -135,7 +137,9 @@ textLevelSemantics =
     , Css.Global.small
         [ fontSize (pct 80) ]
 
-    -- Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+    {- Prevent `sub` and `sup` elements from affecting the line height in
+       all browsers.
+    -}
     , each
         [ typeSelector "sub"
         , typeSelector "sup"
@@ -212,8 +216,7 @@ forms =
         , selector "[type=\"reset\"]"
         , selector "[type=\"submit\"]"
         ]
-        [ property "-webkit-appearance" "button"
-        ]
+        [ property "-webkit-appearance" "button" ]
 
     -- Remove the inner border and padding in Firefox.
     , each
@@ -239,9 +242,11 @@ forms =
     , fieldset
         [ padding3 (Css.em 0.35) (Css.em 0.75) (Css.em 0.625) ]
 
-    -- 1. Correct the text wrapping in Edge and IE.
-    -- 2. Correct the color inheritance from `fieldset` elements in IE.
-    -- 3. Remove the padding so developers are not caught out when they zero out `fieldset` elements in all browsers.
+    {- 1. Correct the text wrapping in Edge and IE.
+       2. Correct the color inheritance from `fieldset` elements in IE.
+       3. Remove the padding so developers are not caught out when they zero out
+          `fieldset` elements in all browsers.
+    -}
     , legend
         [ boxSizing borderBox -- 1
         , color inherit -- 2
@@ -253,8 +258,7 @@ forms =
 
     -- Add the correct vertical alignment in Chrome, Firefox, and Opera.
     , Css.Global.progress
-        [ verticalAlign baseline
-        ]
+        [ verticalAlign baseline ]
 
     -- Remove the default vertical scrollbar in IE 10+.
     , textarea

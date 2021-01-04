@@ -6,47 +6,7 @@ module Css.Reset.Html5Doctor exposing (html5Doctor)
 
 -}
 
-import Css
-    exposing
-        ( backgroundColor
-        , baseline
-        , block
-        , bold
-        , border
-        , borderBottom2
-        , borderCollapse
-        , borderSpacing
-        , borderTop3
-        , collapse
-        , color
-        , cursor
-        , display
-        , dotted
-        , fontSize
-        , fontStyle
-        , fontWeight
-        , height
-        , help
-        , hex
-        , int
-        , italic
-        , lineHeight
-        , lineThrough
-        , listStyle
-        , margin
-        , margin2
-        , middle
-        , none
-        , outline
-        , padding
-        , pct
-        , property
-        , px
-        , solid
-        , textDecoration
-        , verticalAlign
-        , zero
-        )
+import Css exposing (backgroundColor, baseline, block, bold, border, borderBottom2, borderCollapse, borderSpacing, borderTop3, collapse, color, cursor, display, dotted, fontSize, fontStyle, fontWeight, height, help, hex, int, italic, lineHeight, lineThrough, listStyle, margin, margin2, middle, none, outline, padding, pct, property, px, solid, textDecoration, verticalAlign, zero)
 import Css.Global exposing (..)
 
 
@@ -140,8 +100,7 @@ html5Doctor =
         , property "background" "transparent"
         ]
     , body
-        [ lineHeight (int 1)
-        ]
+        [ lineHeight (int 1) ]
     , each
         [ article
         , aside
@@ -155,8 +114,7 @@ html5Doctor =
         , nav
         , section
         ]
-        [ display block
-        ]
+        [ display block ]
     , nav
         [ adjacentSiblings
             [ ul [ listStyle none ]
@@ -166,12 +124,12 @@ html5Doctor =
         [ blockquote, q ]
         [ property "quotes" "none" ]
     , each
-        [ selector "blockquote::before"
-        , selector "blockquote::after"
-        , selector "q::before"
-        , selector "q::after"
+        [ selector "blockquote:before"
+        , selector "blockquote:after"
+        , selector "q:before"
+        , selector "q:after"
         ]
-        [ property "content" "\"\""
+        [ property "content" "''"
         , property "content" "none"
         ]
     , a
@@ -195,8 +153,7 @@ html5Doctor =
         , fontWeight bold
         ]
     , typeSelector "del"
-        [ textDecoration lineThrough
-        ]
+        [ textDecoration lineThrough ]
     , each
         [ selector "abbr[title]", selector "dfn[title]" ]
         [ borderBottom2 (px 1) dotted
@@ -211,12 +168,11 @@ html5Doctor =
         [ display block
         , height (px 1)
         , border zero
-        , borderTop3 (px 1) solid (hex "#ccc")
+        , borderTop3 (px 1) solid (hex "#cccccc")
         , margin2 (Css.em 1) zero
         , padding zero
         ]
     , each
         [ input, select ]
-        [ verticalAlign middle
-        ]
+        [ verticalAlign middle ]
     ]
