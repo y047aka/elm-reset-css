@@ -54,12 +54,14 @@ document =
         , property "vertical-align" "inherit" -- 2
         ]
 
-    -- 1. Use the default cursor in all browsers (opinionated).
-    -- 2. Change the line height in all browsers (opinionated).
-    -- 3. Use a 4-space tab width in all browsers (opinionated).
-    -- 4. Remove the grey highlight on links in iOS (opinionated).
-    -- 5. Prevent adjustments of font size after orientation changes in IE on Windows Phone and in iOS.
-    -- 6. Breaks words to prevent overflow in all browsers (opinionated).
+    {- 1. Use the default cursor in all browsers (opinionated).
+       2. Change the line height in all browsers (opinionated).
+       3. Use a 4-space tab width in all browsers (opinionated).
+       4. Remove the grey highlight on links in iOS (opinionated).
+       5. Prevent adjustments of font size after orientation changes in
+          IE on Windows Phone and in iOS.
+       6. Breaks words to prevent overflow in all browsers (opinionated).
+    -}
     , html
         [ cursor default -- 1
         , lineHeight (num 1.5) -- 2
@@ -85,7 +87,9 @@ sections =
       body
         [ margin zero ]
 
-    -- Correct the font size and margin on `h1` elements within `section` and `article` contexts in Chrome, Edge, Firefox, and Safari.
+    {- Correct the font size and margin on `h1` elements within `section` and
+       `article` contexts in Chrome, Edge, Firefox, and Safari.
+    -}
     , h1
         [ fontSize (Css.em 2)
         , margin2 (Css.em 0.67) zero
@@ -114,18 +118,20 @@ groupingContent =
     -- Remove the margin on nested lists in Edge 18- and IE.
     , each
         [ selector "ol ol"
-        , selector "ol ol"
         , selector "ol ul"
         , selector "ul ol"
         , selector "ul ul"
         ]
         [ margin zero ]
 
-    -- 1. Add the correct sizing in Firefox.
-    -- 2. Show the overflow in Edge 18- and IE.
+    {- 1. Correct the inheritance of border color in Firefox.
+       2. Add the correct box sizing in Firefox.
+       3. Show the overflow in Edge 18- and IE.
+    -}
     , hr
-        [ height zero -- 1
-        , overflow visible -- 2
+        [ color inherit -- 1
+        , height zero -- 2
+        , overflow visible -- 3
         ]
 
     -- Add the correct display in IE.
@@ -141,11 +147,19 @@ groupingContent =
         , padding zero
         ]
 
-    -- 1. Correct the inheritance and scaling of font size in all browsers.
-    -- 2. Correct the odd `em` font sizing in all browsers.
+    -- Prevent VoiceOver from ignoring list semantics in Safari (opinionated).
+    , selector "nav li::before"
+        [ property "content" "\\200B" ]
+
+    {- 1. Correct the inheritance and scaling of font size in all browsers.
+       2. Correct the odd `em` font sizing in all browsers.
+       3. Prevent overflow of the container in all browsers (opinionated).
+    -}
     , Css.Global.pre
         [ fontFamilies [ monospace.value, monospace.value ] -- 1
         , fontSize (Css.em 1) -- 2
+        , overflow auto -- 3
+        , property "-ms-overflow-style" "scrollbar" -- 3
         ]
     ]
 
@@ -250,9 +264,15 @@ embeddedContent =
 
 tabularData : List Snippet
 tabularData =
-    [ -- Collapse border spacing in all browsers (opinionated).
+    [ {- 1. Collapse border spacing in all browsers (opinionated).
+         2. Correct table border color inheritance in all Chrome, Edge, and Safari.
+         3. Remove text indentation from table contents in Chrome, Edge, and Safari.
+      -}
       Css.Global.table
-        [ borderCollapse collapse ]
+        [ borderCollapse collapse -- 1
+        , borderColor inherit -- 2
+        , textIndent zero -- 3
+        ]
     ]
 
 
@@ -320,13 +340,15 @@ forms =
     , select
         [ property "text-transform" "none" ]
 
-    -- 1. Remove the margin in Firefox and Safari.
-    -- 2. Remove the default vertical scrollbar in IE.
-    -- 3. Change the resize direction in all browsers (opinionated).
+    {- 1. Remove the margin in Firefox and Safari.
+       2. Remove the default vertical scrollbar in IE.
+       3. Change the resize direction in all browsers (opinionated).
+    -}
     , textarea
         [ margin zero -- 1
         , overflow auto -- 2
         , resize vertical -- 3
+        , property "resize" "block" -- 3
         ]
 
     -- Remove the padding in IE 10-.
@@ -448,8 +470,7 @@ scripting =
 
 userInteraction : List Snippet
 userInteraction =
-    [ -- 1. Remove the tapping delay in IE 10.
-      -- 2. Remove the tapping delay on clickable elements in all browsers (opinionated).
+    [ -- Remove the tapping delay in IE 10.
       each
         [ a
         , typeSelector "area"
@@ -461,9 +482,7 @@ userInteraction =
         , textarea
         , selector "[tabindex]"
         ]
-        [ property "-ms-touch-action" "manipulation" -- 1
-        , touchAction manipulation -- 2
-        ]
+        [ property "-ms-touch-action" "manipulation" ]
 
     -- Add the correct display in IE 10-.
     , selector "[hidden]"
@@ -487,14 +506,18 @@ accessibility =
     , selector "[aria-controls]"
         [ cursor pointer ]
 
-    -- Change the cursor on disabled, not-editable, or otherwise inoperable elements in all browsers (opinionated).
+    {- Change the cursor on disabled, not-editable, or otherwise
+       inoperable elements in all browsers (opinionated).
+    -}
     , each
         [ selector "[aria-disabled=\"true\"]"
         , selector "[disabled]"
         ]
         [ cursor notAllowed ]
 
-    -- Change the display on visually hidden accessible elements in all browsers (opinionated).
+    {- Change the display on visually hidden accessible elements
+       in all browsers (opinionated).
+    -}
     , selector "[aria-hidden=\"false\"][hidden]"
         [ display initial ]
     , selector "[aria-hidden=\"false\"][hidden]:not(:focus)"
