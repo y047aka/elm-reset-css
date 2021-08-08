@@ -19,6 +19,14 @@ Last Updated: 2010-09-17
 Author: Richard Clark  
 https://github.com/richclark/HTML5resetCSS
 
+## destyle.css
+
+Version: 2.0.2  
+License: MIT  
+Last Updated: 2020-10-16  
+Author: Nicolas Cusan  
+https://github.com/nicolas-cusan/destyle.css
+
 ## Normalize.css
 
 Version: 8.0.1  
