@@ -7,6 +7,7 @@ module Css.Reset exposing
 
   - Eric Meyer’s Reset CSS
   - html5doctor.com Reset Stylesheet
+  - destyle.css
   - Normalize.css
   - ress
   - sanitize.css
