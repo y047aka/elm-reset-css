@@ -1,6 +1,6 @@
 module Html.ResetCss exposing
     ( ericMeyer, html5Doctor, destyle
-    , normalize, ress, sanitize
+    , normalize, ress, sanitize, theNewCssReset
     )
 
 {-| This module helps you to reset base styles. You can use them with elm/html.
@@ -11,9 +11,10 @@ module Html.ResetCss exposing
   - Normalize.css
   - ress
   - sanitize.css
+  - The New CSS Reset
 
 @docs ericMeyer, html5Doctor, destyle
-@docs normalize, ress, sanitize
+@docs normalize, ress, sanitize, theNewCssReset
 
 -}
 
@@ -24,6 +25,7 @@ import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
+import Css.Reset.TheNewCssReset as TheNewCssReset
 import Html exposing (Html)
 import Html.Styled exposing (toUnstyled)
 
@@ -78,5 +80,14 @@ ress =
 sanitize : Html msg
 sanitize =
     Sanitize.sanitize
+        |> global
+        |> toUnstyled
+
+
+{-| The New CSS Reset
+-}
+theNewCssReset : Html msg
+theNewCssReset =
+    TheNewCssReset.theNewCssReset
         |> global
         |> toUnstyled

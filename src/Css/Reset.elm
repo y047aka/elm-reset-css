@@ -1,6 +1,6 @@
 module Css.Reset exposing
     ( ericMeyer, html5Doctor, destyle
-    , normalize, ress, sanitize
+    , normalize, ress, sanitize, theNewCssReset
     )
 
 {-| This module helps you to reset base styles. Compile it with your elm-css code.
@@ -11,9 +11,10 @@ module Css.Reset exposing
   - Normalize.css
   - ress
   - sanitize.css
+  - The New CSS Reset
 
 @docs ericMeyer, html5Doctor, destyle
-@docs normalize, ress, sanitize
+@docs normalize, ress, sanitize, theNewCssReset
 
 -}
 
@@ -24,6 +25,7 @@ import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
+import Css.Reset.TheNewCssReset as TheNewCssReset
 
 
 {-| Eric Meyer’s Reset CSS which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
@@ -66,3 +68,10 @@ ress =
 sanitize : List Snippet
 sanitize =
     Sanitize.sanitize
+
+
+{-| The New CSS Reset which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+-}
+theNewCssReset : List Snippet
+theNewCssReset =
+    TheNewCssReset.theNewCssReset
