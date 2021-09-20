@@ -23,8 +23,6 @@ sanitize =
         , tabularData
         , forms
         , interactive
-        , scripting
-        , userInteraction
         , accessibility
         ]
 
@@ -37,12 +35,15 @@ sanitize =
 
 document : List Snippet
 document =
-    [ -- Add border box sizing in all browsers (opinionated).
+    [ -- 1. Add border box sizing in all browsers (opinionated).
+      -- 2. Backgrounds do not repeat by default (opinionated).
       each
         [ selector "::before"
         , selector "::after"
         ]
-        [ boxSizing borderBox ]
+        [ boxSizing borderBox -- 1
+        , backgroundRepeat noRepeat --2
+        ]
 
     -- 1. Add text decoration inheritance in all browsers (opinionated).
     -- 2. Add vertical alignment inheritance in all browsers (opinionated).
@@ -56,21 +57,19 @@ document =
 
     {- 1. Use the default cursor in all browsers (opinionated).
        2. Change the line height in all browsers (opinionated).
-       3. Use a 4-space tab width in all browsers (opinionated).
-       4. Remove the grey highlight on links in iOS (opinionated).
-       5. Prevent adjustments of font size after orientation changes in
-          IE on Windows Phone and in iOS.
-       6. Breaks words to prevent overflow in all browsers (opinionated).
+       3. Breaks words to prevent overflow in all browsers (opinionated).
+       4. Use a 4-space tab width in all browsers (opinionated).
+       5. Remove the grey highlight on links in iOS (opinionated).
+       6. Prevent adjustments of font size after orientation changes in iOS.
     -}
-    , html
+    , selector ":where(:root)"
         [ cursor default -- 1
         , lineHeight (num 1.5) -- 2
-        , property "-moz-tab-size" "4" -- 3
-        , property "tab-size" "4" -- 3
-        , property "-webkit-tap-highlight-color" "transparent" -- 4
-        , property "-ms-text-size-adjust" "100%" -- 5
-        , property "-webkit-text-size-adjust" "100%" -- 5
-        , property "word-break" "break-word" -- 6
+        , property "overflow-wrap" "break-word" -- 3
+        , property "-moz-tab-size" "4" -- 4
+        , property "tab-size" "4" -- 4
+        , property "-webkit-tap-highlight-color" "transparent" -- 5
+        , property "-webkit-text-size-adjust" "100%" -- 6
         ]
     ]
 
@@ -84,13 +83,13 @@ document =
 sections : List Snippet
 sections =
     [ -- Remove the margin in all browsers (opinionated).
-      body
+      selector ":where(body)"
         [ margin zero ]
 
     {- Correct the font size and margin on `h1` elements within `section` and
        `article` contexts in Chrome, Edge, Firefox, and Safari.
     -}
-    , h1
+    , selector ":where(h1)"
         [ fontSize (Css.em 2)
         , margin2 (Css.em 0.67) zero
         ]
@@ -105,61 +104,38 @@ sections =
 
 groupingContent : List Snippet
 groupingContent =
-    [ -- Remove the margin on nested lists in Chrome, Edge, IE, and Safari.
-      each
-        [ selector "dl dl"
-        , selector "dl ol"
-        , selector "dl ul"
-        , selector "ol dl"
-        , selector "ul dl"
-        ]
-        [ margin zero ]
-
-    -- Remove the margin on nested lists in Edge 18- and IE.
-    , each
-        [ selector "ol ol"
-        , selector "ol ul"
-        , selector "ul ol"
-        , selector "ul ul"
-        ]
+    [ -- Remove the margin on nested lists in Chrome, Edge, and Safari.
+      selector ":where(dl, ol, ul) :where(dl, ol, ul)"
         [ margin zero ]
 
     {- 1. Correct the inheritance of border color in Firefox.
        2. Add the correct box sizing in Firefox.
-       3. Show the overflow in Edge 18- and IE.
     -}
-    , hr
+    , selector ":where(hr)"
         [ color inherit -- 1
         , height zero -- 2
-        , overflow visible -- 3
         ]
-
-    -- Add the correct display in IE.
-    , main_
-        [ display block ]
 
     -- Remove the list style on navigation lists in all browsers (opinionated).
-    , each
-        [ selector "nav ol"
-        , selector "nav ul"
-        ]
-        [ listStyle none
+    , selector ":where(nav) :where(ol, ul)"
+        [ property "list-style-type" "none"
         , padding zero
         ]
 
     -- Prevent VoiceOver from ignoring list semantics in Safari (opinionated).
-    , selector "nav li::before"
-        [ property "content" "\\200B" ]
+    , selector ":where(nav li)::before"
+        [ property "content" "\\200B"
+        , float left
+        ]
 
     {- 1. Correct the inheritance and scaling of font size in all browsers.
        2. Correct the odd `em` font sizing in all browsers.
        3. Prevent overflow of the container in all browsers (opinionated).
     -}
-    , Css.Global.pre
+    , selector ":where(pre)"
         [ fontFamilies [ monospace.value, monospace.value ] -- 1
         , fontSize (Css.em 1) -- 2
         , overflow auto -- 3
-        , property "-ms-overflow-style" "scrollbar" -- 3
         ]
     ]
 
@@ -172,36 +148,25 @@ groupingContent =
 
 textLevelSemantics : List Snippet
 textLevelSemantics =
-    [ -- Remove the gray background on active links in IE 10.
-      a
-        [ backgroundColor transparent ]
-
-    -- Add the correct text decoration in Edge 18-, IE, and Safari.
-    , selector "abbr[title]"
+    [ -- Add the correct text decoration in Safari.
+      selector ":where(abbr[title])"
         [ textDecoration underline
         , textDecoration2 underline dotted
         ]
 
     -- Add the correct font weight in Chrome, Edge, and Safari.
-    , each
-        [ typeSelector "b"
-        , strong
-        ]
+    , selector ":where(b, strong)"
         [ fontWeight bolder ]
 
     -- 1. Correct the inheritance and scaling of font size in all browsers.
     -- 2. Correct the odd `em` font sizing in all browsers.
-    , each
-        [ code
-        , typeSelector "kbd"
-        , typeSelector "samp"
-        ]
+    , selector ":where(code, kbd, samp)"
         [ fontFamilies [ monospace.value, monospace.value ] -- 1
         , fontSize (Css.em 1) -- 2
         ]
 
     -- Add the correct font size in all browsers.
-    , Css.Global.small
+    , selector ":where(small)"
         [ fontSize (pct 80) ]
     ]
 
@@ -215,44 +180,16 @@ textLevelSemantics =
 embeddedContent : List Snippet
 embeddedContent =
     [ -- Change the alignment on media elements in all browsers (opinionated).
-      each
-        [ audio
-        , canvas
-        , typeSelector "iframe"
-        , img
-        , svg
-        , video
-        ]
+      selector ":where(audio, canvas, iframe, img, svg, video)"
         [ verticalAlign middle ]
 
-    -- Add the correct display in IE 9-.
-    , each
-        [ audio
-        , video
-        ]
-        [ display inlineBlock ]
-
-    -- Add the correct display in iOS 4-7.
-    , selector "audio:not([controls])"
-        [ display none
-        , height zero
-        ]
-
     -- Remove the border on iframes in all browsers (opinionated).
-    , typeSelector "iframe"
-        [ borderStyle none ]
-
-    -- Remove the border on images inside links in IE 10-.
-    , img
+    , selector ":where(iframe)"
         [ borderStyle none ]
 
     -- Change the fill color to match the text color in all browsers (opinionated).
-    , selector "svg:not([fill])"
+    , selector ":where(svg:not([fill]))"
         [ property "fill" "currentColor" ]
-
-    -- Hide the overflow in IE.
-    , selector "svg:not(:root)"
-        [ overflow hidden ]
     ]
 
 
@@ -268,7 +205,7 @@ tabularData =
          2. Correct table border color inheritance in all Chrome, Edge, and Safari.
          3. Remove text indentation from table contents in Chrome, Edge, and Safari.
       -}
-      Css.Global.table
+      selector ":where(table)"
         [ borderCollapse collapse -- 1
         , borderColor inherit -- 2
         , textIndent zero -- 3
@@ -285,82 +222,32 @@ tabularData =
 forms : List Snippet
 forms =
     [ -- Remove the margin on controls in Safari.
-      each
-        [ button
-        , input
-        , select
-        ]
+      selector ":where(button, input, select)"
         [ margin zero ]
 
-    -- 1. Show the overflow in IE.
-    -- 2. Remove the inheritance of text transform in Edge 18-, Firefox, and IE.
-    , button
-        [ overflow visible -- 1
-        , property "text-transform" "none" -- 2
-        ]
-
     -- Correct the inability to style buttons in iOS and Safari.
-    , each
-        [ button
-        , selector "[type=\"button\"]"
-        , selector "[type=\"reset\"]"
-        , selector "[type=\"submit\"]"
-        ]
-        [ property "-webkit-appearance" "button"
-        ]
+    , selector """:where(button, [type="button" i], [type="reset" i], [type="submit" i])"""
+        [ property "-webkit-appearance" "button" ]
 
-    -- 1. Change the inconsistent appearance in all browsers (opinionated).
-    -- 2. Correct the padding in Firefox.
-    , fieldset
-        [ border3 (px 1) solid (hex "#a0a0a0") -- 1
-        , padding3 (Css.em 0.35) (Css.em 0.75) (Css.em 0.625) -- 2
-        ]
+    -- Change the inconsistent appearance in all browsers (opinionated).
+    , selector ":where(fieldset)"
+        [ border3 (px 1) solid (hex "#a0a0a0") ]
 
-    -- Show the overflow in Edge 18- and IE.
-    , input
-        [ overflow visible ]
-
-    -- 1. Correct the text wrapping in Edge 18- and IE.
-    -- 2. Correct the color inheritance from `fieldset` elements in IE.
-    , legend
-        [ color inherit -- 2
-        , display Css.table -- 1
-        , maxWidth (pct 100) -- 1
-        , whiteSpace normal -- 1
-        ]
-
-    -- 1. Add the correct display in Edge 18- and IE.
-    -- 2. Add the correct vertical alignment in Chrome, Edge, and Firefox.
-    , Css.Global.progress
-        [ display inlineBlock -- 1
-        , verticalAlign baseline -- 2
-        ]
-
-    -- Remove the inheritance of text transform in Firefox.
-    , select
-        [ property "text-transform" "none" ]
+    -- Add the correct vertical alignment in Chrome, Edge, and Firefox.
+    , selector ":where(progress)"
+        [ verticalAlign baseline ]
 
     {- 1. Remove the margin in Firefox and Safari.
-       2. Remove the default vertical scrollbar in IE.
        3. Change the resize direction in all browsers (opinionated).
     -}
-    , textarea
+    , selector ":where(textarea)"
         [ margin zero -- 1
-        , overflow auto -- 2
         , resize vertical -- 3
-        , property "resize" "block" -- 3
         ]
-
-    -- Remove the padding in IE 10-.
-    , each
-        [ selector "[type=\"checkbox\"]"
-        , selector "[type=\"radio\"]"
-        ]
-        [ padding zero ]
 
     -- 1. Correct the odd appearance in Chrome, Edge, and Safari.
     -- 2. Correct the outline style in Safari.
-    , selector "[type=\"search\"]"
+    , selector """:where([type="search" i])"""
         [ property "-webkit-appearance" "textfield" -- 1
         , outlineOffset (px -2) -- 2
         ]
@@ -388,20 +275,6 @@ forms =
         [ property "-webkit-appearance" "button" -- 1
         , property "font" "inherit" -- 2
         ]
-
-    -- Remove the inner border and padding of focus outlines in Firefox.
-    , selector "::-moz-focus-inner"
-        [ borderStyle none
-        , padding zero
-        ]
-
-    -- Restore the focus outline styles unset by the previous rule in Firefox.
-    , selector ":-moz-focusring"
-        [ property "outline" "1px dotted ButtonText" ]
-
-    -- Remove the additional :invalid styles in Firefox.
-    , selector ":-moz-ui-invalid"
-        [ boxShadow none ]
     ]
 
 
@@ -413,18 +286,12 @@ forms =
 
 interactive : List Snippet
 interactive =
-    [ -- Add the correct display in Edge 18- and IE.
-      details
-        [ display block ]
-
-    -- Add the correct styles in Edge 18-, IE, and Safari.
-    , typeSelector "dialog"
+    [ -- Add the correct styles in Safari.
+      selector ":where(dialog)"
         [ property "background-color" "white"
         , property "border" "solid"
         , property "color" "black"
-        , display block
         , property "height" "-moz-fit-content"
-        , property "height" "-webkit-fit-content"
         , property "height" "fit-content"
         , left zero
         , margin auto
@@ -432,61 +299,14 @@ interactive =
         , position absolute
         , right zero
         , property "width" "-moz-fit-content"
-        , property "width" "-webkit-fit-content"
         , property "width" "fit-content"
         ]
-    , selector "dialog:not([open])"
+    , selector ":where(dialog:not([open]))"
         [ display none ]
 
-    -- Add the correct display in all browsers.
-    , summary
+    -- Add the correct display in Safari.
+    , selector ":where(details > summary:first-of-type)"
         [ display listItem ]
-    ]
-
-
-
-{- Scripting
-   ========================================================================== */
--}
-
-
-scripting : List Snippet
-scripting =
-    [ -- Add the correct display in IE 9-.
-      canvas
-        [ display inlineBlock ]
-
-    -- Add the correct display in IE.
-    , typeSelector "template"
-        [ display none ]
-    ]
-
-
-
-{- User interaction
-   ========================================================================== */
--}
-
-
-userInteraction : List Snippet
-userInteraction =
-    [ -- Remove the tapping delay in IE 10.
-      each
-        [ a
-        , typeSelector "area"
-        , button
-        , input
-        , label
-        , select
-        , summary
-        , textarea
-        , selector "[tabindex]"
-        ]
-        [ property "-ms-touch-action" "manipulation" ]
-
-    -- Add the correct display in IE 10-.
-    , selector "[hidden]"
-        [ display none ]
     ]
 
 
@@ -499,28 +319,25 @@ userInteraction =
 accessibility : List Snippet
 accessibility =
     [ -- Change the cursor on busy elements in all browsers (opinionated).
-      selector "[aria-busy=\"true\"]"
+      selector """:where([aria-busy="true" i])"""
         [ cursor Css.progress ]
 
     -- Change the cursor on control elements in all browsers (opinionated).
-    , selector "[aria-controls]"
+    , selector ":where([aria-controls])"
         [ cursor pointer ]
 
     {- Change the cursor on disabled, not-editable, or otherwise
        inoperable elements in all browsers (opinionated).
     -}
-    , each
-        [ selector "[aria-disabled=\"true\"]"
-        , selector "[disabled]"
-        ]
+    , selector """:where([aria-disabled="true" i], [disabled])"""
         [ cursor notAllowed ]
 
     {- Change the display on visually hidden accessible elements
        in all browsers (opinionated).
     -}
-    , selector "[aria-hidden=\"false\"][hidden]"
+    , selector """:where([aria-hidden="false" i][hidden])"""
         [ display initial ]
-    , selector "[aria-hidden=\"false\"][hidden]:not(:focus)"
+    , selector """:where([aria-hidden="false" i][hidden]:not(:focus))"""
         [ property "clip" "rect(0, 0, 0, 0)"
         , position absolute
         ]
