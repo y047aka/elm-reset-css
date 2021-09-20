@@ -14,7 +14,7 @@ import Css.Global exposing (..)
 -}
 destyle : List Snippet
 destyle =
-    -- destyle.css v2.0.2 | MIT License | https://github.com/nicolas-cusan/destyle.css
+    -- destyle.css v3.0.0 | MIT License | https://github.com/nicolas-cusan/destyle.css
     List.concat
         [ resetBoxModelAndSetBorders
         , document
@@ -25,11 +25,10 @@ destyle =
         , lists_definition
         , groupingContent
         , textLevelSemantics
-        , embeddedContent
+        , replacedContent
         , forms
         , interactive
         , table
-        , misc
         ]
 
 
@@ -131,7 +130,6 @@ headings =
         , h6
         ]
         [ fontSize inherit
-        , lineHeight inherit
         , fontWeight inherit
         , margin zero
         ]
@@ -221,8 +219,7 @@ textLevelSemantics =
     -- 1. Remove the bottom border in Chrome 57-
     -- 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
     , selector "abbr[title]"
-        [ textDecoration underline -- 2
-        , textDecoration2 underline dotted -- 2
+        [ textDecoration2 underline dotted -- 2
         ]
 
     -- Add the correct font weight in Chrome, Edge, and Safari.
@@ -265,16 +262,17 @@ textLevelSemantics =
 
 
 
-{- Embedded content
+{- Replaced content
    ============================================
 -}
 
 
-embeddedContent : List Snippet
-embeddedContent =
+replacedContent : List Snippet
+replacedContent =
     [ -- Prevent vertical alignment issues.
       each
-        [ img
+        [ svg
+        , img
         , typeSelector "embed"
         , typeSelector "object"
         , typeSelector "iframe"
@@ -291,7 +289,10 @@ embeddedContent =
 
 forms : List Snippet
 forms =
-    [ -- Reset form fields to make them styleable
+    [ {- Reset form fields to make them styleable.
+         1. Make form elements stylable across systems iOS especially.
+         2. Inherit text-transform from parent.
+      -}
       each
         [ button
         , input
@@ -299,7 +300,7 @@ forms =
         , select
         , textarea
         ]
-        [ property "-webkit-appearance" "none"
+        [ property "-webkit-appearance" "none" -- 1
         , property "appearance" "none"
         , verticalAlign middle
         , color inherit
@@ -307,9 +308,9 @@ forms =
         , property "background" "transparent"
         , padding zero
         , margin zero
-        , outline zero
         , borderRadius zero
         , property "text-align" "inherit"
+        , textTransform inherit -- 2
         ]
 
     -- Reset radio and checkbox appearance to preserve their look in iOS.
@@ -322,68 +323,29 @@ forms =
         , property "appearance" "radio"
         ]
 
-    -- Show the overflow in IE.
-    -- 1. Show the overflow in Edge.
-    , each
-        [ button
-        , input
-        ]
-        [ -- 1
-          overflow visible
-        ]
-
-    -- Remove the inheritance of text transform in Edge, Firefox, and IE.
-    -- 1. Remove the inheritance of text transform in Firefox.
-    , each
-        [ button
-        , select
-        ]
-        [ -- 1
-          textTransform none
-        ]
-
-    -- Correct the inability to style clickable types in iOS and Safari.
+    -- Correct cursors for clickable elements.
     , each
         [ button
         , selector """[type="button"]"""
         , selector """[type="reset"]"""
         , selector """[type="submit"]"""
         ]
-        [ cursor pointer
-        , property "-webkit-appearance" "none"
-        , property "appearance" "none"
-        ]
+        [ cursor pointer ]
     , each
-        [ selector "button[disabled]"
-        , selector """[type="button"][disabled]"""
-        , selector """[type="reset"][disabled]"""
-        , selector """[type="submit"][disabled]"""
+        [ selector "button:disabled"
+        , selector """[type="button"]:disabled"""
+        , selector """[type="reset"]:disabled"""
+        , selector """[type="submit"]:disabled"""
         ]
         [ cursor default ]
 
-    -- Remove the inner border and padding in Firefox.
-    , each
-        [ selector "button::-moz-focus-inner"
-        , selector """[type="button"]::-moz-focus-inner"""
-        , selector """[type="reset"]::-moz-focus-inner"""
-        , selector """[type="submit"]::-moz-focus-inner"""
-        ]
-        [ borderStyle none
-        , padding zero
-        ]
+    -- Improve outlines for Firefox and unify style with input elements & buttons.
+    , selector ":-moz-focusring"
+        [ property "outline" "auto" ]
 
-    -- Restore the focus styles unset by the previous rule.
-    , each
-        [ selector "button:-moz-focusring"
-        , selector """[type="button"]:-moz-focusring"""
-        , selector """[type="reset"]:-moz-focusring"""
-        , selector """[type="submit"]:-moz-focusring"""
-        ]
-        [ property "outline" "1px dotted ButtonText" ]
-
-    -- Remove arrow in IE10 & IE11
-    , selector "select::-ms-expand"
-        [ display none ]
+    --
+    , selector "select:disabled"
+        [ opacity inherit ]
 
     -- Remove padding
     , option
@@ -396,17 +358,9 @@ forms =
         , minWidth zero
         ]
 
-    {- 1. Correct the text wrapping in Edge and IE.
-       2. Correct the color inheritance from `fieldset` elements in IE.
-       3. Remove the padding so developers are not caught out when they zero out `fieldset` elements in all browsers.
-    -}
+    --
     , legend
-        [ color inherit -- 2
-        , display Css.table -- 1
-        , maxWidth (pct 100) -- 1
-        , padding zero -- 3
-        , whiteSpace normal -- 1
-        ]
+        [ padding zero ]
 
     -- Add the correct vertical alignment in Chrome, Firefox, and Opera.
     , Css.Global.progress
@@ -433,7 +387,7 @@ forms =
         [ property "-webkit-appearance" "none" ]
 
     -- 1. Correct the inability to style clickable types in iOS and Safari.
-    -- 2. Change font properties to `inherit` in Safari.
+    -- 2. Fix font inheritance.
     , selector "::-webkit-file-upload-button"
         [ property "-webkit-appearance" "button" -- 1
         , property "font" "inherit" -- 2
@@ -462,22 +416,22 @@ interactive =
         [ display listItem ]
 
     -- Remove outline for editable content.
-    , selector "[contenteditable]"
-        [ outline none ]
+    , selector "[contenteditable]:focus"
+        [ property "outline" "auto" ]
     ]
 
 
 
-{- Table
+{- Tables
    ============================================
 -}
 
 
 table : List Snippet
 table =
-    [ Css.Global.table
-        [ borderCollapse collapse
-        , borderSpacing zero
+    [ -- 1. Correct table border color inheritance in all Chrome and Safari.
+      Css.Global.table
+        [ borderColor inherit -- 1
         ]
     , caption
         [ textAlign left ]
@@ -492,22 +446,4 @@ table =
         [ textAlign left
         , fontWeight bold
         ]
-    ]
-
-
-
-{- Misc
-   ============================================
--}
-
-
-misc : List Snippet
-misc =
-    [ -- Add the correct display in IE 10+.
-      typeSelector "template"
-        [ display none ]
-
-    -- Add the correct display in IE 10.
-    , selector "[hidden]"
-        [ display none ]
     ]
