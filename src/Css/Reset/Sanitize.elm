@@ -1,8 +1,8 @@
-module Css.Reset.Sanitize exposing (sanitize)
+module Css.Reset.Sanitize exposing (snippets)
 
 {-| sanitize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs sanitize
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-sanitize : List Snippet
-sanitize =
+snippets : List Snippet
+snippets =
     List.concat
         [ document
         , sections

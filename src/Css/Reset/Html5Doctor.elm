@@ -1,8 +1,8 @@
-module Css.Reset.Html5Doctor exposing (html5Doctor)
+module Css.Reset.Html5Doctor exposing (snippets)
 
 {-| html5doctor.com Reset Stylesheet which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs html5Doctor
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-html5Doctor : List Snippet
-html5Doctor =
+snippets : List Snippet
+snippets =
     {- html5doctor.com Reset Stylesheet
        v1.6.1
        Last Updated: 2010-09-17

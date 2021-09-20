@@ -1,8 +1,8 @@
-module Css.Reset.Ress exposing (ress)
+module Css.Reset.Ress exposing (snippets)
 
 {-| ress which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs ress
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-ress : List Snippet
-ress =
+snippets : List Snippet
+snippets =
     {- ress.css • v4.0.0
        MIT License
        github.com/filipelinhares/ress

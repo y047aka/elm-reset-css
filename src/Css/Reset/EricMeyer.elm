@@ -1,8 +1,8 @@
-module Css.Reset.EricMeyer exposing (ericMeyer)
+module Css.Reset.EricMeyer exposing (snippets)
 
 {-| Eric Meyer’s Reset CSS which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs ericMeyer
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-ericMeyer : List Snippet
-ericMeyer =
+snippets : List Snippet
+snippets =
     {- http://meyerweb.com/eric/tools/css/reset/
        v2.0 | 20110126
        License: none (public domain)

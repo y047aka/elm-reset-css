@@ -34,7 +34,7 @@ import Html.Styled exposing (toUnstyled)
 -}
 ericMeyer : Html msg
 ericMeyer =
-    EricMeyer.ericMeyer
+    EricMeyer.snippets
         |> global
         |> toUnstyled
 
@@ -43,7 +43,7 @@ ericMeyer =
 -}
 html5Doctor : Html msg
 html5Doctor =
-    Html5Doctor.html5Doctor
+    Html5Doctor.snippets
         |> global
         |> toUnstyled
 
@@ -52,7 +52,7 @@ html5Doctor =
 -}
 destyle : Html msg
 destyle =
-    Destyle.destyle
+    Destyle.snippets
         |> global
         |> toUnstyled
 
@@ -61,7 +61,7 @@ destyle =
 -}
 normalize : Html msg
 normalize =
-    Normalize.normalize
+    Normalize.snippets
         |> global
         |> toUnstyled
 
@@ -70,7 +70,7 @@ normalize =
 -}
 ress : Html msg
 ress =
-    Ress.ress
+    Ress.snippets
         |> global
         |> toUnstyled
 
@@ -79,7 +79,7 @@ ress =
 -}
 sanitize : Html msg
 sanitize =
-    Sanitize.sanitize
+    Sanitize.snippets
         |> global
         |> toUnstyled
 
@@ -88,6 +88,6 @@ sanitize =
 -}
 theNewCssReset : Html msg
 theNewCssReset =
-    TheNewCssReset.theNewCssReset
+    TheNewCssReset.snippets
         |> global
         |> toUnstyled

@@ -1,8 +1,8 @@
-module Css.Reset.TheNewCssReset exposing (theNewCssReset)
+module Css.Reset.TheNewCssReset exposing (snippets)
 
 {-| The New CSS Reset which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs theNewCssReset
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-theNewCssReset : List Snippet
-theNewCssReset =
+snippets : List Snippet
+snippets =
     -- The new CSS Reset - version 1.2.0 (last updated 23.7.2021)
     [ -- Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
       selector "*:where(:not(iframe, canvas, img, svg, video):not(svg *))"

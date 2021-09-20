@@ -1,8 +1,8 @@
-module Css.Reset.Normalize exposing (normalize)
+module Css.Reset.Normalize exposing (snippets)
 
 {-| Normalize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs normalize
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-normalize : List Snippet
-normalize =
+snippets : List Snippet
+snippets =
     -- normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css
     List.concat
         [ document

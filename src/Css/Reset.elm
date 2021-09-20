@@ -32,46 +32,46 @@ import Css.Reset.TheNewCssReset as TheNewCssReset
 -}
 ericMeyer : List Snippet
 ericMeyer =
-    EricMeyer.ericMeyer
+    EricMeyer.snippets
 
 
 {-| html5doctor.com Reset Stylesheet which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 -}
 html5Doctor : List Snippet
 html5Doctor =
-    Html5Doctor.html5Doctor
+    Html5Doctor.snippets
 
 
 {-| destyle.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 -}
 destyle : List Snippet
 destyle =
-    Destyle.destyle
+    Destyle.snippets
 
 
 {-| Normalize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 -}
 normalize : List Snippet
 normalize =
-    Normalize.normalize
+    Normalize.snippets
 
 
 {-| ress which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 -}
 ress : List Snippet
 ress =
-    Ress.ress
+    Ress.snippets
 
 
 {-| sanitize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 -}
 sanitize : List Snippet
 sanitize =
-    Sanitize.sanitize
+    Sanitize.snippets
 
 
 {-| The New CSS Reset which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 -}
 theNewCssReset : List Snippet
 theNewCssReset =
-    TheNewCssReset.theNewCssReset
+    TheNewCssReset.snippets

@@ -1,8 +1,8 @@
-module Css.Reset.Destyle exposing (destyle)
+module Css.Reset.Destyle exposing (snippets)
 
 {-| destyle.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs destyle
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Global exposing (..)
 
 {-| Compile it with your elm-css code.
 -}
-destyle : List Snippet
-destyle =
+snippets : List Snippet
+snippets =
     -- destyle.css v3.0.0 | MIT License | https://github.com/nicolas-cusan/destyle.css
     List.concat
         [ resetBoxModelAndSetBorders
