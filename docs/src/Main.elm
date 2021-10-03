@@ -93,12 +93,16 @@ view model =
                     , property "backdrop-filter" "blur(15px)"
                     , children
                         [ Css.Global.div
-                            [ width (pct 50)
-                            , paddingLeft (px 20)
+                            [ width (pct 33.333)
+                            , paddingLeft (px 15)
                             , withMedia [ only screen [ Media.maxWidth (px 960) ] ]
-                                [ nthChild "n+2" [ display none ] ]
+                                [ width (pct 100)
+                                , nthChild "n+2" [ display none ]
+                                ]
                             , withMedia [ only screen [ Media.minWidth (px 960), Media.maxWidth (px 1279) ] ]
-                                [ nthChild "n+3" [ display none ] ]
+                                [ width (pct 50)
+                                , nthChild "n+3" [ display none ]
+                                ]
                             ]
                         ]
                     ]
@@ -162,7 +166,7 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                             , paddingBottom (px 20)
                             , children
                                 [ Css.Global.div
-                                    [ width (pct 30)
+                                    [ width (pct 33.333)
                                     , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
                                         [ width (pct 100)
                                         , nthChild "n+2" [ display none ]
