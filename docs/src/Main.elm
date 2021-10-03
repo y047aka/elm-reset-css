@@ -94,7 +94,7 @@ view model =
                     , children
                         [ Css.Global.div
                             [ width (pct 50)
-                            , paddingLeft (px 15)
+                            , paddingLeft (px 20)
                             , withMedia [ only screen [ Media.maxWidth (px 960) ] ]
                                 [ nthChild "n+2" [ display none ] ]
                             , withMedia [ only screen [ Media.minWidth (px 960), Media.maxWidth (px 1279) ] ]
@@ -146,7 +146,7 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
             (\tag ->
                 details
                     [ attribute "open" ""
-                    , css [ borderBottom3 (px 1) solid (hex "#CCC") ]
+                    , css [ borderBottom3 (px 1) solid (hex "#EEE") ]
                     ]
                     [ summary
                         [ css
@@ -162,12 +162,15 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                             , paddingBottom (px 20)
                             , children
                                 [ Css.Global.div
-                                    [ width (pct 50)
-                                    , paddingLeft (px 15)
+                                    [ width (pct 30)
                                     , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
-                                        [ nthChild "n+2" [ display none ] ]
+                                        [ width (pct 100)
+                                        , nthChild "n+2" [ display none ]
+                                        ]
                                     , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
-                                        [ nthChild "n+3" [ display none ] ]
+                                        [ width (pct 50)
+                                        , nthChild "n+3" [ display none ]
+                                        ]
                                     ]
                                 ]
                             ]
@@ -180,10 +183,9 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                                             |> Maybe.map ResetCss.toSnippet
                                             |> Maybe.withDefault []
                                             |> descendants
-                                        , width (pct 50)
                                         , padding2 zero (px 20)
                                         , nthChild "n+2"
-                                            [ borderLeft3 (px 1) solid (hex "#CCC") ]
+                                            [ borderLeft3 (px 1) solid (hex "#EEE") ]
                                         ]
                                     ]
                                     [ Tag.renderer tag ]
