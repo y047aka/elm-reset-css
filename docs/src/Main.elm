@@ -3,6 +3,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser exposing (Document)
 import Css exposing (..)
 import Css.Global exposing (children, descendants)
+import Css.Media as Media exposing (only, screen, withMedia)
 import Data.ResetCss as ResetCss exposing (ResetCss(..))
 import Data.Tag as Tag exposing (Tag(..))
 import Html.Styled exposing (..)
@@ -91,7 +92,15 @@ view model =
                     , property "-webkit-backdrop-filter" "blur(15px)"
                     , property "backdrop-filter" "blur(15px)"
                     , children
-                        [ Css.Global.div [ width (pct 50), paddingLeft (px 15) ] ]
+                        [ Css.Global.div
+                            [ width (pct 50)
+                            , paddingLeft (px 15)
+                            , withMedia [ only screen [ Media.maxWidth (px 960) ] ]
+                                [ nthChild "n+2" [ display none ] ]
+                            , withMedia [ only screen [ Media.minWidth (px 960), Media.maxWidth (px 1279) ] ]
+                                [ nthChild "n+3" [ display none ] ]
+                            ]
+                        ]
                     ]
                 ]
                 (List.map resetCssSelector [ Slot_1, Slot_2, Slot_3 ])
@@ -147,7 +156,22 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                             ]
                         ]
                         [ text (Tag.toString tag) ]
-                    , div [ css [ displayFlex, paddingBottom (px 20) ] ]
+                    , div
+                        [ css
+                            [ displayFlex
+                            , paddingBottom (px 20)
+                            , children
+                                [ Css.Global.div
+                                    [ width (pct 50)
+                                    , paddingLeft (px 15)
+                                    , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
+                                        [ nthChild "n+2" [ display none ] ]
+                                    , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
+                                        [ nthChild "n+3" [ display none ] ]
+                                    ]
+                                ]
+                            ]
+                        ]
                         (List.map
                             (\resetCss ->
                                 div
