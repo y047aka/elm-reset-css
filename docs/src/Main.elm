@@ -192,7 +192,7 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                                             [ borderLeft3 (px 1) solid (hex "#EEE") ]
                                         ]
                                     ]
-                                    [ Tag.render tag ]
+                                    [ Tag.renderer tag ]
                             )
                             [ resetCss_1, resetCss_2, resetCss_3 ]
                         )
