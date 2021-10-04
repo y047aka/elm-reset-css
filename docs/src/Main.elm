@@ -95,11 +95,11 @@ view model =
                         [ Css.Global.div
                             [ width (pct 33.333)
                             , paddingLeft (px 15)
-                            , withMedia [ only screen [ Media.maxWidth (px 960) ] ]
+                            , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
                                 [ width (pct 100)
                                 , nthChild "n+2" [ display none ]
                                 ]
-                            , withMedia [ only screen [ Media.minWidth (px 960), Media.maxWidth (px 1279) ] ]
+                            , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
                                 [ width (pct 50)
                                 , nthChild "n+3" [ display none ]
                                 ]
