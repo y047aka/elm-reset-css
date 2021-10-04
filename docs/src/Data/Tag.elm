@@ -1,4 +1,4 @@
-module Data.Tag exposing (Tag(..), all, fromString, renderer, toString)
+module Data.Tag exposing (Tag(..), all, fromString, render, toString)
 
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (href, type_)
@@ -193,8 +193,8 @@ toString tag =
             "ActionButtons"
 
 
-renderer : Tag -> Html msg
-renderer tag =
+render : Tag -> Html msg
+render tag =
     div [] <|
         case tag of
             Headings ->
