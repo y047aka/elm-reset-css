@@ -2,7 +2,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser exposing (Document)
 import Css exposing (..)
-import Css.Global exposing (children, descendants)
+import Css.Animations as Animations exposing (keyframes)
+import Css.Global exposing (children, descendants, withAttribute)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Data.ResetCss as ResetCss exposing (ResetCss(..))
 import Data.Tag as Tag exposing (Tag(..))
@@ -150,7 +151,28 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
             (\tag ->
                 details
                     [ attribute "open" ""
-                    , css [ borderBottom3 (px 1) solid (hex "#EEE") ]
+                    , css
+                        [ borderBottom3 (px 1) solid (hex "#EEE")
+                        , children
+                            [ Css.Global.div
+                                [ overflow hidden ]
+                            ]
+                        , withAttribute "open"
+                            [ children
+                                [ Css.Global.div
+                                    [ let
+                                        accordion =
+                                            keyframes
+                                                [ ( 0, [ Animations.custom "max-height" "0" ] )
+                                                , ( 100, [ Animations.custom "max-height" "100vh" ] )
+                                                ]
+                                      in
+                                      animationName accordion
+                                    , animationDuration (ms 400)
+                                    ]
+                                ]
+                            ]
+                        ]
                     ]
                     [ summary
                         [ css
