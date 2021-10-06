@@ -12598,6 +12598,15 @@ var $author$project$Data$Tag$Textareas = {$: 'Textareas'};
 var $author$project$Data$Tag$Video = {$: 'Video'};
 var $author$project$Data$Tag$all = _List_fromArray(
 	[$author$project$Data$Tag$Headings, $author$project$Data$Tag$Paragraphs, $author$project$Data$Tag$Blockquotes, $author$project$Data$Tag$Address, $author$project$Data$Tag$Lists, $author$project$Data$Tag$HorizontalRules, $author$project$Data$Tag$TabularData, $author$project$Data$Tag$Code, $author$project$Data$Tag$InlineElements, $author$project$Data$Tag$Images, $author$project$Data$Tag$Audio, $author$project$Data$Tag$Video, $author$project$Data$Tag$Meter, $author$project$Data$Tag$Progress, $author$project$Data$Tag$InlineSvg, $author$project$Data$Tag$IFrames, $author$project$Data$Tag$InputFields, $author$project$Data$Tag$SelectMenus, $author$project$Data$Tag$Checkboxes, $author$project$Data$Tag$RadioButtons, $author$project$Data$Tag$Textareas, $author$project$Data$Tag$Html5Inputs, $author$project$Data$Tag$ActionButtons]);
+var $rtfeldman$elm_css$Css$animationDuration = function (arg) {
+	return A2($rtfeldman$elm_css$Css$prop1, 'animation-duration', arg);
+};
+var $rtfeldman$elm_css$Css$Preprocess$WithKeyframes = function (a) {
+	return {$: 'WithKeyframes', a: a};
+};
+var $rtfeldman$elm_css$Css$animationName = function (arg) {
+	return ((arg.value === 'none') || ((arg.value === 'inherit') || ((arg.value === 'unset') || (arg.value === 'initial')))) ? A2($rtfeldman$elm_css$Css$prop1, 'animation-name', arg) : $rtfeldman$elm_css$Css$Preprocess$WithKeyframes(arg.value);
+};
 var $rtfeldman$elm_css$VirtualDom$Styled$attribute = F2(
 	function (key, value) {
 		return A3(
@@ -12621,6 +12630,13 @@ var $rtfeldman$elm_css$Css$prop3 = F4(
 	});
 var $rtfeldman$elm_css$Css$borderBottom3 = $rtfeldman$elm_css$Css$prop3('border-bottom');
 var $rtfeldman$elm_css$Css$borderLeft3 = $rtfeldman$elm_css$Css$prop3('border-left');
+var $rtfeldman$elm_css$Css$Internal$Property = function (a) {
+	return {$: 'Property', a: a};
+};
+var $rtfeldman$elm_css$Css$Animations$custom = F2(
+	function (name, value) {
+		return $rtfeldman$elm_css$Css$Internal$Property(name + (':' + value));
+	});
 var $rtfeldman$elm_css$Css$Structure$Descendant = {$: 'Descendant'};
 var $rtfeldman$elm_css$Css$Global$descendants = $rtfeldman$elm_css$Css$Preprocess$NestSnippet($rtfeldman$elm_css$Css$Structure$Descendant);
 var $rtfeldman$elm_css$Html$Styled$details = $rtfeldman$elm_css$Html$Styled$node('details');
@@ -13007,13 +13023,55 @@ var $rtfeldman$elm_css$Css$hex = function (str) {
 	}
 	return $rtfeldman$elm_css$Css$erroneousHex(str);
 };
+var $rtfeldman$elm_css$Css$hidden = {borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, overflow: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'hidden', visibility: $rtfeldman$elm_css$Css$Structure$Compatible};
+var $rtfeldman$elm_css$Css$Internal$printKeyframeSelector = function (_v0) {
+	var percentage = _v0.a;
+	var properties = _v0.b;
+	var propertiesStr = A2(
+		$elm$core$String$join,
+		'',
+		A2(
+			$elm$core$List$map,
+			function (_v1) {
+				var prop = _v1.a;
+				return prop + ';';
+			},
+			properties));
+	var percentageStr = $elm$core$String$fromInt(percentage) + '%';
+	return percentageStr + (' {' + (propertiesStr + '}'));
+};
+var $rtfeldman$elm_css$Css$Internal$compileKeyframes = function (tuples) {
+	return A2(
+		$elm$core$String$join,
+		'\n\n',
+		A2($elm$core$List$map, $rtfeldman$elm_css$Css$Internal$printKeyframeSelector, tuples));
+};
+var $rtfeldman$elm_css$Css$Animations$keyframes = function (tuples) {
+	return $elm$core$List$isEmpty(tuples) ? {keyframes: $rtfeldman$elm_css$Css$Structure$Compatible, none: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'none'} : {
+		keyframes: $rtfeldman$elm_css$Css$Structure$Compatible,
+		none: $rtfeldman$elm_css$Css$Structure$Compatible,
+		value: $rtfeldman$elm_css$Css$Internal$compileKeyframes(tuples)
+	};
+};
+var $rtfeldman$elm_css$Css$ms = function (amount) {
+	return {
+		duration: $rtfeldman$elm_css$Css$Structure$Compatible,
+		value: $elm$core$String$fromFloat(amount) + 'ms'
+	};
+};
+var $rtfeldman$elm_css$Css$overflow = $rtfeldman$elm_css$Css$prop1('overflow');
 var $rtfeldman$elm_css$Css$padding = $rtfeldman$elm_css$Css$prop1('padding');
 var $rtfeldman$elm_css$Css$paddingBottom = $rtfeldman$elm_css$Css$prop1('padding-bottom');
 var $rtfeldman$elm_css$Css$PxUnits = {$: 'PxUnits'};
 var $rtfeldman$elm_css$Css$px = A2($rtfeldman$elm_css$Css$Internal$lengthConverter, $rtfeldman$elm_css$Css$PxUnits, 'px');
-var $rtfeldman$elm_css$Html$Styled$a = $rtfeldman$elm_css$Html$Styled$node('a');
-var $rtfeldman$elm_css$Html$Styled$abbr = $rtfeldman$elm_css$Html$Styled$node('abbr');
-var $rtfeldman$elm_css$Html$Styled$address = $rtfeldman$elm_css$Html$Styled$node('address');
+var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
+var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
+var $rtfeldman$elm_css$Html$Styled$p = $rtfeldman$elm_css$Html$Styled$node('p');
+var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
+	return $rtfeldman$elm_css$VirtualDom$Styled$Unstyled(
+		$elm$virtual_dom$VirtualDom$text(str));
+};
+var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
 var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
 	function (key, value) {
 		return A3(
@@ -13029,13 +13087,183 @@ var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
-var $rtfeldman$elm_css$Html$Styled$Attributes$alt = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('alt');
-var $rtfeldman$elm_css$Html$Styled$audio = $rtfeldman$elm_css$Html$Styled$node('audio');
-var $rtfeldman$elm_css$Html$Styled$b = $rtfeldman$elm_css$Html$Styled$node('b');
-var $rtfeldman$elm_css$Html$Styled$blockquote = $rtfeldman$elm_css$Html$Styled$node('blockquote');
+var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
+var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
+var $author$project$Data$Tag$actionButtonsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('submit'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('<input type=submit>')
+						]),
+					_List_Nil),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('button'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('<input type=button>')
+						]),
+					_List_Nil),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('reset'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('<input type=reset>')
+						]),
+					_List_Nil),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('submit'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('<input disabled>'),
+							A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'disabled', '')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$button,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('submit')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<button type=submit>')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$button,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('button')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<button type=button>')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$button,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('reset')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<button type=reset>')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$button,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('button'),
+							A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'disabled', '')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<button disabled>')
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$a = $rtfeldman$elm_css$Html$Styled$node('a');
+var $rtfeldman$elm_css$Html$Styled$address = $rtfeldman$elm_css$Html$Styled$node('address');
 var $rtfeldman$elm_css$Html$Styled$br = $rtfeldman$elm_css$Html$Styled$node('br');
-var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
-var $rtfeldman$elm_css$Html$Styled$caption = $rtfeldman$elm_css$Html$Styled$node('caption');
+var $rtfeldman$elm_css$Html$Styled$Attributes$href = function (url) {
+	return A2($rtfeldman$elm_css$Html$Styled$Attributes$stringProperty, 'href', url);
+};
+var $author$project$Data$Tag$addressRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$address,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Written by '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$a,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$href('mailto:webmaster@example.com')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Jon Doe')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text('.'),
+					A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
+					$rtfeldman$elm_css$Html$Styled$text('Visit us at:'),
+					A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
+					$rtfeldman$elm_css$Html$Styled$text('Example.com'),
+					A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
+					$rtfeldman$elm_css$Html$Styled$text('Box 564, Disneyland'),
+					A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
+					$rtfeldman$elm_css$Html$Styled$text('USA')
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$audio = $rtfeldman$elm_css$Html$Styled$node('audio');
+var $rtfeldman$elm_css$Html$Styled$blockquote = $rtfeldman$elm_css$Html$Styled$node('blockquote');
+var $rtfeldman$elm_css$Html$Styled$cite = $rtfeldman$elm_css$Html$Styled$node('cite');
+var $author$project$Data$Tag$blockquotesRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$blockquote,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('A block quotation (also known as a long quotation or extract) is a quotation in a written document, that is set off from the main text as a paragraph, or block of text.')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('It is typically distinguished visually using indentation and a different typeface or smaller size quotation. It may or may not include a citation, usually placed at the bottom.')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$cite,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$a,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$href('#!')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Said no one, ever.')
+								]))
+						]))
+				]))
+		]));
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty = F2(
 	function (key, bool) {
@@ -13045,6 +13273,1014 @@ var $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty = F2(
 			$elm$json$Json$Encode$bool(bool));
 	});
 var $rtfeldman$elm_css$Html$Styled$Attributes$checked = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('checked');
+var $rtfeldman$elm_css$Html$Styled$Attributes$for = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('htmlFor');
+var $rtfeldman$elm_css$Html$Styled$Attributes$id = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('id');
+var $rtfeldman$elm_css$Html$Styled$label = $rtfeldman$elm_css$Html$Styled$node('label');
+var $rtfeldman$elm_css$Html$Styled$li = $rtfeldman$elm_css$Html$Styled$node('li');
+var $rtfeldman$elm_css$Html$Styled$Attributes$name = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('name');
+var $rtfeldman$elm_css$Html$Styled$ul = $rtfeldman$elm_css$Html$Styled$node('ul');
+var $author$project$Data$Tag$checkboxesRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$ul,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('checkbox1')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$rtfeldman$elm_css$Html$Styled$input,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$Attributes$id('checkbox1'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$name('checkbox'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$checked(true)
+										]),
+									_List_Nil),
+									$rtfeldman$elm_css$Html$Styled$text('Choice A')
+								]))
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('checkbox2')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$rtfeldman$elm_css$Html$Styled$input,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$Attributes$id('checkbox2'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$name('checkbox'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox')
+										]),
+									_List_Nil),
+									$rtfeldman$elm_css$Html$Styled$text('Choice B')
+								]))
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('checkbox3')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$rtfeldman$elm_css$Html$Styled$input,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$Attributes$id('checkbox3'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$name('checkbox'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox')
+										]),
+									_List_Nil),
+									$rtfeldman$elm_css$Html$Styled$text('Choice C')
+								]))
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$code = $rtfeldman$elm_css$Html$Styled$node('code');
+var $rtfeldman$elm_css$Html$Styled$h2 = $rtfeldman$elm_css$Html$Styled$node('h2');
+var $rtfeldman$elm_css$Html$Styled$kbd = $rtfeldman$elm_css$Html$Styled$node('kbd');
+var $rtfeldman$elm_css$Html$Styled$pre = $rtfeldman$elm_css$Html$Styled$node('pre');
+var $rtfeldman$elm_css$Html$Styled$samp = $rtfeldman$elm_css$Html$Styled$node('samp');
+var $rtfeldman$elm_css$Html$Styled$strong = $rtfeldman$elm_css$Html$Styled$node('strong');
+var $author$project$Data$Tag$codeRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$strong,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Keyboard input:')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$kbd,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Cmd')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$strong,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Inline code:')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<div>code</div>')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$strong,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Sample output:')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$samp,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This is sample output from a computer program.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Pre-formatted text')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$pre,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('P R E F O R M A T T E D T E X T\n! " # $ % &amp; \' ( ) * + , - . /\n0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ?\n@ A B C D E F G H I J K L M N O\nP Q R S T U V W X Y Z [ \\ ] ^ _\n` a b c d e f g h i j k l m n o\np q r s t u v w x y z { | } ~ ')
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$Attributes$controls = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('controls');
+var $rtfeldman$elm_css$Html$Styled$h1 = $rtfeldman$elm_css$Html$Styled$node('h1');
+var $rtfeldman$elm_css$Html$Styled$h3 = $rtfeldman$elm_css$Html$Styled$node('h3');
+var $rtfeldman$elm_css$Html$Styled$h4 = $rtfeldman$elm_css$Html$Styled$node('h4');
+var $rtfeldman$elm_css$Html$Styled$h5 = $rtfeldman$elm_css$Html$Styled$node('h5');
+var $rtfeldman$elm_css$Html$Styled$h6 = $rtfeldman$elm_css$Html$Styled$node('h6');
+var $author$project$Data$Tag$headingsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h1,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Heading 1')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Heading 2')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Heading 3')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h4,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Heading 4')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h5,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Heading 5')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h6,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Heading 6')
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$Attributes$height = function (n) {
+	return A2(
+		$rtfeldman$elm_css$VirtualDom$Styled$attribute,
+		'height',
+		$elm$core$String$fromInt(n));
+};
+var $rtfeldman$elm_css$Html$Styled$hr = $rtfeldman$elm_css$Html$Styled$node('hr');
+var $rtfeldman$elm_css$Html$Styled$datalist = $rtfeldman$elm_css$Html$Styled$node('datalist');
+var $rtfeldman$elm_css$Html$Styled$Attributes$list = $rtfeldman$elm_css$VirtualDom$Styled$attribute('list');
+var $rtfeldman$elm_css$Html$Styled$Attributes$max = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('max');
+var $rtfeldman$elm_css$Html$Styled$Attributes$min = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('min');
+var $rtfeldman$elm_css$Html$Styled$option = $rtfeldman$elm_css$Html$Styled$node('option');
+var $author$project$Data$Tag$html5InputsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('ic')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Color input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('color'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('ic'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('#000000')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('in')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Number input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('number'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('in'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$min('0'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$max('10'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('5')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('ir')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Range input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('range'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('ir'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('10')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('idd')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Date input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('date'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('idd'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01-01')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('idm')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Month input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('month'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('idm'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('idw')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Week input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('week'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('idw'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-W01')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('idt')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Datetime input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('datetime'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('idt'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01-01T00:00:00Z')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('idtl')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Datetime-local input')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('datetime-local'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('idtl'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01-01T00:00')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('idl')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Datalist')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('text'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('idl'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$list('example-list')
+						]),
+					_List_Nil),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$datalist,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('example-list')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$option,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$value('Example #1')
+								]),
+							_List_Nil),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$option,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$value('Example #2')
+								]),
+							_List_Nil),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$option,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$value('Example #3')
+								]),
+							_List_Nil)
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$iframe = $rtfeldman$elm_css$Html$Styled$node('iframe');
+var $rtfeldman$elm_css$Html$Styled$Attributes$alt = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('alt');
+var $rtfeldman$elm_css$Html$Styled$figcaption = $rtfeldman$elm_css$Html$Styled$node('figcaption');
+var $rtfeldman$elm_css$Html$Styled$figure = $rtfeldman$elm_css$Html$Styled$node('figure');
+var $rtfeldman$elm_css$Html$Styled$img = $rtfeldman$elm_css$Html$Styled$node('img');
+var $rtfeldman$elm_css$Html$Styled$Attributes$media = $rtfeldman$elm_css$VirtualDom$Styled$attribute('media');
+var $rtfeldman$elm_css$Html$Styled$source = $rtfeldman$elm_css$Html$Styled$node('source');
+var $rtfeldman$elm_css$Html$Styled$Attributes$src = function (url) {
+	return A2($rtfeldman$elm_css$Html$Styled$Attributes$stringProperty, 'src', url);
+};
+var $author$project$Data$Tag$imagesRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Plain '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<img>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' element')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$img,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<figure>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' element with '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<img>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' element')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$figure,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$img,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
+						]),
+					_List_Nil)
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<figure>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' element with '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<img>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' and '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<figcaption>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' elements')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$figure,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$img,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
+						]),
+					_List_Nil),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$figcaption,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Here is a caption for this image.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<figure>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' element with a '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$code,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('<picture>')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' element')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$figure,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A3(
+					$rtfeldman$elm_css$Html$Styled$node,
+					'picture',
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$source,
+							_List_fromArray(
+								[
+									A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'srcset', 'https://placekitten.com/280/280'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$media('(min-width: 280px)')
+								]),
+							_List_Nil),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$img,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
+								]),
+							_List_Nil)
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$abbr = $rtfeldman$elm_css$Html$Styled$node('abbr');
+var $rtfeldman$elm_css$Html$Styled$b = $rtfeldman$elm_css$Html$Styled$node('b');
+var $rtfeldman$elm_css$Html$Styled$Attributes$cite = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('cite');
+var $rtfeldman$elm_css$Html$Styled$Attributes$datetime = $rtfeldman$elm_css$VirtualDom$Styled$attribute('datetime');
+var $rtfeldman$elm_css$Html$Styled$del = $rtfeldman$elm_css$Html$Styled$node('del');
+var $rtfeldman$elm_css$Html$Styled$dfn = $rtfeldman$elm_css$Html$Styled$node('dfn');
+var $rtfeldman$elm_css$Html$Styled$em = $rtfeldman$elm_css$Html$Styled$node('em');
+var $rtfeldman$elm_css$Html$Styled$i = $rtfeldman$elm_css$Html$Styled$node('i');
+var $rtfeldman$elm_css$Html$Styled$ins = $rtfeldman$elm_css$Html$Styled$node('ins');
+var $rtfeldman$elm_css$Html$Styled$mark = $rtfeldman$elm_css$Html$Styled$node('mark');
+var $rtfeldman$elm_css$Html$Styled$q = $rtfeldman$elm_css$Html$Styled$node('q');
+var $rtfeldman$elm_css$Html$Styled$s = $rtfeldman$elm_css$Html$Styled$node('s');
+var $rtfeldman$elm_css$Html$Styled$small = $rtfeldman$elm_css$Html$Styled$node('small');
+var $rtfeldman$elm_css$Html$Styled$sub = $rtfeldman$elm_css$Html$Styled$node('sub');
+var $rtfeldman$elm_css$Html$Styled$sup = $rtfeldman$elm_css$Html$Styled$node('sup');
+var $rtfeldman$elm_css$Html$Styled$time = $rtfeldman$elm_css$Html$Styled$node('time');
+var $rtfeldman$elm_css$Html$Styled$Attributes$title = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('title');
+var $rtfeldman$elm_css$Html$Styled$u = $rtfeldman$elm_css$Html$Styled$node('u');
+var $rtfeldman$elm_css$Html$Styled$var = $rtfeldman$elm_css$Html$Styled$node('var');
+var $author$project$Data$Tag$inlineElementsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$a,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$href('#!')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This is a text link.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$strong,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Strong is used to indicate strong importance.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$em,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This text has added emphasis.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$b,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('b element')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' is stylistically different text from normal text, without any special importance.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$i,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('i element')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' is text that is offset from the normal text.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$u,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('u element')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' is text with an unarticulated, though explicitly rendered, non-textual annotation.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$del,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This text is deleted')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' and '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$ins,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This text is inserted')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text('.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$s,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This text has a strikethrough.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Superscript'),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$sup,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('®')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text('.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Subscript for things like H'),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$sub,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('2')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text('O.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$small,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This small text is small for fine print, etc.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Abbreviation: '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$abbr,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$title('HyperText Markup Language')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('HTML')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$q,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$cite('https://developer.mozilla.org/en-US/docs/HTML/Element/q')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This text is a short inline quotation.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$cite,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('This is a citation.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$dfn,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('dfn element')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' indicates a definition.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$mark,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('mark element')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' indicates a highlight.')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$var,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('variable element')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(', such as '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$var,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('x')
+						])),
+					$rtfeldman$elm_css$Html$Styled$text(' = '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$var,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('y.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('The time element: '),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$time,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$datetime('2013-04-06T12:32+00:00')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('2 weeks ago')
+						]))
+				]))
+		]));
 var $rtfeldman$elm_css$VirtualDom$Styled$NodeNS = F4(
 	function (a, b, c, d) {
 		return {$: 'NodeNS', a: a, b: b, c: c, d: d};
@@ -13052,287 +14288,321 @@ var $rtfeldman$elm_css$VirtualDom$Styled$NodeNS = F4(
 var $rtfeldman$elm_css$VirtualDom$Styled$nodeNS = $rtfeldman$elm_css$VirtualDom$Styled$NodeNS;
 var $rtfeldman$elm_css$Svg$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$nodeNS('http://www.w3.org/2000/svg');
 var $rtfeldman$elm_css$Svg$Styled$circle = $rtfeldman$elm_css$Svg$Styled$node('circle');
-var $rtfeldman$elm_css$Html$Styled$cite = $rtfeldman$elm_css$Html$Styled$node('cite');
-var $rtfeldman$elm_css$Html$Styled$Attributes$cite = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('cite');
-var $rtfeldman$elm_css$Html$Styled$code = $rtfeldman$elm_css$Html$Styled$node('code');
-var $rtfeldman$elm_css$Html$Styled$Attributes$cols = function (n) {
-	return A2(
-		$rtfeldman$elm_css$VirtualDom$Styled$attribute,
-		'cols',
-		$elm$core$String$fromInt(n));
-};
-var $rtfeldman$elm_css$Html$Styled$Attributes$controls = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('controls');
 var $rtfeldman$elm_css$Svg$Styled$Attributes$cx = $rtfeldman$elm_css$VirtualDom$Styled$attribute('cx');
 var $rtfeldman$elm_css$Svg$Styled$Attributes$cy = $rtfeldman$elm_css$VirtualDom$Styled$attribute('cy');
-var $rtfeldman$elm_css$Html$Styled$datalist = $rtfeldman$elm_css$Html$Styled$node('datalist');
-var $rtfeldman$elm_css$Html$Styled$Attributes$datetime = $rtfeldman$elm_css$VirtualDom$Styled$attribute('datetime');
+var $rtfeldman$elm_css$Svg$Styled$Attributes$fill = $rtfeldman$elm_css$VirtualDom$Styled$attribute('fill');
+var $rtfeldman$elm_css$Svg$Styled$Attributes$height = $rtfeldman$elm_css$VirtualDom$Styled$attribute('height');
+var $rtfeldman$elm_css$Svg$Styled$Attributes$r = $rtfeldman$elm_css$VirtualDom$Styled$attribute('r');
+var $rtfeldman$elm_css$Svg$Styled$svg = $rtfeldman$elm_css$Svg$Styled$node('svg');
+var $rtfeldman$elm_css$Svg$Styled$Attributes$width = $rtfeldman$elm_css$VirtualDom$Styled$attribute('width');
+var $author$project$Data$Tag$inlineSvgRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Svg$Styled$svg,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Svg$Styled$Attributes$width('100px'),
+					$rtfeldman$elm_css$Svg$Styled$Attributes$height('100px')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Svg$Styled$circle,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Svg$Styled$Attributes$cx('100'),
+							$rtfeldman$elm_css$Svg$Styled$Attributes$cy('100'),
+							$rtfeldman$elm_css$Svg$Styled$Attributes$r('100'),
+							$rtfeldman$elm_css$Svg$Styled$Attributes$fill('#1fa3ec')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$form = $rtfeldman$elm_css$Html$Styled$node('form');
+var $rtfeldman$elm_css$Html$Styled$Attributes$placeholder = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('placeholder');
+var $author$project$Data$Tag$inputFieldsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$form,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__text')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Text Input')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__text'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('text'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Text Input')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__password')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Password')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__password'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('password'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Type your Password')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__webaddress')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Web Address')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__webaddress'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('url'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('https://yoursite.com')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__emailaddress')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Email Address')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__emailaddress'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('email'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('name@email.com')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__phone')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Phone Number')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__phone'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('tel'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('(999) 999-9999')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__search')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Search')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__search'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('search'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Enter Search Term')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__text2')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Number Input')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__text2'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('number'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Enter a Number')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('input__file')
+								]),
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('File Input')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$input,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$id('input__file'),
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('file')
+								]),
+							_List_Nil)
+						]))
+				]))
+		]));
 var $rtfeldman$elm_css$Html$Styled$dd = $rtfeldman$elm_css$Html$Styled$node('dd');
-var $rtfeldman$elm_css$Html$Styled$del = $rtfeldman$elm_css$Html$Styled$node('del');
-var $rtfeldman$elm_css$Html$Styled$dfn = $rtfeldman$elm_css$Html$Styled$node('dfn');
 var $rtfeldman$elm_css$Html$Styled$dl = $rtfeldman$elm_css$Html$Styled$node('dl');
 var $rtfeldman$elm_css$Html$Styled$dt = $rtfeldman$elm_css$Html$Styled$node('dt');
-var $rtfeldman$elm_css$Html$Styled$em = $rtfeldman$elm_css$Html$Styled$node('em');
-var $rtfeldman$elm_css$Html$Styled$figcaption = $rtfeldman$elm_css$Html$Styled$node('figcaption');
-var $rtfeldman$elm_css$Html$Styled$figure = $rtfeldman$elm_css$Html$Styled$node('figure');
-var $rtfeldman$elm_css$Svg$Styled$Attributes$fill = $rtfeldman$elm_css$VirtualDom$Styled$attribute('fill');
-var $rtfeldman$elm_css$Html$Styled$Attributes$for = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('htmlFor');
-var $rtfeldman$elm_css$Html$Styled$form = $rtfeldman$elm_css$Html$Styled$node('form');
-var $rtfeldman$elm_css$Html$Styled$h1 = $rtfeldman$elm_css$Html$Styled$node('h1');
-var $rtfeldman$elm_css$Html$Styled$h2 = $rtfeldman$elm_css$Html$Styled$node('h2');
-var $rtfeldman$elm_css$Html$Styled$h3 = $rtfeldman$elm_css$Html$Styled$node('h3');
-var $rtfeldman$elm_css$Html$Styled$h4 = $rtfeldman$elm_css$Html$Styled$node('h4');
-var $rtfeldman$elm_css$Html$Styled$h5 = $rtfeldman$elm_css$Html$Styled$node('h5');
-var $rtfeldman$elm_css$Html$Styled$h6 = $rtfeldman$elm_css$Html$Styled$node('h6');
-var $rtfeldman$elm_css$Html$Styled$Attributes$height = function (n) {
-	return A2(
-		$rtfeldman$elm_css$VirtualDom$Styled$attribute,
-		'height',
-		$elm$core$String$fromInt(n));
-};
-var $rtfeldman$elm_css$Svg$Styled$Attributes$height = $rtfeldman$elm_css$VirtualDom$Styled$attribute('height');
-var $rtfeldman$elm_css$Html$Styled$hr = $rtfeldman$elm_css$Html$Styled$node('hr');
-var $rtfeldman$elm_css$Html$Styled$Attributes$href = function (url) {
-	return A2($rtfeldman$elm_css$Html$Styled$Attributes$stringProperty, 'href', url);
-};
-var $rtfeldman$elm_css$Html$Styled$i = $rtfeldman$elm_css$Html$Styled$node('i');
-var $rtfeldman$elm_css$Html$Styled$Attributes$id = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('id');
-var $rtfeldman$elm_css$Html$Styled$iframe = $rtfeldman$elm_css$Html$Styled$node('iframe');
-var $rtfeldman$elm_css$Html$Styled$img = $rtfeldman$elm_css$Html$Styled$node('img');
-var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
-var $rtfeldman$elm_css$Html$Styled$ins = $rtfeldman$elm_css$Html$Styled$node('ins');
-var $rtfeldman$elm_css$Html$Styled$kbd = $rtfeldman$elm_css$Html$Styled$node('kbd');
-var $rtfeldman$elm_css$Html$Styled$label = $rtfeldman$elm_css$Html$Styled$node('label');
-var $rtfeldman$elm_css$Html$Styled$li = $rtfeldman$elm_css$Html$Styled$node('li');
-var $rtfeldman$elm_css$Html$Styled$Attributes$list = $rtfeldman$elm_css$VirtualDom$Styled$attribute('list');
-var $rtfeldman$elm_css$Html$Styled$mark = $rtfeldman$elm_css$Html$Styled$node('mark');
-var $rtfeldman$elm_css$Html$Styled$Attributes$max = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('max');
-var $rtfeldman$elm_css$Html$Styled$Attributes$media = $rtfeldman$elm_css$VirtualDom$Styled$attribute('media');
-var $rtfeldman$elm_css$Html$Styled$meter = $rtfeldman$elm_css$Html$Styled$node('meter');
-var $rtfeldman$elm_css$Html$Styled$Attributes$min = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('min');
-var $rtfeldman$elm_css$Html$Styled$Attributes$multiple = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('multiple');
-var $rtfeldman$elm_css$Html$Styled$Attributes$name = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('name');
 var $rtfeldman$elm_css$Html$Styled$ol = $rtfeldman$elm_css$Html$Styled$node('ol');
-var $rtfeldman$elm_css$Html$Styled$optgroup = $rtfeldman$elm_css$Html$Styled$node('optgroup');
-var $rtfeldman$elm_css$Html$Styled$option = $rtfeldman$elm_css$Html$Styled$node('option');
-var $rtfeldman$elm_css$Html$Styled$p = $rtfeldman$elm_css$Html$Styled$node('p');
-var $rtfeldman$elm_css$Html$Styled$Attributes$placeholder = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('placeholder');
-var $rtfeldman$elm_css$Html$Styled$pre = $rtfeldman$elm_css$Html$Styled$node('pre');
-var $rtfeldman$elm_css$Html$Styled$progress = $rtfeldman$elm_css$Html$Styled$node('progress');
-var $rtfeldman$elm_css$Html$Styled$q = $rtfeldman$elm_css$Html$Styled$node('q');
-var $rtfeldman$elm_css$Svg$Styled$Attributes$r = $rtfeldman$elm_css$VirtualDom$Styled$attribute('r');
-var $rtfeldman$elm_css$Html$Styled$Attributes$rows = function (n) {
-	return A2(
-		$rtfeldman$elm_css$VirtualDom$Styled$attribute,
-		'rows',
-		$elm$core$String$fromInt(n));
-};
-var $rtfeldman$elm_css$Html$Styled$s = $rtfeldman$elm_css$Html$Styled$node('s');
-var $rtfeldman$elm_css$Html$Styled$samp = $rtfeldman$elm_css$Html$Styled$node('samp');
-var $rtfeldman$elm_css$Html$Styled$select = $rtfeldman$elm_css$Html$Styled$node('select');
-var $rtfeldman$elm_css$Html$Styled$small = $rtfeldman$elm_css$Html$Styled$node('small');
-var $rtfeldman$elm_css$Html$Styled$source = $rtfeldman$elm_css$Html$Styled$node('source');
-var $rtfeldman$elm_css$Html$Styled$Attributes$src = function (url) {
-	return A2($rtfeldman$elm_css$Html$Styled$Attributes$stringProperty, 'src', url);
-};
-var $rtfeldman$elm_css$Html$Styled$strong = $rtfeldman$elm_css$Html$Styled$node('strong');
-var $rtfeldman$elm_css$Html$Styled$sub = $rtfeldman$elm_css$Html$Styled$node('sub');
-var $rtfeldman$elm_css$Html$Styled$sup = $rtfeldman$elm_css$Html$Styled$node('sup');
-var $rtfeldman$elm_css$Svg$Styled$svg = $rtfeldman$elm_css$Svg$Styled$node('svg');
-var $rtfeldman$elm_css$Html$Styled$table = $rtfeldman$elm_css$Html$Styled$node('table');
-var $rtfeldman$elm_css$Html$Styled$tbody = $rtfeldman$elm_css$Html$Styled$node('tbody');
-var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
-	return $rtfeldman$elm_css$VirtualDom$Styled$Unstyled(
-		$elm$virtual_dom$VirtualDom$text(str));
-};
-var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
-var $rtfeldman$elm_css$Html$Styled$textarea = $rtfeldman$elm_css$Html$Styled$node('textarea');
-var $rtfeldman$elm_css$Html$Styled$tfoot = $rtfeldman$elm_css$Html$Styled$node('tfoot');
-var $rtfeldman$elm_css$Html$Styled$thead = $rtfeldman$elm_css$Html$Styled$node('thead');
-var $rtfeldman$elm_css$Html$Styled$time = $rtfeldman$elm_css$Html$Styled$node('time');
-var $rtfeldman$elm_css$Html$Styled$Attributes$title = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('title');
-var $rtfeldman$elm_css$Html$Styled$tr = $rtfeldman$elm_css$Html$Styled$node('tr');
-var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
-var $rtfeldman$elm_css$Html$Styled$u = $rtfeldman$elm_css$Html$Styled$node('u');
-var $rtfeldman$elm_css$Html$Styled$ul = $rtfeldman$elm_css$Html$Styled$node('ul');
-var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
-var $rtfeldman$elm_css$Html$Styled$var = $rtfeldman$elm_css$Html$Styled$node('var');
-var $rtfeldman$elm_css$Html$Styled$video = $rtfeldman$elm_css$Html$Styled$node('video');
-var $rtfeldman$elm_css$Svg$Styled$Attributes$width = $rtfeldman$elm_css$VirtualDom$Styled$attribute('width');
-var $author$project$Data$Tag$render = function (tag) {
-	return A2(
-		$rtfeldman$elm_css$Html$Styled$div,
-		_List_Nil,
-		function () {
-			switch (tag.$) {
-				case 'Headings':
-					return _List_fromArray(
+var $author$project$Data$Tag$listsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Definition list')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$dl,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$dt,
+					_List_Nil,
+					_List_fromArray(
 						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h1,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Heading 1')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h2,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Heading 2')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Heading 3')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h4,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Heading 4')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h5,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Heading 5')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h6,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Heading 6')
-								]))
-						]);
-				case 'Paragraphs':
-					return _List_fromArray(
+							$rtfeldman$elm_css$Html$Styled$text('Definition List Title')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$dd,
+					_List_Nil,
+					_List_fromArray(
 						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('A paragraph (from the Greek paragraphos, “to write beside” or “written beside”) is a self-contained unit of a discourse in writing dealing with a particular point or idea. A paragraph consists of one or more sentences. Though not required by the syntax of any language, paragraphs are usually an expected part of formal writing, used to organize longer prose.')
-								]))
-						]);
-				case 'Blockquotes':
-					return _List_fromArray(
+							$rtfeldman$elm_css$Html$Styled$text('This is a definition list division.')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Ordered List')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$ol,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$Attributes$type_('1')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
 						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$blockquote,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('A block quotation (also known as a long quotation or extract) is a quotation in a written document, that is set off from the main text as a paragraph, or block of text.')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('It is typically distinguished visually using indentation and a different typeface or smaller size quotation. It may or may not include a citation, usually placed at the bottom.')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$cite,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$a,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$href('#!')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Said no one, ever.')
-												]))
-										]))
-								]))
-						]);
-				case 'Address':
-					return _List_fromArray(
+							$rtfeldman$elm_css$Html$Styled$text('List Item 1')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
 						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$address,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Written by '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$a,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$href('mailto:webmaster@example.com')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Jon Doe')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text('.'),
-									A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
-									$rtfeldman$elm_css$Html$Styled$text('Visit us at:'),
-									A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
-									$rtfeldman$elm_css$Html$Styled$text('Example.com'),
-									A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
-									$rtfeldman$elm_css$Html$Styled$text('Box 564, Disneyland'),
-									A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
-									$rtfeldman$elm_css$Html$Styled$text('USA')
-								]))
-						]);
-				case 'Lists':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Definition list')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$dl,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$dt,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Definition List Title')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$dd,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This is a definition list division.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Ordered List')
-								])),
+							$rtfeldman$elm_css$Html$Styled$text('List Item 2'),
 							A2(
 							$rtfeldman$elm_css$Html$Styled$ol,
 							_List_fromArray(
 								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$type_('1')
+									$rtfeldman$elm_css$Html$Styled$Attributes$type_('A')
 								]),
 							_List_fromArray(
 								[
@@ -13353,7 +14623,7 @@ var $author$project$Data$Tag$render = function (tag) {
 											$rtfeldman$elm_css$Html$Styled$ol,
 											_List_fromArray(
 												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('A')
+													$rtfeldman$elm_css$Html$Styled$Attributes$type_('a')
 												]),
 											_List_fromArray(
 												[
@@ -13369,37 +14639,7 @@ var $author$project$Data$Tag$render = function (tag) {
 													_List_Nil,
 													_List_fromArray(
 														[
-															$rtfeldman$elm_css$Html$Styled$text('List Item 2'),
-															A2(
-															$rtfeldman$elm_css$Html$Styled$ol,
-															_List_fromArray(
-																[
-																	$rtfeldman$elm_css$Html$Styled$Attributes$type_('a')
-																]),
-															_List_fromArray(
-																[
-																	A2(
-																	$rtfeldman$elm_css$Html$Styled$li,
-																	_List_Nil,
-																	_List_fromArray(
-																		[
-																			$rtfeldman$elm_css$Html$Styled$text('List Item 1')
-																		])),
-																	A2(
-																	$rtfeldman$elm_css$Html$Styled$li,
-																	_List_Nil,
-																	_List_fromArray(
-																		[
-																			$rtfeldman$elm_css$Html$Styled$text('List Item 2')
-																		])),
-																	A2(
-																	$rtfeldman$elm_css$Html$Styled$li,
-																	_List_Nil,
-																	_List_fromArray(
-																		[
-																			$rtfeldman$elm_css$Html$Styled$text('List Item 3')
-																		]))
-																]))
+															$rtfeldman$elm_css$Html$Styled$text('List Item 2')
 														])),
 													A2(
 													$rtfeldman$elm_css$Html$Styled$li,
@@ -13417,14 +14657,41 @@ var $author$project$Data$Tag$render = function (tag) {
 										[
 											$rtfeldman$elm_css$Html$Styled$text('List Item 3')
 										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Unordered List')
-								])),
+								]))
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('List Item 3')
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('Unordered List')
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$ul,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('List Item 1')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('List Item 2'),
 							A2(
 							$rtfeldman$elm_css$Html$Styled$ul,
 							_List_Nil,
@@ -13460,34 +14727,7 @@ var $author$project$Data$Tag$render = function (tag) {
 													_List_Nil,
 													_List_fromArray(
 														[
-															$rtfeldman$elm_css$Html$Styled$text('List Item 2'),
-															A2(
-															$rtfeldman$elm_css$Html$Styled$ul,
-															_List_Nil,
-															_List_fromArray(
-																[
-																	A2(
-																	$rtfeldman$elm_css$Html$Styled$li,
-																	_List_Nil,
-																	_List_fromArray(
-																		[
-																			$rtfeldman$elm_css$Html$Styled$text('List Item 1')
-																		])),
-																	A2(
-																	$rtfeldman$elm_css$Html$Styled$li,
-																	_List_Nil,
-																	_List_fromArray(
-																		[
-																			$rtfeldman$elm_css$Html$Styled$text('List Item 2')
-																		])),
-																	A2(
-																	$rtfeldman$elm_css$Html$Styled$li,
-																	_List_Nil,
-																	_List_fromArray(
-																		[
-																			$rtfeldman$elm_css$Html$Styled$text('List Item 3')
-																		]))
-																]))
+															$rtfeldman$elm_css$Html$Styled$text('List Item 2')
 														])),
 													A2(
 													$rtfeldman$elm_css$Html$Styled$li,
@@ -13506,1616 +14746,510 @@ var $author$project$Data$Tag$render = function (tag) {
 											$rtfeldman$elm_css$Html$Styled$text('List Item 3')
 										]))
 								]))
-						]);
-				case 'HorizontalRules':
-					return _List_fromArray(
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
 						[
-							A2($rtfeldman$elm_css$Html$Styled$hr, _List_Nil, _List_Nil)
-						]);
-				case 'TabularData':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$table,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$caption,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Table Caption')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$thead,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$tr,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Table Heading 1'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Heading 2'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Heading 3'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Heading 4'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Heading 5')
-												]))
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$tfoot,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$tr,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Table Footer 1'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Footer 2'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Footer 3'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Footer 4'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Footer 5')
-												]))
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$tbody,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$tr,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 1'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 2'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 3'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 4'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 5')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$tr,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 1'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 2'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 3'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 4'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 5')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$tr,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 1'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 2'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 3'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 4'),
-													$rtfeldman$elm_css$Html$Styled$text('Table Cell 5')
-												]))
-										]))
-								]))
-						]);
-				case 'Code':
-					return _List_fromArray(
+							$rtfeldman$elm_css$Html$Styled$text('List Item 3')
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$meter = $rtfeldman$elm_css$Html$Styled$node('meter');
+var $author$project$Data$Tag$paragraphsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$text('A paragraph (from the Greek paragraphos, “to write beside” or “written beside”) is a self-contained unit of a discourse in writing dealing with a particular point or idea. A paragraph consists of one or more sentences. Though not required by the syntax of any language, paragraphs are usually an expected part of formal writing, used to organize longer prose.')
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$progress = $rtfeldman$elm_css$Html$Styled$node('progress');
+var $author$project$Data$Tag$radioButtonsRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$ul,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
 						[
 							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
+							$rtfeldman$elm_css$Html$Styled$label,
 							_List_fromArray(
 								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$strong,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Keyboard input:')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$kbd,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Cmd')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$strong,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Inline code:')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<div>code</div>')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$strong,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Sample output:')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$samp,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This is sample output from a computer program.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h2,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Pre-formatted text')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$pre,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('P R E F O R M A T T E D T E X T\n! " # $ % &amp; \' ( ) * + , - . /\n0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ?\n@ A B C D E F G H I J K L M N O\nP Q R S T U V W X Y Z [ \\ ] ^ _\n` a b c d e f g h i j k l m n o\np q r s t u v w x y z { | } ~ ')
-								]))
-						]);
-				case 'InlineElements':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$a,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$href('#!')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This is a text link.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$strong,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Strong is used to indicate strong importance.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$em,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This text has added emphasis.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$b,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('b element')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' is stylistically different text from normal text, without any special importance.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$i,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('i element')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' is text that is offset from the normal text.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$u,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('u element')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' is text with an unarticulated, though explicitly rendered, non-textual annotation.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$del,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This text is deleted')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' and '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$ins,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This text is inserted')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text('.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$s,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This text has a strikethrough.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Superscript'),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$sup,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('®')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text('.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Subscript for things like H'),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$sub,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('2')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text('O.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$small,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This small text is small for fine print, etc.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Abbreviation: '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$abbr,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$title('HyperText Markup Language')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('HTML')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$q,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$cite('https://developer.mozilla.org/en-US/docs/HTML/Element/q')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This text is a short inline quotation.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$cite,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('This is a citation.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$dfn,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('dfn element')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' indicates a definition.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$mark,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('mark element')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' indicates a highlight.')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$var,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('variable element')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(', such as '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$var,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('x')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' = '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$var,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('y.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('The time element: '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$time,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$datetime('2013-04-06T12:32+00:00')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('2 weeks ago')
-										]))
-								]))
-						]);
-				case 'Images':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Plain '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<img>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' element')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$img,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<figure>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' element with '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<img>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' element')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$figure,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$img,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<figure>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' element with '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<img>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' and '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<figcaption>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' elements')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$figure,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$img,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
-										]),
-									_List_Nil),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$figcaption,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Here is a caption for this image.')
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<figure>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' element with a '),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$code,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<picture>')
-										])),
-									$rtfeldman$elm_css$Html$Styled$text(' element')
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$figure,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A3(
-									$rtfeldman$elm_css$Html$Styled$node,
-									'picture',
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$source,
-											_List_fromArray(
-												[
-													A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'srcset', 'https://placekitten.com/280/280'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$media('(min-width: 280px)')
-												]),
-											_List_Nil),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$img,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$src('https://placekitten.com/280/280'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$alt('Photo of a kitten')
-												]),
-											_List_Nil)
-										]))
-								]))
-						]);
-				case 'Audio':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$audio,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$controls(true)
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('audio')
-								]))
-						]);
-				case 'Video':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$video,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$controls(true)
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('video')
-								]))
-						]);
-				case 'Meter':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$meter,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$value('2'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$min('0'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$max('10')
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('2 out of 10')
-								]))
-						]);
-				case 'Progress':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$progress,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('progress')
-								]))
-						]);
-				case 'InlineSvg':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Svg$Styled$svg,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Svg$Styled$Attributes$width('100px'),
-									$rtfeldman$elm_css$Svg$Styled$Attributes$height('100px')
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('radio1')
 								]),
 							_List_fromArray(
 								[
 									A2(
-									$rtfeldman$elm_css$Svg$Styled$circle,
+									$rtfeldman$elm_css$Html$Styled$input,
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Svg$Styled$Attributes$cx('100'),
-											$rtfeldman$elm_css$Svg$Styled$Attributes$cy('100'),
-											$rtfeldman$elm_css$Svg$Styled$Attributes$r('100'),
-											$rtfeldman$elm_css$Svg$Styled$Attributes$fill('#1fa3ec')
+											$rtfeldman$elm_css$Html$Styled$Attributes$id('radio1'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$name('radio'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$checked(true)
 										]),
-									_List_Nil)
+									_List_Nil),
+									$rtfeldman$elm_css$Html$Styled$text('Option 1')
 								]))
-						]);
-				case 'IFrames':
-					return _List_fromArray(
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
 						[
 							A2(
-							$rtfeldman$elm_css$Html$Styled$iframe,
+							$rtfeldman$elm_css$Html$Styled$label,
 							_List_fromArray(
 								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$src('index.html'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$height(300)
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('radio2')
 								]),
-							_List_Nil)
-						]);
-				case 'InputFields':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$form,
-							_List_Nil,
 							_List_fromArray(
 								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__text')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Text Input')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__text'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('text'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Text Input')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__password')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Password')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__password'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('password'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Type your Password')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__webaddress')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Web Address')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__webaddress'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('url'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('https://yoursite.com')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__emailaddress')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Email Address')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__emailaddress'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('email'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('name@email.com')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__phone')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Phone Number')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__phone'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('tel'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('(999) 999-9999')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__search')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Search')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__search'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('search'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Enter Search Term')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__text2')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('Number Input')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__text2'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('number'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Enter a Number')
-												]),
-											_List_Nil)
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('input__file')
-												]),
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$text('File Input')
-												])),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$input,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$id('input__file'),
-													$rtfeldman$elm_css$Html$Styled$Attributes$type_('file')
-												]),
-											_List_Nil)
-										]))
-								]))
-						]);
-				case 'SelectMenus':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('select')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Select')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$select,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('select')
-										]),
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$optgroup,
-											_List_fromArray(
-												[
-													A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'label', 'Option Group')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$option,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$text('Option One')
-														])),
-													A2(
-													$rtfeldman$elm_css$Html$Styled$option,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$text('Option Two')
-														])),
-													A2(
-													$rtfeldman$elm_css$Html$Styled$option,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$text('Option Three')
-														]))
-												]))
-										]))
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('select_multiple')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Select (multiple)')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$select,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('select_multiple'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$multiple(true)
-										]),
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$optgroup,
-											_List_fromArray(
-												[
-													A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'label', 'Option Group')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$option,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$text('Option One')
-														])),
-													A2(
-													$rtfeldman$elm_css$Html$Styled$option,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$text('Option Two')
-														])),
-													A2(
-													$rtfeldman$elm_css$Html$Styled$option,
-													_List_Nil,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$text('Option Three')
-														]))
-												]))
-										]))
-								]))
-						]);
-				case 'Checkboxes':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$ul,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$li,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('checkbox1')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$input,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$Attributes$id('checkbox1'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$name('checkbox'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$checked(true)
-														]),
-													_List_Nil),
-													$rtfeldman$elm_css$Html$Styled$text('Choice A')
-												]))
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$li,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('checkbox2')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$input,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$Attributes$id('checkbox2'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$name('checkbox'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox')
-														]),
-													_List_Nil),
-													$rtfeldman$elm_css$Html$Styled$text('Choice B')
-												]))
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$li,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('checkbox3')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$input,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$Attributes$id('checkbox3'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$name('checkbox'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$type_('checkbox')
-														]),
-													_List_Nil),
-													$rtfeldman$elm_css$Html$Styled$text('Choice C')
-												]))
-										]))
-								]))
-						]);
-				case 'RadioButtons':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$ul,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$li,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('radio1')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$input,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$Attributes$id('radio1'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$name('radio'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$checked(true)
-														]),
-													_List_Nil),
-													$rtfeldman$elm_css$Html$Styled$text('Option 1')
-												]))
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$li,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('radio2')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$input,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$Attributes$id('radio2'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$name('radio'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio')
-														]),
-													_List_Nil),
-													$rtfeldman$elm_css$Html$Styled$text('Option 2')
-												]))
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$li,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$label,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$for('radio3')
-												]),
-											_List_fromArray(
-												[
-													A2(
-													$rtfeldman$elm_css$Html$Styled$input,
-													_List_fromArray(
-														[
-															$rtfeldman$elm_css$Html$Styled$Attributes$id('radio3'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$name('radio'),
-															$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio')
-														]),
-													_List_Nil),
-													$rtfeldman$elm_css$Html$Styled$text('Option 3')
-												]))
-										]))
-								]))
-						]);
-				case 'Textareas':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('textarea')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Textarea')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$textarea,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('textarea'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$rows(8),
-											$rtfeldman$elm_css$Html$Styled$Attributes$cols(48),
-											$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Enter your message here')
-										]),
-									_List_Nil)
-								]))
-						]);
-				case 'Html5Inputs':
-					return _List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('ic')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Color input')
-										])),
 									A2(
 									$rtfeldman$elm_css$Html$Styled$input,
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('color'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('ic'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('#000000')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('in')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Number input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('number'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('in'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$min('0'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$max('10'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('5')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('ir')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Range input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('range'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('ir'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('10')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('idd')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Date input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('date'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('idd'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01-01')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('idm')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Month input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('month'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('idm'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('idw')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Week input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('week'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('idw'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-W01')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('idt')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Datetime input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('datetime'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('idt'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01-01T00:00:00Z')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('idtl')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Datetime-local input')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('datetime-local'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('idtl'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('1970-01-01T00:00')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$rtfeldman$elm_css$Html$Styled$label,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$for('idl')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('Datalist')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('text'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('idl'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$list('example-list')
+											$rtfeldman$elm_css$Html$Styled$Attributes$id('radio2'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$name('radio'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio')
 										]),
 									_List_Nil),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$datalist,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$id('example-list')
-										]),
-									_List_fromArray(
-										[
-											A2(
-											$rtfeldman$elm_css$Html$Styled$option,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$value('Example #1')
-												]),
-											_List_Nil),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$option,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$value('Example #2')
-												]),
-											_List_Nil),
-											A2(
-											$rtfeldman$elm_css$Html$Styled$option,
-											_List_fromArray(
-												[
-													$rtfeldman$elm_css$Html$Styled$Attributes$value('Example #3')
-												]),
-											_List_Nil)
-										]))
+									$rtfeldman$elm_css$Html$Styled$text('Option 2')
 								]))
-						]);
-				default:
-					return _List_fromArray(
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$li,
+					_List_Nil,
+					_List_fromArray(
 						[
 							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
+							$rtfeldman$elm_css$Html$Styled$label,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$Attributes$for('radio3')
+								]),
 							_List_fromArray(
 								[
 									A2(
 									$rtfeldman$elm_css$Html$Styled$input,
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('submit'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('<input type=submit>')
+											$rtfeldman$elm_css$Html$Styled$Attributes$id('radio3'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$name('radio'),
+											$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio')
 										]),
 									_List_Nil),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('button'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('<input type=button>')
-										]),
-									_List_Nil),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('reset'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('<input type=reset>')
-										]),
-									_List_Nil),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$input,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('submit'),
-											$rtfeldman$elm_css$Html$Styled$Attributes$value('<input disabled>'),
-											A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'disabled', '')
-										]),
-									_List_Nil)
-								])),
+									$rtfeldman$elm_css$Html$Styled$text('Option 3')
+								]))
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$Attributes$multiple = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('multiple');
+var $rtfeldman$elm_css$Html$Styled$optgroup = $rtfeldman$elm_css$Html$Styled$node('optgroup');
+var $rtfeldman$elm_css$Html$Styled$select = $rtfeldman$elm_css$Html$Styled$node('select');
+var $author$project$Data$Tag$selectMenusRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('select')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Select')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$select,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('select')
+						]),
+					_List_fromArray(
+						[
 							A2(
-							$rtfeldman$elm_css$Html$Styled$p,
-							_List_Nil,
+							$rtfeldman$elm_css$Html$Styled$optgroup,
+							_List_fromArray(
+								[
+									A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'label', 'Option Group')
+								]),
 							_List_fromArray(
 								[
 									A2(
-									$rtfeldman$elm_css$Html$Styled$button,
+									$rtfeldman$elm_css$Html$Styled$option,
+									_List_Nil,
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('submit')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<button type=submit>')
+											$rtfeldman$elm_css$Html$Styled$text('Option One')
 										])),
 									A2(
-									$rtfeldman$elm_css$Html$Styled$button,
+									$rtfeldman$elm_css$Html$Styled$option,
+									_List_Nil,
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('button')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<button type=button>')
+											$rtfeldman$elm_css$Html$Styled$text('Option Two')
 										])),
 									A2(
-									$rtfeldman$elm_css$Html$Styled$button,
+									$rtfeldman$elm_css$Html$Styled$option,
+									_List_Nil,
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('reset')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<button type=reset>')
-										])),
-									A2(
-									$rtfeldman$elm_css$Html$Styled$button,
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$Attributes$type_('button'),
-											A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'disabled', '')
-										]),
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Html$Styled$text('<button disabled>')
+											$rtfeldman$elm_css$Html$Styled$text('Option Three')
 										]))
 								]))
-						]);
-			}
-		}());
+						]))
+				])),
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('select_multiple')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Select (multiple)')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$select,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('select_multiple'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$multiple(true)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$optgroup,
+							_List_fromArray(
+								[
+									A2($rtfeldman$elm_css$Html$Styled$Attributes$attribute, 'label', 'Option Group')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$rtfeldman$elm_css$Html$Styled$option,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$text('Option One')
+										])),
+									A2(
+									$rtfeldman$elm_css$Html$Styled$option,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$text('Option Two')
+										])),
+									A2(
+									$rtfeldman$elm_css$Html$Styled$option,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$text('Option Three')
+										]))
+								]))
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$caption = $rtfeldman$elm_css$Html$Styled$node('caption');
+var $rtfeldman$elm_css$Html$Styled$table = $rtfeldman$elm_css$Html$Styled$node('table');
+var $rtfeldman$elm_css$Html$Styled$tbody = $rtfeldman$elm_css$Html$Styled$node('tbody');
+var $rtfeldman$elm_css$Html$Styled$tfoot = $rtfeldman$elm_css$Html$Styled$node('tfoot');
+var $rtfeldman$elm_css$Html$Styled$thead = $rtfeldman$elm_css$Html$Styled$node('thead');
+var $rtfeldman$elm_css$Html$Styled$tr = $rtfeldman$elm_css$Html$Styled$node('tr');
+var $author$project$Data$Tag$tabularDataRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$table,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$caption,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Table Caption')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$thead,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$tr,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Table Heading 1'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Heading 2'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Heading 3'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Heading 4'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Heading 5')
+								]))
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$tfoot,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$tr,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Table Footer 1'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Footer 2'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Footer 3'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Footer 4'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Footer 5')
+								]))
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$tbody,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$rtfeldman$elm_css$Html$Styled$tr,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 1'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 2'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 3'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 4'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 5')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$tr,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 1'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 2'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 3'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 4'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 5')
+								])),
+							A2(
+							$rtfeldman$elm_css$Html$Styled$tr,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 1'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 2'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 3'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 4'),
+									$rtfeldman$elm_css$Html$Styled$text('Table Cell 5')
+								]))
+						]))
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$Attributes$cols = function (n) {
+	return A2(
+		$rtfeldman$elm_css$VirtualDom$Styled$attribute,
+		'cols',
+		$elm$core$String$fromInt(n));
+};
+var $rtfeldman$elm_css$Html$Styled$Attributes$rows = function (n) {
+	return A2(
+		$rtfeldman$elm_css$VirtualDom$Styled$attribute,
+		'rows',
+		$elm$core$String$fromInt(n));
+};
+var $rtfeldman$elm_css$Html$Styled$textarea = $rtfeldman$elm_css$Html$Styled$node('textarea');
+var $author$project$Data$Tag$textareasRenderer = A2(
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$rtfeldman$elm_css$Html$Styled$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$label,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$for('textarea')
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Textarea')
+						])),
+					A2(
+					$rtfeldman$elm_css$Html$Styled$textarea,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Attributes$id('textarea'),
+							$rtfeldman$elm_css$Html$Styled$Attributes$rows(8),
+							$rtfeldman$elm_css$Html$Styled$Attributes$cols(48),
+							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('Enter your message here')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $rtfeldman$elm_css$Html$Styled$video = $rtfeldman$elm_css$Html$Styled$node('video');
+var $author$project$Data$Tag$renderer = function (tag) {
+	switch (tag.$) {
+		case 'Headings':
+			return $author$project$Data$Tag$headingsRenderer;
+		case 'Paragraphs':
+			return $author$project$Data$Tag$paragraphsRenderer;
+		case 'Blockquotes':
+			return $author$project$Data$Tag$blockquotesRenderer;
+		case 'Address':
+			return $author$project$Data$Tag$addressRenderer;
+		case 'Lists':
+			return $author$project$Data$Tag$listsRenderer;
+		case 'HorizontalRules':
+			return A2(
+				$rtfeldman$elm_css$Html$Styled$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2($rtfeldman$elm_css$Html$Styled$hr, _List_Nil, _List_Nil)
+					]));
+		case 'TabularData':
+			return $author$project$Data$Tag$tabularDataRenderer;
+		case 'Code':
+			return $author$project$Data$Tag$codeRenderer;
+		case 'InlineElements':
+			return $author$project$Data$Tag$inlineElementsRenderer;
+		case 'Images':
+			return $author$project$Data$Tag$imagesRenderer;
+		case 'Audio':
+			return A2(
+				$rtfeldman$elm_css$Html$Styled$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$audio,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$controls(true)
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('audio')
+							]))
+					]));
+		case 'Video':
+			return A2(
+				$rtfeldman$elm_css$Html$Styled$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$video,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$controls(true)
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('video')
+							]))
+					]));
+		case 'Meter':
+			return A2(
+				$rtfeldman$elm_css$Html$Styled$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$meter,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$value('2'),
+								$rtfeldman$elm_css$Html$Styled$Attributes$min('0'),
+								$rtfeldman$elm_css$Html$Styled$Attributes$max('10')
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('2 out of 10')
+							]))
+					]));
+		case 'Progress':
+			return A2(
+				$rtfeldman$elm_css$Html$Styled$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$progress,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('progress')
+							]))
+					]));
+		case 'InlineSvg':
+			return $author$project$Data$Tag$inlineSvgRenderer;
+		case 'IFrames':
+			return A2(
+				$rtfeldman$elm_css$Html$Styled$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$iframe,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$src('index.html'),
+								$rtfeldman$elm_css$Html$Styled$Attributes$height(300)
+							]),
+						_List_Nil)
+					]));
+		case 'InputFields':
+			return $author$project$Data$Tag$inputFieldsRenderer;
+		case 'SelectMenus':
+			return $author$project$Data$Tag$selectMenusRenderer;
+		case 'Checkboxes':
+			return $author$project$Data$Tag$checkboxesRenderer;
+		case 'RadioButtons':
+			return $author$project$Data$Tag$radioButtonsRenderer;
+		case 'Textareas':
+			return $author$project$Data$Tag$textareasRenderer;
+		case 'Html5Inputs':
+			return $author$project$Data$Tag$html5InputsRenderer;
+		default:
+			return $author$project$Data$Tag$actionButtonsRenderer;
+	}
 };
 var $rtfeldman$elm_css$Css$Structure$Screen = {$: 'Screen'};
 var $rtfeldman$elm_css$Css$Media$screen = $rtfeldman$elm_css$Css$Structure$Screen;
@@ -15269,7 +15403,6 @@ var $rtfeldman$elm_css$Css$opacity = $rtfeldman$elm_css$Css$prop1('opacity');
 var $rtfeldman$elm_css$Css$Global$optgroup = $rtfeldman$elm_css$Css$Global$typeSelector('optgroup');
 var $rtfeldman$elm_css$Css$Global$option = $rtfeldman$elm_css$Css$Global$typeSelector('option');
 var $rtfeldman$elm_css$Css$outlineOffset = $rtfeldman$elm_css$Css$prop1('outline-offset');
-var $rtfeldman$elm_css$Css$overflow = $rtfeldman$elm_css$Css$prop1('overflow');
 var $rtfeldman$elm_css$Css$pointer = {cursor: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'pointer'};
 var $rtfeldman$elm_css$Css$Global$progress = $rtfeldman$elm_css$Css$Global$typeSelector('progress');
 var $rtfeldman$elm_css$Css$Global$select = $rtfeldman$elm_css$Css$Global$typeSelector('select');
@@ -17529,6 +17662,13 @@ var $author$project$Data$Tag$toString = function (tag) {
 	}
 };
 var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
+var $rtfeldman$elm_css$Css$Structure$AttributeSelector = function (a) {
+	return {$: 'AttributeSelector', a: a};
+};
+var $rtfeldman$elm_css$Css$Global$withAttribute = function (attribute) {
+	return $rtfeldman$elm_css$Css$Preprocess$ExtendSelector(
+		$rtfeldman$elm_css$Css$Structure$AttributeSelector(attribute));
+};
 var $rtfeldman$elm_css$Css$Preprocess$WithMedia = F2(
 	function (a, b) {
 		return {$: 'WithMedia', a: a, b: b};
@@ -17556,7 +17696,51 @@ var $author$project$Main$preview = function (_v0) {
 									$rtfeldman$elm_css$Css$borderBottom3,
 									$rtfeldman$elm_css$Css$px(1),
 									$rtfeldman$elm_css$Css$solid,
-									$rtfeldman$elm_css$Css$hex('#EEE'))
+									$rtfeldman$elm_css$Css$hex('#EEE')),
+									$rtfeldman$elm_css$Css$Global$children(
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Css$Global$div(
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$hidden)
+												]))
+										])),
+									A2(
+									$rtfeldman$elm_css$Css$Global$withAttribute,
+									'open',
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Css$Global$children(
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Css$Global$div(
+													_List_fromArray(
+														[
+															function () {
+															var accordion = $rtfeldman$elm_css$Css$Animations$keyframes(
+																_List_fromArray(
+																	[
+																		_Utils_Tuple2(
+																		0,
+																		_List_fromArray(
+																			[
+																				A2($rtfeldman$elm_css$Css$Animations$custom, 'max-height', '0')
+																			])),
+																		_Utils_Tuple2(
+																		100,
+																		_List_fromArray(
+																			[
+																				A2($rtfeldman$elm_css$Css$Animations$custom, 'max-height', '100vh')
+																			]))
+																	]));
+															return $rtfeldman$elm_css$Css$animationName(accordion);
+														}(),
+															$rtfeldman$elm_css$Css$animationDuration(
+															$rtfeldman$elm_css$Css$ms(400))
+														]))
+												]))
+										]))
 								]))
 						]),
 					_List_fromArray(
@@ -17688,7 +17872,7 @@ var $author$project$Main$preview = function (_v0) {
 											]),
 										_List_fromArray(
 											[
-												$author$project$Data$Tag$render(tag)
+												$author$project$Data$Tag$renderer(tag)
 											]));
 								},
 								_List_fromArray(
@@ -18343,7 +18527,7 @@ var $author$project$Main$view = function (model) {
 																	_List_fromArray(
 																		[
 																			$rtfeldman$elm_css$Css$Media$maxWidth(
-																			$rtfeldman$elm_css$Css$px(960))
+																			$rtfeldman$elm_css$Css$px(767))
 																		]))
 																]),
 															_List_fromArray(
@@ -18368,7 +18552,7 @@ var $author$project$Main$view = function (model) {
 																	_List_fromArray(
 																		[
 																			$rtfeldman$elm_css$Css$Media$minWidth(
-																			$rtfeldman$elm_css$Css$px(960)),
+																			$rtfeldman$elm_css$Css$px(768)),
 																			$rtfeldman$elm_css$Css$Media$maxWidth(
 																			$rtfeldman$elm_css$Css$px(1279))
 																		]))
