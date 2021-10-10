@@ -206,6 +206,10 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                                 div
                                     [ css
                                         [ resetCss
+                                            |> Maybe.map ResetCss.toRootStyles
+                                            |> Maybe.withDefault []
+                                            |> batch
+                                        , resetCss
                                             |> Maybe.map ResetCss.toSnippet
                                             |> Maybe.withDefault []
                                             |> descendants

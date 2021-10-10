@@ -1,5 +1,6 @@
-module Data.ResetCss exposing (ResetCss(..), all, fromString, toLibrary, toSnippet, toString)
+module Data.ResetCss exposing (ResetCss(..), all, fromString, toLibrary, toRootStyles, toSnippet, toString)
 
+import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
 
@@ -100,6 +101,65 @@ toSnippet resetCss =
 
         TheNewCssReset ->
             theNewCssReset
+
+
+toRootStyles : ResetCss -> List Style
+toRootStyles resetCss =
+    case resetCss of
+        EricMeyer ->
+            [ margin zero
+            , padding zero
+            , border zero
+            , fontSize (pct 100)
+            , property "font" "inherit"
+            , verticalAlign baseline
+            , lineHeight (int 1)
+            ]
+
+        Html5Doctor ->
+            [ margin zero
+            , padding zero
+            , border zero
+            , outline zero
+            , fontSize (pct 100)
+            , verticalAlign baseline
+            , property "background" "transparent"
+            , lineHeight (int 1)
+            ]
+
+        Destyle ->
+            [ lineHeight (num 1.15)
+            , property "-webkit-text-size-adjust" "100%"
+            , property "-webkit-tap-highlight-color" "transparent"
+            ]
+
+        Normalize ->
+            [ lineHeight (num 1.15) -- 1
+            , property "-webkit-text-size-adjust" "100%" -- 2
+            ]
+
+        Ress ->
+            [ boxSizing borderBox
+            , property "-webkit-text-size-adjust" "100%" -- Prevent adjustments of font size after orientation changes in iOS
+            , property "word-break" "normal"
+            , property "-moz-tab-size" "4"
+            , property "tab-size" "4"
+            ]
+
+        Sanitize ->
+            [ cursor default
+            , lineHeight (num 1.5)
+            , property "overflow-wrap" "break-word"
+            , property "-moz-tab-size" "4"
+            , property "tab-size" "4"
+            , property "-webkit-tap-highlight-color" "transparent"
+            , property "-webkit-text-size-adjust" "100%"
+            ]
+
+        TheNewCssReset ->
+            [ Css.all unset
+            , property "display" "revert"
+            ]
 
 
 toLibrary : ResetCss -> Library
