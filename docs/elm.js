@@ -12616,6 +12616,10 @@ var $rtfeldman$elm_css$VirtualDom$Styled$attribute = F2(
 			'');
 	});
 var $rtfeldman$elm_css$Html$Styled$Attributes$attribute = $rtfeldman$elm_css$VirtualDom$Styled$attribute;
+var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
+	return {$: 'ApplyStyles', a: a};
+};
+var $rtfeldman$elm_css$Css$batch = $rtfeldman$elm_css$Css$Preprocess$ApplyStyles;
 var $rtfeldman$elm_css$Css$bold = {fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'bold'};
 var $rtfeldman$elm_css$Css$prop3 = F4(
 	function (key, argA, argB, argC) {
@@ -15255,6 +15259,25 @@ var $rtfeldman$elm_css$Css$Structure$Screen = {$: 'Screen'};
 var $rtfeldman$elm_css$Css$Media$screen = $rtfeldman$elm_css$Css$Structure$Screen;
 var $rtfeldman$elm_css$Css$solid = {borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'solid'};
 var $rtfeldman$elm_css$Html$Styled$summary = $rtfeldman$elm_css$Html$Styled$node('summary');
+var $rtfeldman$elm_css$Css$all = $rtfeldman$elm_css$Css$prop1('all');
+var $rtfeldman$elm_css$Css$baseline = $rtfeldman$elm_css$Css$prop1('baseline');
+var $rtfeldman$elm_css$Css$border = $rtfeldman$elm_css$Css$prop1('border');
+var $rtfeldman$elm_css$Css$cursor = $rtfeldman$elm_css$Css$prop1('cursor');
+var $rtfeldman$elm_css$Css$default = {cursor: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'default'};
+var $rtfeldman$elm_css$Css$int = function (val) {
+	return {
+		fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible,
+		intOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible,
+		lengthOrNumber: $rtfeldman$elm_css$Css$Structure$Compatible,
+		lengthOrNumberOrAutoOrNoneOrContent: $rtfeldman$elm_css$Css$Structure$Compatible,
+		number: $rtfeldman$elm_css$Css$Structure$Compatible,
+		numberOrInfinite: $rtfeldman$elm_css$Css$Structure$Compatible,
+		numericValue: val,
+		unitLabel: '',
+		units: $rtfeldman$elm_css$Css$UnitlessInteger,
+		value: $elm$core$String$fromInt(val)
+	};
+};
 var $rtfeldman$elm_css$Css$lineHeight = $rtfeldman$elm_css$Css$prop1('line-height');
 var $rtfeldman$elm_css$Css$UnitlessFloat = {$: 'UnitlessFloat'};
 var $rtfeldman$elm_css$Css$num = function (val) {
@@ -15269,6 +15292,153 @@ var $rtfeldman$elm_css$Css$num = function (val) {
 		value: $elm$core$String$fromFloat(val)
 	};
 };
+var $rtfeldman$elm_css$Css$outline = $rtfeldman$elm_css$Css$prop1('outline');
+var $rtfeldman$elm_css$Css$Internal$IncompatibleUnits = {$: 'IncompatibleUnits'};
+var $rtfeldman$elm_css$Css$initial = {alignItems: $rtfeldman$elm_css$Css$Structure$Compatible, all: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundAttachment: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundBlendMode: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundImage: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundOrigin: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundRepeat: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundRepeatShorthand: $rtfeldman$elm_css$Css$Structure$Compatible, borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, boxSizing: $rtfeldman$elm_css$Css$Structure$Compatible, color: $rtfeldman$elm_css$Css$Structure$Compatible, cursor: $rtfeldman$elm_css$Css$Structure$Compatible, display: $rtfeldman$elm_css$Css$Structure$Compatible, flexBasis: $rtfeldman$elm_css$Css$Structure$Compatible, flexDirection: $rtfeldman$elm_css$Css$Structure$Compatible, flexDirectionOrWrap: $rtfeldman$elm_css$Css$Structure$Compatible, flexWrap: $rtfeldman$elm_css$Css$Structure$Compatible, fontFamily: $rtfeldman$elm_css$Css$Structure$Compatible, fontSize: $rtfeldman$elm_css$Css$Structure$Compatible, fontStyle: $rtfeldman$elm_css$Css$Structure$Compatible, fontVariant: $rtfeldman$elm_css$Css$Structure$Compatible, fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible, intOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, justifyContent: $rtfeldman$elm_css$Css$Structure$Compatible, keyframes: $rtfeldman$elm_css$Css$Structure$Compatible, length: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrAutoOrCoverOrContain: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrMinMaxDimension: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNone: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNoneOrMinMaxDimension: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumber: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: $rtfeldman$elm_css$Css$Structure$Compatible, listStylePosition: $rtfeldman$elm_css$Css$Structure$Compatible, listStyleType: $rtfeldman$elm_css$Css$Structure$Compatible, listStyleTypeOrPositionOrImage: $rtfeldman$elm_css$Css$Structure$Compatible, none: $rtfeldman$elm_css$Css$Structure$Compatible, number: $rtfeldman$elm_css$Css$Structure$Compatible, numericValue: 0, outline: $rtfeldman$elm_css$Css$Structure$Compatible, overflow: $rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: $rtfeldman$elm_css$Css$Structure$Compatible, tableLayout: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationLine: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: $rtfeldman$elm_css$Css$Structure$Compatible, textIndent: $rtfeldman$elm_css$Css$Structure$Compatible, textRendering: $rtfeldman$elm_css$Css$Structure$Compatible, textTransform: $rtfeldman$elm_css$Css$Structure$Compatible, touchAction: $rtfeldman$elm_css$Css$Structure$Compatible, unitLabel: '', units: $rtfeldman$elm_css$Css$Internal$IncompatibleUnits, value: 'initial', visibility: $rtfeldman$elm_css$Css$Structure$Compatible, whiteSpace: $rtfeldman$elm_css$Css$Structure$Compatible};
+var $rtfeldman$elm_css$Css$unset = _Utils_update(
+	$rtfeldman$elm_css$Css$initial,
+	{value: 'unset'});
+var $rtfeldman$elm_css$Css$Internal$property = F2(
+	function (key, value) {
+		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(key + (':' + value));
+	});
+var $rtfeldman$elm_css$Css$Internal$getOverloadedProperty = F3(
+	function (functionName, desiredKey, style) {
+		getOverloadedProperty:
+		while (true) {
+			switch (style.$) {
+				case 'AppendProperty':
+					var str = style.a;
+					var key = A2(
+						$elm$core$Maybe$withDefault,
+						'',
+						$elm$core$List$head(
+							A2($elm$core$String$split, ':', str)));
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, key);
+				case 'ExtendSelector':
+					var selector = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-selector'));
+				case 'NestSnippet':
+					var combinator = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-combinator'));
+				case 'WithPseudoElement':
+					var pseudoElement = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-pseudo-element setter'));
+				case 'WithMedia':
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-media-query'));
+				case 'WithKeyframes':
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-keyframes'));
+				default:
+					if (!style.a.b) {
+						return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-empty-Style'));
+					} else {
+						if (!style.a.b.b) {
+							var _v1 = style.a;
+							var only = _v1.a;
+							var $temp$functionName = functionName,
+								$temp$desiredKey = desiredKey,
+								$temp$style = only;
+							functionName = $temp$functionName;
+							desiredKey = $temp$desiredKey;
+							style = $temp$style;
+							continue getOverloadedProperty;
+						} else {
+							var _v2 = style.a;
+							var first = _v2.a;
+							var rest = _v2.b;
+							var $temp$functionName = functionName,
+								$temp$desiredKey = desiredKey,
+								$temp$style = $rtfeldman$elm_css$Css$Preprocess$ApplyStyles(rest);
+							functionName = $temp$functionName;
+							desiredKey = $temp$desiredKey;
+							style = $temp$style;
+							continue getOverloadedProperty;
+						}
+					}
+			}
+		}
+	});
+var $rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty = A3($rtfeldman$elm_css$Css$Internal$lengthConverter, $rtfeldman$elm_css$Css$Internal$IncompatibleUnits, '', 0);
+var $rtfeldman$elm_css$Css$verticalAlign = function (fn) {
+	return A3(
+		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
+		'verticalAlign',
+		'vertical-align',
+		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
+};
+var $author$project$Data$ResetCss$toRootStyles = function (resetCss) {
+	switch (resetCss.$) {
+		case 'EricMeyer':
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$margin($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$padding($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$border($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$fontSize(
+					$rtfeldman$elm_css$Css$pct(100)),
+					A2($rtfeldman$elm_css$Css$property, 'font', 'inherit'),
+					$rtfeldman$elm_css$Css$verticalAlign($rtfeldman$elm_css$Css$baseline),
+					$rtfeldman$elm_css$Css$lineHeight(
+					$rtfeldman$elm_css$Css$int(1))
+				]);
+		case 'Html5Doctor':
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$margin($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$padding($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$border($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$outline($rtfeldman$elm_css$Css$zero),
+					$rtfeldman$elm_css$Css$fontSize(
+					$rtfeldman$elm_css$Css$pct(100)),
+					$rtfeldman$elm_css$Css$verticalAlign($rtfeldman$elm_css$Css$baseline),
+					A2($rtfeldman$elm_css$Css$property, 'background', 'transparent'),
+					$rtfeldman$elm_css$Css$lineHeight(
+					$rtfeldman$elm_css$Css$int(1))
+				]);
+		case 'Destyle':
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$lineHeight(
+					$rtfeldman$elm_css$Css$num(1.15)),
+					A2($rtfeldman$elm_css$Css$property, '-webkit-text-size-adjust', '100%'),
+					A2($rtfeldman$elm_css$Css$property, '-webkit-tap-highlight-color', 'transparent')
+				]);
+		case 'Normalize':
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$lineHeight(
+					$rtfeldman$elm_css$Css$num(1.15)),
+					A2($rtfeldman$elm_css$Css$property, '-webkit-text-size-adjust', '100%')
+				]);
+		case 'Ress':
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$boxSizing($rtfeldman$elm_css$Css$borderBox),
+					A2($rtfeldman$elm_css$Css$property, '-webkit-text-size-adjust', '100%'),
+					A2($rtfeldman$elm_css$Css$property, 'word-break', 'normal'),
+					A2($rtfeldman$elm_css$Css$property, '-moz-tab-size', '4'),
+					A2($rtfeldman$elm_css$Css$property, 'tab-size', '4')
+				]);
+		case 'Sanitize':
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$cursor($rtfeldman$elm_css$Css$default),
+					$rtfeldman$elm_css$Css$lineHeight(
+					$rtfeldman$elm_css$Css$num(1.5)),
+					A2($rtfeldman$elm_css$Css$property, 'overflow-wrap', 'break-word'),
+					A2($rtfeldman$elm_css$Css$property, '-moz-tab-size', '4'),
+					A2($rtfeldman$elm_css$Css$property, 'tab-size', '4'),
+					A2($rtfeldman$elm_css$Css$property, '-webkit-tap-highlight-color', 'transparent'),
+					A2($rtfeldman$elm_css$Css$property, '-webkit-text-size-adjust', '100%')
+				]);
+		default:
+			return _List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$all($rtfeldman$elm_css$Css$unset),
+					A2($rtfeldman$elm_css$Css$property, 'display', 'revert')
+				]);
+	}
+};
 var $y047aka$elm_reset_css$Css$Reset$Destyle$document = _List_fromArray(
 	[
 		$rtfeldman$elm_css$Css$Global$html(
@@ -15281,14 +15451,11 @@ var $y047aka$elm_reset_css$Css$Reset$Destyle$document = _List_fromArray(
 			]))
 	]);
 var $rtfeldman$elm_css$Css$auto = {alignItemsOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, cursor: $rtfeldman$elm_css$Css$Structure$Compatible, flexBasis: $rtfeldman$elm_css$Css$Structure$Compatible, intOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, justifyContentOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrAutoOrCoverOrContain: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: $rtfeldman$elm_css$Css$Structure$Compatible, overflow: $rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: $rtfeldman$elm_css$Css$Structure$Compatible, tableLayout: $rtfeldman$elm_css$Css$Structure$Compatible, textRendering: $rtfeldman$elm_css$Css$Structure$Compatible, touchAction: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'auto'};
-var $rtfeldman$elm_css$Css$baseline = $rtfeldman$elm_css$Css$prop1('baseline');
 var $rtfeldman$elm_css$Css$borderRadius = $rtfeldman$elm_css$Css$prop1('border-radius');
 var $rtfeldman$elm_css$Css$Global$button = $rtfeldman$elm_css$Css$Global$typeSelector('button');
 var $rtfeldman$elm_css$Css$color = function (c) {
 	return A2($rtfeldman$elm_css$Css$property, 'color', c.value);
 };
-var $rtfeldman$elm_css$Css$cursor = $rtfeldman$elm_css$Css$prop1('cursor');
-var $rtfeldman$elm_css$Css$default = {cursor: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'default'};
 var $rtfeldman$elm_css$Css$Global$collectSelectors = function (declarations) {
 	collectSelectors:
 	while (true) {
@@ -15390,8 +15557,6 @@ var $rtfeldman$elm_css$Css$Global$each = F2(
 						snippetCreators))));
 	});
 var $rtfeldman$elm_css$Css$Global$fieldset = $rtfeldman$elm_css$Css$Global$typeSelector('fieldset');
-var $rtfeldman$elm_css$Css$Internal$IncompatibleUnits = {$: 'IncompatibleUnits'};
-var $rtfeldman$elm_css$Css$initial = {alignItems: $rtfeldman$elm_css$Css$Structure$Compatible, all: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundAttachment: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundBlendMode: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundImage: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundOrigin: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundRepeat: $rtfeldman$elm_css$Css$Structure$Compatible, backgroundRepeatShorthand: $rtfeldman$elm_css$Css$Structure$Compatible, borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, boxSizing: $rtfeldman$elm_css$Css$Structure$Compatible, color: $rtfeldman$elm_css$Css$Structure$Compatible, cursor: $rtfeldman$elm_css$Css$Structure$Compatible, display: $rtfeldman$elm_css$Css$Structure$Compatible, flexBasis: $rtfeldman$elm_css$Css$Structure$Compatible, flexDirection: $rtfeldman$elm_css$Css$Structure$Compatible, flexDirectionOrWrap: $rtfeldman$elm_css$Css$Structure$Compatible, flexWrap: $rtfeldman$elm_css$Css$Structure$Compatible, fontFamily: $rtfeldman$elm_css$Css$Structure$Compatible, fontSize: $rtfeldman$elm_css$Css$Structure$Compatible, fontStyle: $rtfeldman$elm_css$Css$Structure$Compatible, fontVariant: $rtfeldman$elm_css$Css$Structure$Compatible, fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible, intOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, justifyContent: $rtfeldman$elm_css$Css$Structure$Compatible, keyframes: $rtfeldman$elm_css$Css$Structure$Compatible, length: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrAutoOrCoverOrContain: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrMinMaxDimension: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNone: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNoneOrMinMaxDimension: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumber: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: $rtfeldman$elm_css$Css$Structure$Compatible, listStylePosition: $rtfeldman$elm_css$Css$Structure$Compatible, listStyleType: $rtfeldman$elm_css$Css$Structure$Compatible, listStyleTypeOrPositionOrImage: $rtfeldman$elm_css$Css$Structure$Compatible, none: $rtfeldman$elm_css$Css$Structure$Compatible, number: $rtfeldman$elm_css$Css$Structure$Compatible, numericValue: 0, outline: $rtfeldman$elm_css$Css$Structure$Compatible, overflow: $rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: $rtfeldman$elm_css$Css$Structure$Compatible, tableLayout: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationLine: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: $rtfeldman$elm_css$Css$Structure$Compatible, textIndent: $rtfeldman$elm_css$Css$Structure$Compatible, textRendering: $rtfeldman$elm_css$Css$Structure$Compatible, textTransform: $rtfeldman$elm_css$Css$Structure$Compatible, touchAction: $rtfeldman$elm_css$Css$Structure$Compatible, unitLabel: '', units: $rtfeldman$elm_css$Css$Internal$IncompatibleUnits, value: 'initial', visibility: $rtfeldman$elm_css$Css$Structure$Compatible, whiteSpace: $rtfeldman$elm_css$Css$Structure$Compatible};
 var $rtfeldman$elm_css$Css$inherit = _Utils_update(
 	$rtfeldman$elm_css$Css$initial,
 	{value: 'inherit'});
@@ -15415,77 +15580,6 @@ var $rtfeldman$elm_css$Css$Global$selector = F2(
 	});
 var $rtfeldman$elm_css$Css$textTransform = $rtfeldman$elm_css$Css$prop1('text-transform');
 var $rtfeldman$elm_css$Css$Global$textarea = $rtfeldman$elm_css$Css$Global$typeSelector('textarea');
-var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
-	return {$: 'ApplyStyles', a: a};
-};
-var $rtfeldman$elm_css$Css$Internal$property = F2(
-	function (key, value) {
-		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(key + (':' + value));
-	});
-var $rtfeldman$elm_css$Css$Internal$getOverloadedProperty = F3(
-	function (functionName, desiredKey, style) {
-		getOverloadedProperty:
-		while (true) {
-			switch (style.$) {
-				case 'AppendProperty':
-					var str = style.a;
-					var key = A2(
-						$elm$core$Maybe$withDefault,
-						'',
-						$elm$core$List$head(
-							A2($elm$core$String$split, ':', str)));
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, key);
-				case 'ExtendSelector':
-					var selector = style.a;
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-selector'));
-				case 'NestSnippet':
-					var combinator = style.a;
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-combinator'));
-				case 'WithPseudoElement':
-					var pseudoElement = style.a;
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-pseudo-element setter'));
-				case 'WithMedia':
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-media-query'));
-				case 'WithKeyframes':
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-keyframes'));
-				default:
-					if (!style.a.b) {
-						return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-empty-Style'));
-					} else {
-						if (!style.a.b.b) {
-							var _v1 = style.a;
-							var only = _v1.a;
-							var $temp$functionName = functionName,
-								$temp$desiredKey = desiredKey,
-								$temp$style = only;
-							functionName = $temp$functionName;
-							desiredKey = $temp$desiredKey;
-							style = $temp$style;
-							continue getOverloadedProperty;
-						} else {
-							var _v2 = style.a;
-							var first = _v2.a;
-							var rest = _v2.b;
-							var $temp$functionName = functionName,
-								$temp$desiredKey = desiredKey,
-								$temp$style = $rtfeldman$elm_css$Css$Preprocess$ApplyStyles(rest);
-							functionName = $temp$functionName;
-							desiredKey = $temp$desiredKey;
-							style = $temp$style;
-							continue getOverloadedProperty;
-						}
-					}
-			}
-		}
-	});
-var $rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty = A3($rtfeldman$elm_css$Css$Internal$lengthConverter, $rtfeldman$elm_css$Css$Internal$IncompatibleUnits, '', 0);
-var $rtfeldman$elm_css$Css$verticalAlign = function (fn) {
-	return A3(
-		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
-		'verticalAlign',
-		'vertical-align',
-		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
-};
 var $y047aka$elm_reset_css$Css$Reset$Destyle$forms = _List_fromArray(
 	[
 		A2(
@@ -15982,7 +16076,6 @@ var $y047aka$elm_reset_css$Css$Reset$destyle = $y047aka$elm_reset_css$Css$Reset$
 var $rtfeldman$elm_css$Css$Global$article = $rtfeldman$elm_css$Css$Global$typeSelector('article');
 var $rtfeldman$elm_css$Css$Global$aside = $rtfeldman$elm_css$Css$Global$typeSelector('aside');
 var $rtfeldman$elm_css$Css$Global$audio = $rtfeldman$elm_css$Css$Global$typeSelector('audio');
-var $rtfeldman$elm_css$Css$border = $rtfeldman$elm_css$Css$prop1('border');
 var $rtfeldman$elm_css$Css$borderCollapse = $rtfeldman$elm_css$Css$prop1('border-collapse');
 var $rtfeldman$elm_css$Css$borderSpacing = $rtfeldman$elm_css$Css$prop1('border-spacing');
 var $rtfeldman$elm_css$Css$Global$canvas = $rtfeldman$elm_css$Css$Global$typeSelector('canvas');
@@ -15991,20 +16084,6 @@ var $rtfeldman$elm_css$Css$Global$em = $rtfeldman$elm_css$Css$Global$typeSelecto
 var $rtfeldman$elm_css$Css$Global$footer = $rtfeldman$elm_css$Css$Global$typeSelector('footer');
 var $rtfeldman$elm_css$Css$Global$header = $rtfeldman$elm_css$Css$Global$typeSelector('header');
 var $rtfeldman$elm_css$Css$Global$i = $rtfeldman$elm_css$Css$Global$typeSelector('i');
-var $rtfeldman$elm_css$Css$int = function (val) {
-	return {
-		fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible,
-		intOrAuto: $rtfeldman$elm_css$Css$Structure$Compatible,
-		lengthOrNumber: $rtfeldman$elm_css$Css$Structure$Compatible,
-		lengthOrNumberOrAutoOrNoneOrContent: $rtfeldman$elm_css$Css$Structure$Compatible,
-		number: $rtfeldman$elm_css$Css$Structure$Compatible,
-		numberOrInfinite: $rtfeldman$elm_css$Css$Structure$Compatible,
-		numericValue: val,
-		unitLabel: '',
-		units: $rtfeldman$elm_css$Css$UnitlessInteger,
-		value: $elm$core$String$fromInt(val)
-	};
-};
 var $rtfeldman$elm_css$Css$Global$label = $rtfeldman$elm_css$Css$Global$typeSelector('label');
 var $rtfeldman$elm_css$Css$Global$li = $rtfeldman$elm_css$Css$Global$typeSelector('li');
 var $rtfeldman$elm_css$Css$Global$menu = $rtfeldman$elm_css$Css$Global$typeSelector('menu');
@@ -16188,7 +16267,6 @@ var $rtfeldman$elm_css$Css$help = {cursor: $rtfeldman$elm_css$Css$Structure$Comp
 var $rtfeldman$elm_css$Css$italic = {fontStyle: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'italic'};
 var $rtfeldman$elm_css$Css$lineThrough = {textDecorationLine: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'line-through'};
 var $rtfeldman$elm_css$Css$margin2 = $rtfeldman$elm_css$Css$prop2('margin');
-var $rtfeldman$elm_css$Css$outline = $rtfeldman$elm_css$Css$prop1('outline');
 var $y047aka$elm_reset_css$Css$Reset$Html5Doctor$snippets = _List_fromArray(
 	[
 		A2(
@@ -17541,10 +17619,6 @@ var $y047aka$elm_reset_css$Css$Reset$Sanitize$snippets = $elm$core$List$concat(
 	_List_fromArray(
 		[$y047aka$elm_reset_css$Css$Reset$Sanitize$document, $y047aka$elm_reset_css$Css$Reset$Sanitize$sections, $y047aka$elm_reset_css$Css$Reset$Sanitize$groupingContent, $y047aka$elm_reset_css$Css$Reset$Sanitize$textLevelSemantics, $y047aka$elm_reset_css$Css$Reset$Sanitize$embeddedContent, $y047aka$elm_reset_css$Css$Reset$Sanitize$tabularData, $y047aka$elm_reset_css$Css$Reset$Sanitize$forms, $y047aka$elm_reset_css$Css$Reset$Sanitize$interactive, $y047aka$elm_reset_css$Css$Reset$Sanitize$accessibility]));
 var $y047aka$elm_reset_css$Css$Reset$sanitize = $y047aka$elm_reset_css$Css$Reset$Sanitize$snippets;
-var $rtfeldman$elm_css$Css$all = $rtfeldman$elm_css$Css$prop1('all');
-var $rtfeldman$elm_css$Css$unset = _Utils_update(
-	$rtfeldman$elm_css$Css$initial,
-	{value: 'unset'});
 var $y047aka$elm_reset_css$Css$Reset$TheNewCssReset$snippets = _List_fromArray(
 	[
 		A2(
@@ -17848,6 +17922,11 @@ var $author$project$Main$preview = function (_v0) {
 												$rtfeldman$elm_css$Html$Styled$Attributes$css(
 												_List_fromArray(
 													[
+														$rtfeldman$elm_css$Css$batch(
+														A2(
+															$elm$core$Maybe$withDefault,
+															_List_Nil,
+															A2($elm$core$Maybe$map, $author$project$Data$ResetCss$toRootStyles, resetCss))),
 														$rtfeldman$elm_css$Css$Global$descendants(
 														A2(
 															$elm$core$Maybe$withDefault,
