@@ -38,7 +38,8 @@ document =
     [ -- 1. Add border box sizing in all browsers (opinionated).
       -- 2. Backgrounds do not repeat by default (opinionated).
       each
-        [ selector "::before"
+        [ everything
+        , selector "::before"
         , selector "::after"
         ]
         [ boxSizing borderBox -- 1
