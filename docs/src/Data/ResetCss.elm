@@ -3,6 +3,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toLibrary, toRootS
 import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
+import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 
 
 type ResetCss
@@ -13,6 +14,7 @@ type ResetCss
     | Ress
     | Sanitize
     | TheNewCssReset
+    | ElmResetCss ResetMode
 
 
 type alias Library =
@@ -49,6 +51,12 @@ fromString str =
         "TheNewCssReset" ->
             Just TheNewCssReset
 
+        "ElmHardReset" ->
+            Just (ElmResetCss ERC.HardReset)
+
+        "ElmNormalize" ->
+            Just (ElmResetCss ERC.Normalize)
+
         _ ->
             Nothing
 
@@ -77,6 +85,12 @@ toString resetCss =
         TheNewCssReset ->
             "TheNewCssReset"
 
+        ElmResetCss ERC.HardReset ->
+            "ElmHardReset"
+
+        ElmResetCss ERC.Normalize ->
+            "ElmNormalize"
+
 
 toSnippet : ResetCss -> List Snippet
 toSnippet resetCss =
@@ -101,6 +115,9 @@ toSnippet resetCss =
 
         TheNewCssReset ->
             theNewCssReset
+
+        ElmResetCss opiton ->
+            ERC.snippets opiton
 
 
 toRootStyles : ResetCss -> List Style
@@ -134,8 +151,8 @@ toRootStyles resetCss =
             ]
 
         Normalize ->
-            [ lineHeight (num 1.15) -- 1
-            , property "-webkit-text-size-adjust" "100%" -- 2
+            [ lineHeight (num 1.15)
+            , property "-webkit-text-size-adjust" "100%"
             ]
 
         Ress ->
@@ -159,6 +176,22 @@ toRootStyles resetCss =
         TheNewCssReset ->
             [ Css.all unset
             , property "display" "revert"
+            ]
+
+        ElmResetCss ERC.HardReset ->
+            [ lineHeight (num 1.15)
+            , property "-webkit-text-size-adjust" "100%"
+            , property "-webkit-tap-highlight-color" "transparent"
+            ]
+
+        ElmResetCss ERC.Normalize ->
+            [ cursor default -- 1
+            , lineHeight (num 1.5) -- 2
+            , property "overflow-wrap" "break-word" -- 3
+            , property "-moz-tab-size" "4" -- 4
+            , property "tab-size" "4" -- 4
+            , property "-webkit-tap-highlight-color" "transparent" -- 5
+            , property "-webkit-text-size-adjust" "100%" -- 6
             ]
 
 
@@ -228,6 +261,24 @@ toLibrary resetCss =
             , url = "https://github.com/elad2412/the-new-css-reset"
             }
 
+        ElmResetCss ERC.HardReset ->
+            { name = "elm-reset-css (hard reset)"
+            , version = "v0.0.0"
+            , updatedAt = "2021-10-09"
+            , author = "Yoshitaka Totsuka"
+            , license = "MIT"
+            , url = "https://github.com/y047aka/elm-reset-css"
+            }
+
+        ElmResetCss ERC.Normalize ->
+            { name = "elm-reset-css (normalize)"
+            , version = "v0.0.0"
+            , updatedAt = "2021-10-09"
+            , author = "Yoshitaka Totsuka"
+            , license = "MIT"
+            , url = "https://github.com/y047aka/elm-reset-css"
+            }
+
 
 all : List ResetCss
 all =
@@ -238,4 +289,6 @@ all =
     , Ress
     , Sanitize
     , TheNewCssReset
+    , ElmResetCss ERC.HardReset
+    , ElmResetCss ERC.Normalize
     ]
