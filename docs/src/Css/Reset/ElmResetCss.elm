@@ -25,30 +25,37 @@ snippets mode =
     List.concat
         [ -- Document
           everythingResets mode
-        , rootReset mode
+        , rootResets mode
 
         -- Sections
-        , bodyReset
+        , bodyResets
         , verticalRhythm mode
-        , headingsReset mode
+        , headingsResets mode
 
         -- Grouping content
         , listResets mode
-        , hrReset mode
+        , hrResets mode
         , listInNavResets mode
-        , preReset mode
-        , addressReset mode
+        , preResets mode
+        , addressResets mode
 
         -- Text-level semantics
-        , textLevelSemantics mode
+        , aResets mode
+        , abbrResets
+        , bAndStrongResets
+        , codeAndKbdAndSampResets
+        , smallResets
+        , subAndSupResets mode
 
         -- Embedded content
         , embeddedContent mode
-        , iframeReset mode
-        , svgReset mode
+        , iframeResets mode
+        , svgResets mode
 
         -- Tabular data
         , tableResets mode
+        , captionResets mode
+        , tableCellResets mode
 
         -- Forms
         , forms mode
@@ -56,7 +63,7 @@ snippets mode =
         -- Interactive
         , dialogResets mode
         , summaryDetailsResets mode
-        , contenteditableReset mode
+        , contenteditableResets mode
 
         -- Accessibility
         , accessibility
@@ -96,8 +103,8 @@ everythingResets mode =
     ]
 
 
-rootReset : ResetMode -> List Snippet
-rootReset mode =
+rootResets : ResetMode -> List Snippet
+rootResets mode =
     [ selector ":where(:root)"
         [ {- 1. Correct the line height in all browsers.
              2. Prevent adjustments of font size after orientation changes in iOS.
@@ -135,8 +142,8 @@ rootReset mode =
 -}
 
 
-bodyReset : List Snippet
-bodyReset =
+bodyResets : List Snippet
+bodyResets =
     [ -- Remove the margin in all browsers (opinionated).
       selector ":where(body)"
         [ margin zero ]
@@ -145,15 +152,15 @@ bodyReset =
 
 verticalRhythm : ResetMode -> List Snippet
 verticalRhythm mode =
-    [ selector ":where(p, table, blockquote, address, iframe, form, figure, dl)"
+    [ selector ":where(p, blockquote, form, figure)"
         [ batchIf (mode == HardReset)
             [ margin zero ]
         ]
     ]
 
 
-headingsReset : ResetMode -> List Snippet
-headingsReset mode =
+headingsResets : ResetMode -> List Snippet
+headingsResets mode =
     [ case mode of
         HardReset ->
             selector ":where(h1, h2, h3, h4, h5, h6)"
@@ -188,6 +195,10 @@ listResets mode =
                 , padding zero
                 , listStyle none
                 ]
+            , selector ":where(dl)"
+                [ batchIf (mode == HardReset)
+                    [ margin zero ]
+                ]
             , selector ":where(dt)"
                 [ fontWeight bold ]
             , selector ":where(dd)"
@@ -201,8 +212,8 @@ listResets mode =
             ]
 
 
-hrReset : ResetMode -> List Snippet
-hrReset mode =
+hrResets : ResetMode -> List Snippet
+hrResets mode =
     [ {- 1. Correct the inheritance of border color in Firefox.
          2. Add the correct box sizing in Firefox.
       -}
@@ -243,8 +254,8 @@ listInNavResets mode =
     ]
 
 
-preReset : ResetMode -> List Snippet
-preReset mode =
+preResets : ResetMode -> List Snippet
+preResets mode =
     [ {- 1. Correct the inheritance and scaling of font size in all browsers.
          2. Correct the odd `em` font sizing in all browsers.
          3. Prevent overflow of the container in all browsers (opinionated).
@@ -258,11 +269,13 @@ preReset mode =
     ]
 
 
-addressReset : ResetMode -> List Snippet
-addressReset mode =
+addressResets : ResetMode -> List Snippet
+addressResets mode =
     [ selector ":where(address)"
         [ batchIf (mode == HardReset)
-            [ fontStyle inherit ]
+            [ margin zero
+            , fontStyle inherit
+            ]
         ]
     ]
 
@@ -273,42 +286,76 @@ addressReset mode =
 -}
 
 
-textLevelSemantics : ResetMode -> List Snippet
-textLevelSemantics mode =
-    [ aReset mode
-    , -- Add the correct text decoration in Safari.
-      selector ":where(abbr[title])"
-        [ textDecoration underline
-        , textDecoration2 underline dotted
-        ]
-
-    -- Add the correct font weight in Chrome, Edge, and Safari.
-    , selector ":where(b, strong)"
-        [ fontWeight bolder ]
-
-    -- 1. Correct the inheritance and scaling of font size in all browsers.
-    -- 2. Correct the odd `em` font sizing in all browsers.
-    , selector ":where(code, kbd, samp)"
-        [ fontFamilies [ monospace.value, monospace.value ] -- 1
-        , fontSize (Css.em 1) -- 2
-        ]
-
-    -- Add the correct font size in all browsers.
-    , selector ":where(small)"
-        [ fontSize (pct 80) ]
-    ]
-
-
-aReset : ResetMode -> Snippet
-aReset mode =
-    -- Remove the gray background on active links in IE 10.
-    selector ":where(a)"
+aResets : ResetMode -> List Snippet
+aResets mode =
+    [ -- Remove the gray background on active links in IE 10.
+      selector ":where(a)"
         [ batchIf (mode == HardReset)
             [ backgroundColor transparent
             , textDecoration none
             , color inherit
             ]
         ]
+    ]
+
+
+abbrResets : List Snippet
+abbrResets =
+    [ -- Add the correct text decoration in Safari.
+      selector ":where(abbr[title])"
+        [ textDecoration underline
+        , textDecoration2 underline dotted
+        ]
+    ]
+
+
+bAndStrongResets : List Snippet
+bAndStrongResets =
+    [ -- Add the correct font weight in Chrome, Edge, and Safari.
+      selector ":where(b, strong)"
+        [ fontWeight bolder ]
+    ]
+
+
+codeAndKbdAndSampResets : List Snippet
+codeAndKbdAndSampResets =
+    [ -- 1. Correct the inheritance and scaling of font size in all browsers.
+      -- 2. Correct the odd `em` font sizing in all browsers.
+      selector ":where(code, kbd, samp)"
+        [ fontFamilies [ monospace.value, monospace.value ] -- 1
+        , fontSize (Css.em 1) -- 2
+        ]
+    ]
+
+
+smallResets : List Snippet
+smallResets =
+    [ -- Add the correct font size in all browsers.
+      selector ":where(small)"
+        [ fontSize (pct 80) ]
+    ]
+
+
+subAndSupResets : ResetMode -> List Snippet
+subAndSupResets mode =
+    [ -- Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+      selector ":where(sub, sup)"
+        [ batchIf (mode == HardReset)
+            [ fontSize (pct 75)
+            , lineHeight zero
+            , position relative
+            , verticalAlign baseline
+            ]
+        ]
+    , selector ":where(sub)"
+        [ batchIf (mode == HardReset)
+            [ bottom (Css.em -0.25) ]
+        ]
+    , selector ":where(sup)"
+        [ batchIf (mode == HardReset)
+            [ top (Css.em -0.5) ]
+        ]
+    ]
 
 
 
@@ -332,18 +379,21 @@ embeddedContent mode =
     ]
 
 
-iframeReset : ResetMode -> List Snippet
-iframeReset mode =
-    [ -- Remove the border on iframes in all browsers (opinionated).
-      selector ":where(iframe)"
-        [ batchIf (mode == Normalize)
+iframeResets : ResetMode -> List Snippet
+iframeResets mode =
+    [ selector ":where(iframe)"
+        [ batchIf (mode == HardReset)
+            [ margin zero ]
+
+        -- Remove the border on iframes in all browsers (opinionated).
+        , batchIf (mode == Normalize)
             [ borderStyle none ]
         ]
     ]
 
 
-svgReset : ResetMode -> List Snippet
-svgReset mode =
+svgResets : ResetMode -> List Snippet
+svgResets mode =
     [ -- Change the fill color to match the text color in all browsers (opinionated).
       selector ":where(svg:not([fill]))"
         [ batchIf (mode == Normalize)
@@ -360,35 +410,43 @@ svgReset mode =
 
 tableResets : ResetMode -> List Snippet
 tableResets mode =
-    case mode of
-        HardReset ->
-            [ -- 1. Correct table border color inheritance in all Chrome and Safari.
-              selector ":where(table)"
-                [ borderColor inherit -- 1
-                ]
-            , selector ":where(caption)"
-                [ textAlign left ]
-            , selector ":where(td, th)"
-                [ verticalAlign top
-                , padding zero
-                ]
-            , selector ":where(th)"
-                [ textAlign left
-                , fontWeight bold
-                ]
-            ]
+    [ {- 1. Collapse border spacing in all browsers (opinionated).
+         2. Correct table border color inheritance in all Chrome, Edge, and Safari.
+         3. Remove text indentation from table contents in Chrome, Edge, and Safari.
+      -}
+      selector ":where(table)"
+        [ batchIf (mode == HardReset) [ margin zero ]
+        , batchIf (mode == Normalize) [ borderCollapse collapse ] -- 1
+        , borderColor inherit -- 2
+        , batchIf (mode == Normalize) [ textIndent zero ] -- 3
+        ]
+    ]
 
-        Normalize ->
-            [ {- 1. Collapse border spacing in all browsers (opinionated).
-                 2. Correct table border color inheritance in all Chrome, Edge, and Safari.
-                 3. Remove text indentation from table contents in Chrome, Edge, and Safari.
-              -}
-              selector ":where(table)"
-                [ borderCollapse collapse -- 1
-                , borderColor inherit -- 2
-                , textIndent zero -- 3
-                ]
+
+captionResets : ResetMode -> List Snippet
+captionResets mode =
+    [ selector ":where(caption)"
+        [ batchIf (mode == HardReset)
+            [ textAlign left ]
+        ]
+    ]
+
+
+tableCellResets : ResetMode -> List Snippet
+tableCellResets mode =
+    [ selector ":where(td, th)"
+        [ batchIf (mode == HardReset)
+            [ verticalAlign top
+            , padding zero
             ]
+        ]
+    , selector ":where(th)"
+        [ batchIf (mode == HardReset)
+            [ textAlign left
+            , fontWeight bold
+            ]
+        ]
+    ]
 
 
 
@@ -605,8 +663,8 @@ summaryDetailsResets mode =
             ]
 
 
-contenteditableReset : ResetMode -> List Snippet
-contenteditableReset mode =
+contenteditableResets : ResetMode -> List Snippet
+contenteditableResets mode =
     [ -- Remove outline for editable content.
       selector "[contenteditable]:focus"
         [ batchIf (mode == HardReset)
