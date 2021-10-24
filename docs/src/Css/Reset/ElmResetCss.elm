@@ -58,7 +58,20 @@ snippets mode =
         , tableCellResets mode
 
         -- Forms
-        , forms mode
+        , fieldResets mode
+        , inputResets mode
+        , buttonResets mode
+        , focusringReset mode
+        , selectResets mode
+        , fieldsetResets mode
+        , progressResets
+        , textareaResets mode
+        , searchResets mode
+        , spinButtonResets mode
+        , inputPlaceholderResets mode
+        , searchDecorationResets mode
+        , fileUploadButtonResets
+        , labelResets mode
 
         -- Interactive
         , dialogResets mode
@@ -85,9 +98,18 @@ everythingResets mode =
         , selector "::before"
         , selector "::after"
         ]
-        [ boxSizing borderBox -- 1
-        , backgroundRepeat noRepeat --2
-        ]
+        (case mode of
+            HardReset ->
+                [ boxSizing borderBox
+                , borderStyle solid
+                , borderWidth zero
+                ]
+
+            Normalize ->
+                [ boxSizing borderBox -- 1
+                , backgroundRepeat noRepeat --2
+                ]
+        )
 
     -- 1. Add text decoration inheritance in all browsers (opinionated).
     -- 2. Add vertical alignment inheritance in all browsers (opinionated).
@@ -455,8 +477,8 @@ tableCellResets mode =
 -}
 
 
-forms : ResetMode -> List Snippet
-forms mode =
+fieldResets : ResetMode -> List Snippet
+fieldResets mode =
     case mode of
         HardReset ->
             [ {- Reset form fields to make them styleable.
@@ -476,9 +498,21 @@ forms mode =
                 , property "text-align" "inherit"
                 , textTransform inherit -- 2
                 ]
+            ]
 
-            -- Reset radio and checkbox appearance to preserve their look in iOS.
-            , selector """:where([type="checkbox"])"""
+        Normalize ->
+            [ -- Remove the margin on controls in Safari.
+              selector ":where(button, input, select)"
+                [ margin zero ]
+            ]
+
+
+inputResets : ResetMode -> List Snippet
+inputResets mode =
+    case mode of
+        HardReset ->
+            [ -- Reset radio and checkbox appearance to preserve their look in iOS.
+              selector """:where([type="checkbox"])"""
                 [ property "-webkit-appearance" "checkbox"
                 , property "appearance" "checkbox"
                 ]
@@ -486,128 +520,201 @@ forms mode =
                 [ property "-webkit-appearance" "radio"
                 , property "appearance" "radio"
                 ]
+            ]
 
-            -- Correct cursors for clickable elements.
-            , selector """:where(button, [type="button"], [type="reset"], [type="submit"])"""
+        Normalize ->
+            []
+
+
+buttonResets : ResetMode -> List Snippet
+buttonResets mode =
+    case mode of
+        HardReset ->
+            [ -- Correct cursors for clickable elements.
+              selector """:where(button, [type="button"], [type="reset"], [type="submit"])"""
                 [ cursor pointer ]
             , selector """:where(button:disabled, [type="button"]:disabled, [type="reset"]:disabled, [type="submit"]:disabled)"""
                 [ cursor default ]
+            ]
 
-            -- Improve outlines for Firefox and unify style with input elements & buttons.
-            , selector ":-moz-focusring"
+        Normalize ->
+            [ -- Correct the inability to style buttons in iOS and Safari.
+              selector """:where(button, [type="button" i], [type="reset" i], [type="submit" i])"""
+                [ property "-webkit-appearance" "button" ]
+            ]
+
+
+focusringReset : ResetMode -> List Snippet
+focusringReset mode =
+    case mode of
+        HardReset ->
+            [ -- Improve outlines for Firefox and unify style with input elements & buttons.
+              selector ":-moz-focusring"
                 [ property "outline" "auto" ]
+            ]
 
-            --
-            , selector "select:disabled"
+        Normalize ->
+            []
+
+
+selectResets : ResetMode -> List Snippet
+selectResets mode =
+    case mode of
+        HardReset ->
+            [ selector "select:disabled"
                 [ opacity inherit ]
 
             -- Remove padding
             , selector ":where(option)"
                 [ padding zero ]
+            ]
 
-            -- Reset to invisible
-            , selector ":where(fieldset)"
+        Normalize ->
+            []
+
+
+fieldsetResets : ResetMode -> List Snippet
+fieldsetResets mode =
+    case mode of
+        HardReset ->
+            [ -- Reset to invisible
+              selector ":where(fieldset)"
                 [ margin zero
                 , padding zero
                 , minWidth zero
                 ]
-
-            --
             , selector ":where(legend)"
                 [ padding zero ]
+            ]
 
-            -- Add the correct vertical alignment in Chrome, Firefox, and Opera.
-            , Css.Global.progress
-                [ verticalAlign baseline ]
+        Normalize ->
+            [ -- Change the inconsistent appearance in all browsers (opinionated).
+              selector ":where(fieldset)"
+                [ border3 (px 1) solid (hex "#a0a0a0") ]
+            ]
 
-            -- Remove the default vertical scrollbar in IE 10+.
-            , selector ":where(textarea)"
+
+progressResets : List Snippet
+progressResets =
+    [ -- Add the correct vertical alignment in Chrome, Edge, and Firefox.
+      selector ":where(progress)"
+        [ verticalAlign baseline ]
+    ]
+
+
+textareaResets : ResetMode -> List Snippet
+textareaResets mode =
+    [ selector ":where(textarea)" <|
+        case mode of
+            HardReset ->
+                -- Remove the default vertical scrollbar in IE 10+.
                 [ overflow auto ]
 
-            -- Correct the cursor style of increment and decrement buttons in Chrome.
-            , each
+            Normalize ->
+                {- 1. Remove the margin in Firefox and Safari.
+                   3. Change the resize direction in all browsers (opinionated).
+                -}
+                [ margin zero -- 1
+                , resize vertical -- 3
+                ]
+    ]
+
+
+searchResets : ResetMode -> List Snippet
+searchResets mode =
+    case mode of
+        HardReset ->
+            [ -- 1. Correct the outline style in Safari.
+              selector """:where([type="search"])"""
+                [ outlineOffset (px -2) -- 1
+                ]
+            ]
+
+        Normalize ->
+            [ -- 1. Correct the odd appearance in Chrome, Edge, and Safari.
+              -- 2. Correct the outline style in Safari.
+              selector """:where([type="search" i])"""
+                [ property "-webkit-appearance" "textfield" -- 1
+                , outlineOffset (px -2) -- 2
+                ]
+            ]
+
+
+spinButtonResets : ResetMode -> List Snippet
+spinButtonResets mode =
+    case mode of
+        HardReset ->
+            [ -- Correct the cursor style of increment and decrement buttons in Chrome.
+              each
                 [ selector """[type="number"]::-webkit-inner-spin-button"""
                 , selector """[type="number"]::-webkit-outer-spin-button"""
                 ]
                 [ height auto ]
-
-            -- 1. Correct the outline style in Safari.
-            , selector """:where([type="search"])"""
-                [ outlineOffset (px -2) -- 1
-                ]
-
-            -- Remove the inner padding in Chrome and Safari on macOS.
-            , selector """:where([type="search"]::-webkit-search-decoration)"""
-                [ property "-webkit-appearance" "none" ]
-
-            -- 1. Correct the inability to style clickable types in iOS and Safari.
-            -- 2. Fix font inheritance.
-            , selector "::-webkit-file-upload-button"
-                [ property "-webkit-appearance" "button" -- 1
-                , property "font" "inherit" -- 2
-                ]
-
-            -- Clickable labels
-            , selector ":where(label[for])"
-                [ cursor pointer ]
             ]
 
         Normalize ->
-            [ -- Remove the margin on controls in Safari.
-              selector ":where(button, input, select)"
-                [ margin zero ]
-
-            -- Correct the inability to style buttons in iOS and Safari.
-            , selector """:where(button, [type="button" i], [type="reset" i], [type="submit" i])"""
-                [ property "-webkit-appearance" "button" ]
-
-            -- Change the inconsistent appearance in all browsers (opinionated).
-            , selector ":where(fieldset)"
-                [ border3 (px 1) solid (hex "#a0a0a0") ]
-
-            -- Add the correct vertical alignment in Chrome, Edge, and Firefox.
-            , selector ":where(progress)"
-                [ verticalAlign baseline ]
-
-            {- 1. Remove the margin in Firefox and Safari.
-               3. Change the resize direction in all browsers (opinionated).
-            -}
-            , selector ":where(textarea)"
-                [ margin zero -- 1
-                , resize vertical -- 3
-                ]
-
-            -- 1. Correct the odd appearance in Chrome, Edge, and Safari.
-            -- 2. Correct the outline style in Safari.
-            , selector """:where([type="search" i])"""
-                [ property "-webkit-appearance" "textfield" -- 1
-                , outlineOffset (px -2) -- 2
-                ]
-
-            -- Correct the cursor style of increment and decrement buttons in Safari.
-            , each
+            [ -- Correct the cursor style of increment and decrement buttons in Safari.
+              each
                 [ selector "::-webkit-inner-spin-button"
                 , selector "::-webkit-outer-spin-button"
                 ]
                 [ height auto ]
+            ]
 
-            -- Correct the text style of placeholders in Chrome, Edge, and Safari.
-            , selector "::-webkit-input-placeholder"
+
+inputPlaceholderResets : ResetMode -> List Snippet
+inputPlaceholderResets mode =
+    case mode of
+        HardReset ->
+            []
+
+        Normalize ->
+            [ -- Correct the text style of placeholders in Chrome, Edge, and Safari.
+              selector "::-webkit-input-placeholder"
                 [ color inherit
                 , opacity (num 0.54)
                 ]
-
-            -- Remove the inner padding in Chrome, Edge, and Safari on macOS.
-            , selector "::-webkit-search-decoration"
-                [ property "-webkit-appearance" "none" ]
-
-            -- 1. Correct the inability to style upload buttons in iOS and Safari.
-            -- 2. Change font properties to `inherit` in Safari.
-            , selector "::-webkit-file-upload-button"
-                [ property "-webkit-appearance" "button" -- 1
-                , property "font" "inherit" -- 2
-                ]
             ]
+
+
+searchDecorationResets : ResetMode -> List Snippet
+searchDecorationResets mode =
+    case mode of
+        HardReset ->
+            [ -- Remove the inner padding in Chrome and Safari on macOS.
+              selector """:where([type="search"]::-webkit-search-decoration)"""
+                [ property "-webkit-appearance" "none" ]
+            ]
+
+        Normalize ->
+            [ -- Remove the inner padding in Chrome, Edge, and Safari on macOS.
+              selector "::-webkit-search-decoration"
+                [ property "-webkit-appearance" "none" ]
+            ]
+
+
+fileUploadButtonResets : List Snippet
+fileUploadButtonResets =
+    [ -- 1. Correct the inability to style upload buttons in iOS and Safari.
+      -- 2. Change font properties to `inherit` in Safari.
+      selector "::-webkit-file-upload-button"
+        [ property "-webkit-appearance" "button" -- 1
+        , property "font" "inherit" -- 2
+        ]
+    ]
+
+
+labelResets : ResetMode -> List Snippet
+labelResets mode =
+    case mode of
+        HardReset ->
+            [ -- Clickable labels
+              selector ":where(label[for])"
+                [ cursor pointer ]
+            ]
+
+        Normalize ->
+            []
 
 
 
