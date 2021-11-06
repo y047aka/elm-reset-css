@@ -145,7 +145,7 @@ resetCssSelector slot =
 
 
 preview : Model -> Html msg
-preview { resetCss_1, resetCss_2, resetCss_3 } =
+preview model =
     div [] <|
         List.map
             (\tag ->
@@ -182,46 +182,50 @@ preview { resetCss_1, resetCss_2, resetCss_3 } =
                             ]
                         ]
                         [ text (Tag.toString tag) ]
-                    , div
-                        [ css
-                            [ displayFlex
-                            , paddingBottom (px 20)
-                            , children
-                                [ Css.Global.div
-                                    [ width (pct 33.333)
-                                    , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
-                                        [ width (pct 100)
-                                        , nthChild "n+2" [ display none ]
-                                        ]
-                                    , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
-                                        [ width (pct 50)
-                                        , nthChild "n+3" [ display none ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                        (List.map
-                            (\resetCss ->
-                                div
-                                    [ css
-                                        [ resetCss
-                                            |> Maybe.map ResetCss.toRootStyles
-                                            |> Maybe.withDefault []
-                                            |> batch
-                                        , resetCss
-                                            |> Maybe.map ResetCss.toSnippet
-                                            |> Maybe.withDefault []
-                                            |> descendants
-                                        , padding2 zero (px 20)
-                                        , nthChild "n+2"
-                                            [ borderLeft3 (px 1) solid (hex "#EEE") ]
-                                        ]
-                                    ]
-                                    [ Tag.renderer tag ]
-                            )
-                            [ resetCss_1, resetCss_2, resetCss_3 ]
-                        )
+                    , accordionContent model tag
                     ]
             )
             Tag.all
+
+
+accordionContent : Model -> Tag -> Html msg
+accordionContent { resetCss_1, resetCss_2, resetCss_3 } tag =
+    let
+        column resetCss =
+            div
+                [ css
+                    [ resetCss
+                        |> Maybe.map ResetCss.toRootStyles
+                        |> Maybe.withDefault []
+                        |> batch
+                    , resetCss
+                        |> Maybe.map ResetCss.toSnippet
+                        |> Maybe.withDefault []
+                        |> descendants
+                    , padding2 zero (px 20)
+                    , nthChild "n+2"
+                        [ borderLeft3 (px 1) solid (hex "#EEE") ]
+                    ]
+                ]
+                [ Tag.renderer tag ]
+    in
+    div
+        [ css
+            [ displayFlex
+            , paddingBottom (px 20)
+            , children
+                [ Css.Global.div
+                    [ width (pct 33.333)
+                    , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
+                        [ width (pct 100)
+                        , nthChild "n+2" [ display none ]
+                        ]
+                    , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
+                        [ width (pct 50)
+                        , nthChild "n+3" [ display none ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        (List.map column [ resetCss_1, resetCss_2, resetCss_3 ])
