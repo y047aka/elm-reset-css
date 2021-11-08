@@ -24,12 +24,14 @@ snippets : ResetMode -> List Snippet
 snippets mode =
     let
         options =
-            { marginAndPadding = mode }
+            { marginAndPadding = mode
+            , typography = mode
+            }
     in
     List.concat
         [ -- Document
           everythingResets mode
-        , rootResets mode
+        , rootResets mode options
 
         -- Sections
         , bodyResets
@@ -41,25 +43,25 @@ snippets mode =
         , hrResets mode options
         , listInNavResets mode
         , preResets mode options
-        , addressResets mode options
+        , addressResets options
 
         -- Text-level semantics
-        , aResets mode
+        , aResets mode options
         , abbrResets
         , bAndStrongResets
         , codeAndKbdAndSampResets
         , smallResets
-        , subAndSupResets mode
+        , subAndSupResets mode options
 
         -- Embedded content
-        , embeddedContent mode
+        , embeddedContent options
         , iframeResets mode options
         , svgResets mode
 
         -- Tabular data
         , tableResets mode options
-        , captionResets mode
-        , tableCellResets mode options
+        , captionResets options
+        , tableCellResets options
 
         -- Forms
         , fieldResets mode options
@@ -129,17 +131,19 @@ everythingResets mode =
     ]
 
 
-rootResets : ResetMode -> List Snippet
-rootResets mode =
+rootResets : ResetMode -> { a | typography : ResetMode } -> List Snippet
+rootResets mode { typography } =
     [ selector ":where(:root)"
         [ {- 1. Correct the line height in all browsers.
              2. Prevent adjustments of font size after orientation changes in iOS.
              3. Remove gray overlay on links for iOS.
           -}
-          batchIf (mode == HardReset)
+          batchIf (typography == HardReset)
             [ lineHeight (num 1.15) -- 1
             , property "-webkit-text-size-adjust" "100%" -- 2
-            , property "-webkit-tap-highlight-color" "transparent" -- 3
+            ]
+        , batchIf (mode == HardReset)
+            [ property "-webkit-tap-highlight-color" "transparent" -- 3
             ]
 
         {- 1. Use the default cursor in all browsers (opinionated).
@@ -151,12 +155,16 @@ rootResets mode =
         -}
         , batchIf (mode == Normalize)
             [ cursor default -- 1
-            , lineHeight (num 1.5) -- 2
+            , batchIf (typography == Normalize)
+                [ lineHeight (num 1.5) -- 2
+                ]
             , property "overflow-wrap" "break-word" -- 3
             , property "-moz-tab-size" "4" -- 4
             , property "tab-size" "4" -- 4
             , property "-webkit-tap-highlight-color" "transparent" -- 5
-            , property "-webkit-text-size-adjust" "100%" -- 6
+            , batchIf (typography == Normalize)
+                [ property "-webkit-text-size-adjust" "100%" -- 6
+                ]
             ]
         ]
     ]
@@ -212,34 +220,35 @@ headingsResets mode =
 -}
 
 
-listResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-listResets mode { marginAndPadding } =
-    case mode of
-        HardReset ->
-            [ selector ":where(ul, ol)"
-                [ batchIf (marginAndPadding == HardReset)
-                    [ margin zero
-                    , padding zero
-                    ]
-                , listStyle none
-                ]
-            , selector ":where(dl)"
-                [ batchIf (marginAndPadding == HardReset)
-                    [ margin zero ]
-                ]
-            , selector ":where(dt)"
-                [ fontWeight bold ]
-            , selector ":where(dd)"
-                [ batchIf (marginAndPadding == HardReset)
-                    [ marginLeft zero ]
-                ]
+listResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
+listResets mode { marginAndPadding, typography } =
+    [ selector ":where(ul, ol)"
+        [ batchIf (marginAndPadding == HardReset)
+            [ margin zero
+            , padding zero
             ]
+        , batchIf (mode == HardReset)
+            [ listStyle none ]
+        ]
+    , selector ":where(dl)"
+        [ batchIf (marginAndPadding == HardReset)
+            [ margin zero ]
+        ]
+    , selector ":where(dt)"
+        [ batchIf (typography == HardReset)
+            [ fontWeight bold ]
+        ]
+    , selector ":where(dd)"
+        [ batchIf (marginAndPadding == HardReset)
+            [ marginLeft zero ]
+        ]
 
-        Normalize ->
-            -- Remove the margin on nested lists in Chrome, Edge, and Safari.
-            [ selector ":where(dl, ol, ul) :where(dl, ol, ul)"
-                [ margin zero ]
-            ]
+    -- Remove the margin on nested lists in Chrome, Edge, and Safari.
+    , selector ":where(dl, ol, ul) :where(dl, ol, ul)"
+        [ batchIf (mode == Normalize)
+            [ margin zero ]
+        ]
+    ]
 
 
 hrResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
@@ -301,12 +310,12 @@ preResets mode { marginAndPadding } =
     ]
 
 
-addressResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-addressResets mode { marginAndPadding } =
+addressResets : { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
+addressResets { marginAndPadding, typography } =
     [ selector ":where(address)"
         [ batchIf (marginAndPadding == HardReset)
             [ margin zero ]
-        , batchIf (mode == HardReset)
+        , batchIf (typography == HardReset)
             [ fontStyle inherit ]
         ]
     ]
@@ -318,13 +327,14 @@ addressResets mode { marginAndPadding } =
 -}
 
 
-aResets : ResetMode -> List Snippet
-aResets mode =
+aResets : ResetMode -> { a | typography : ResetMode } -> List Snippet
+aResets mode { typography } =
     [ -- Remove the gray background on active links in IE 10.
       selector ":where(a)"
         [ batchIf (mode == HardReset)
-            [ backgroundColor transparent
-            , textDecoration none
+            [ backgroundColor transparent ]
+        , batchIf (typography == HardReset)
+            [ textDecoration none
             , color inherit
             ]
         ]
@@ -368,14 +378,15 @@ smallResets =
     ]
 
 
-subAndSupResets : ResetMode -> List Snippet
-subAndSupResets mode =
+subAndSupResets : ResetMode -> { a | typography : ResetMode } -> List Snippet
+subAndSupResets mode { typography } =
     [ -- Prevent `sub` and `sup` elements from affecting the line height in all browsers.
       selector ":where(sub, sup)"
         [ batchIf (mode == HardReset)
+            [ position relative ]
+        , batchIf (typography == HardReset)
             [ fontSize (pct 75)
             , lineHeight zero
-            , position relative
             , verticalAlign baseline
             ]
         ]
@@ -396,18 +407,19 @@ subAndSupResets mode =
 -}
 
 
-embeddedContent : ResetMode -> List Snippet
-embeddedContent mode =
-    [ case mode of
-        HardReset ->
-            -- Prevent vertical alignment issues.
-            selector ":where(svg, img, embed, object, iframe)"
-                [ verticalAlign bottom ]
+embeddedContent : { a | typography : ResetMode } -> List Snippet
+embeddedContent { typography } =
+    [ -- Prevent vertical alignment issues.
+      selector ":where(svg, img, embed, object, iframe)"
+        [ batchIf (typography == HardReset)
+            [ verticalAlign bottom ]
+        ]
 
-        Normalize ->
-            -- Change the alignment on media elements in all browsers (opinionated).
-            selector ":where(audio, canvas, iframe, img, svg, video)"
-                [ verticalAlign middle ]
+    -- Change the alignment on media elements in all browsers (opinionated).
+    , selector ":where(audio, canvas, iframe, img, svg, video)"
+        [ batchIf (typography == Normalize)
+            [ verticalAlign middle ]
+        ]
     ]
 
 
@@ -456,25 +468,25 @@ tableResets mode { marginAndPadding } =
     ]
 
 
-captionResets : ResetMode -> List Snippet
-captionResets mode =
+captionResets : { a | typography : ResetMode } -> List Snippet
+captionResets { typography } =
     [ selector ":where(caption)"
-        [ batchIf (mode == HardReset)
+        [ batchIf (typography == HardReset)
             [ textAlign left ]
         ]
     ]
 
 
-tableCellResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-tableCellResets mode { marginAndPadding } =
+tableCellResets : { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
+tableCellResets { marginAndPadding, typography } =
     [ selector ":where(td, th)"
-        [ batchIf (mode == HardReset)
+        [ batchIf (typography == HardReset)
             [ verticalAlign top ]
         , batchIf (marginAndPadding == HardReset)
             [ padding zero ]
         ]
     , selector ":where(th)"
-        [ batchIf (mode == HardReset)
+        [ batchIf (typography == HardReset)
             [ textAlign left
             , fontWeight bold
             ]
@@ -488,8 +500,8 @@ tableCellResets mode { marginAndPadding } =
 -}
 
 
-fieldResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-fieldResets mode { marginAndPadding } =
+fieldResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
+fieldResets mode { marginAndPadding, typography } =
     case mode of
         HardReset ->
             [ {- Reset form fields to make them styleable.
@@ -499,17 +511,21 @@ fieldResets mode { marginAndPadding } =
               selector ":where(button, input, optgroup, select, textarea)"
                 [ property "-webkit-appearance" "none" -- 1
                 , property "appearance" "none"
-                , verticalAlign middle
-                , color inherit
-                , property "font" "inherit"
+                , batchIf (typography == HardReset)
+                    [ verticalAlign middle
+                    , color inherit
+                    , property "font" "inherit"
+                    ]
                 , property "background" "transparent"
                 , batchIf (marginAndPadding == HardReset)
                     [ padding zero
                     , margin zero
                     ]
                 , borderRadius zero
-                , property "text-align" "inherit"
-                , textTransform inherit -- 2
+                , batchIf (typography == HardReset)
+                    [ property "text-align" "inherit"
+                    , textTransform inherit -- 2
+                    ]
                 ]
             ]
 
