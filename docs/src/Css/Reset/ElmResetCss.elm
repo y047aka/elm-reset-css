@@ -26,6 +26,7 @@ snippets mode =
         options =
             { marginAndPadding = mode
             , typography = mode
+            , decoration = mode
             }
     in
     List.concat
@@ -55,7 +56,7 @@ snippets mode =
 
         -- Embedded content
         , embeddedContent options
-        , iframeResets mode options
+        , iframeResets options
         , svgResets mode
 
         -- Tabular data
@@ -68,7 +69,7 @@ snippets mode =
         , inputResets mode
         , buttonResets mode
         , focusringReset mode
-        , selectResets mode options
+        , selectResets options
         , fieldsetResets mode options
         , progressResets
         , textareaResets mode
@@ -220,14 +221,14 @@ headingsResets mode =
 -}
 
 
-listResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
-listResets mode { marginAndPadding, typography } =
+listResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode, decoration : ResetMode } -> List Snippet
+listResets mode { marginAndPadding, typography, decoration } =
     [ selector ":where(ul, ol)"
         [ batchIf (marginAndPadding == HardReset)
             [ margin zero
             , padding zero
             ]
-        , batchIf (mode == HardReset)
+        , batchIf (decoration == HardReset)
             [ listStyle none ]
         ]
     , selector ":where(dl)"
@@ -251,8 +252,8 @@ listResets mode { marginAndPadding, typography } =
     ]
 
 
-hrResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-hrResets mode { marginAndPadding } =
+hrResets : ResetMode -> { a | marginAndPadding : ResetMode, decoration : ResetMode } -> List Snippet
+hrResets mode { marginAndPadding, decoration } =
     [ {- 1. Correct the inheritance of border color in Firefox.
          2. Add the correct box sizing in Firefox.
       -}
@@ -264,12 +265,15 @@ hrResets mode { marginAndPadding } =
         , batchIf (mode == HardReset)
             [ boxSizing contentBox -- 1
             , overflow visible -- 2
-            , borderWidth zero
-            , borderTopWidth (px 1)
-            , batchIf (marginAndPadding == HardReset)
-                [ margin zero ]
-            , property "clear" "both"
             ]
+        , batchIf (decoration == HardReset)
+            [ borderWidth zero
+            , borderTopWidth (px 1)
+            ]
+        , batchIf (marginAndPadding == HardReset)
+            [ margin zero ]
+        , batchIf (mode == HardReset)
+            [ property "clear" "both" ]
         ]
     ]
 
@@ -423,14 +427,14 @@ embeddedContent { typography } =
     ]
 
 
-iframeResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-iframeResets mode { marginAndPadding } =
+iframeResets : { a | marginAndPadding : ResetMode, decoration : ResetMode } -> List Snippet
+iframeResets { marginAndPadding, decoration } =
     [ selector ":where(iframe)"
         [ batchIf (marginAndPadding == HardReset)
             [ margin zero ]
 
         -- Remove the border on iframes in all browsers (opinionated).
-        , batchIf (mode == Normalize)
+        , batchIf (decoration == Normalize)
             [ borderStyle none ]
         ]
     ]
@@ -500,8 +504,8 @@ tableCellResets { marginAndPadding, typography } =
 -}
 
 
-fieldResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
-fieldResets mode { marginAndPadding, typography } =
+fieldResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode, decoration : ResetMode } -> List Snippet
+fieldResets mode { marginAndPadding, typography, decoration } =
     case mode of
         HardReset ->
             [ {- Reset form fields to make them styleable.
@@ -521,7 +525,8 @@ fieldResets mode { marginAndPadding, typography } =
                     [ padding zero
                     , margin zero
                     ]
-                , borderRadius zero
+                , batchIf (decoration == HardReset)
+                    [ borderRadius zero ]
                 , batchIf (typography == HardReset)
                     [ property "text-align" "inherit"
                     , textTransform inherit -- 2
@@ -586,22 +591,19 @@ focusringReset mode =
             []
 
 
-selectResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-selectResets mode { marginAndPadding } =
-    case mode of
-        HardReset ->
-            [ selector "select:disabled"
-                [ opacity inherit ]
+selectResets : { a | marginAndPadding : ResetMode, decoration : ResetMode } -> List Snippet
+selectResets { marginAndPadding, decoration } =
+    [ selector "select:disabled"
+        [ batchIf (decoration == HardReset)
+            [ opacity inherit ]
+        ]
 
-            -- Remove padding
-            , selector ":where(option)"
-                [ batchIf (marginAndPadding == HardReset)
-                    [ padding zero ]
-                ]
-            ]
-
-        Normalize ->
-            []
+    -- Remove padding
+    , selector ":where(option)"
+        [ batchIf (marginAndPadding == HardReset)
+            [ padding zero ]
+        ]
+    ]
 
 
 fieldsetResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
