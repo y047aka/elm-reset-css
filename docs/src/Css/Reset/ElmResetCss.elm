@@ -27,6 +27,7 @@ snippets mode =
             { marginAndPadding = mode
             , typography = mode
             , decoration = mode
+            , formElements = mode
             }
     in
     List.concat
@@ -65,20 +66,20 @@ snippets mode =
         , tableCellResets options
 
         -- Forms
-        , fieldResets mode options
-        , inputResets mode
-        , buttonResets mode
+        , fieldResets options
+        , inputResets options
+        , buttonResets options
         , focusringReset mode
         , selectResets options
-        , fieldsetResets mode options
+        , fieldsetResets options
         , progressResets
-        , textareaResets mode
-        , searchResets mode
-        , spinButtonResets mode
-        , inputPlaceholderResets mode
-        , searchDecorationResets mode
+        , textareaResets options
+        , searchResets options
+        , spinButtonResets options
+        , inputPlaceholderResets options
+        , searchDecorationResets options
         , fileUploadButtonResets
-        , labelResets mode
+        , labelResets options
 
         -- Interactive
         , dialogResets mode
@@ -504,46 +505,42 @@ tableCellResets { marginAndPadding, typography } =
 -}
 
 
-fieldResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode, decoration : ResetMode } -> List Snippet
-fieldResets mode { marginAndPadding, typography, decoration } =
-    case mode of
-        HardReset ->
-            [ {- Reset form fields to make them styleable.
-                 1. Make form elements stylable across systems iOS especially.
-                 2. Inherit text-transform from parent.
-              -}
-              selector ":where(button, input, optgroup, select, textarea)"
-                [ property "-webkit-appearance" "none" -- 1
-                , property "appearance" "none"
-                , batchIf (typography == HardReset)
-                    [ verticalAlign middle
-                    , color inherit
-                    , property "font" "inherit"
-                    ]
-                , property "background" "transparent"
-                , batchIf (marginAndPadding == HardReset)
-                    [ padding zero
-                    , margin zero
-                    ]
-                , batchIf (decoration == HardReset)
-                    [ borderRadius zero ]
-                , batchIf (typography == HardReset)
-                    [ property "text-align" "inherit"
-                    , textTransform inherit -- 2
-                    ]
-                ]
+fieldResets : { a | marginAndPadding : ResetMode, formElements : ResetMode } -> List Snippet
+fieldResets { marginAndPadding, formElements } =
+    [ {- Reset form fields to make them styleable.
+         1. Make form elements stylable across systems iOS especially.
+         2. Inherit text-transform from parent.
+      -}
+      selector ":where(button, input, optgroup, select, textarea)"
+        [ batchIf (formElements == HardReset)
+            [ property "-webkit-appearance" "none" -- 1
+            , property "appearance" "none"
+            , verticalAlign middle
+            , color inherit
+            , property "font" "inherit"
+            , property "background" "transparent"
+            , padding zero
             ]
-
-        Normalize ->
-            [ -- Remove the margin on controls in Safari.
-              selector ":where(button, input, select)"
-                [ margin zero ]
+        , batchIf ((marginAndPadding == HardReset) || (formElements == HardReset))
+            [ margin zero ]
+        , batchIf (formElements == HardReset)
+            [ borderRadius zero
+            , property "text-align" "inherit"
+            , textTransform inherit -- 2
             ]
+        ]
+
+    -- Remove the margin on controls in Safari.
+    , selector ":where(button, input, select)"
+        [ batchIf (formElements == Normalize)
+            [ margin zero ]
+        ]
+    ]
 
 
-inputResets : ResetMode -> List Snippet
-inputResets mode =
-    case mode of
+inputResets : { a | formElements : ResetMode } -> List Snippet
+inputResets { formElements } =
+    case formElements of
         HardReset ->
             [ -- Reset radio and checkbox appearance to preserve their look in iOS.
               selector """:where([type="checkbox"])"""
@@ -560,9 +557,9 @@ inputResets mode =
             []
 
 
-buttonResets : ResetMode -> List Snippet
-buttonResets mode =
-    case mode of
+buttonResets : { a | formElements : ResetMode } -> List Snippet
+buttonResets { formElements } =
+    case formElements of
         HardReset ->
             [ -- Correct cursors for clickable elements.
               selector """:where(button, [type="button"], [type="reset"], [type="submit"])"""
@@ -591,42 +588,41 @@ focusringReset mode =
             []
 
 
-selectResets : { a | marginAndPadding : ResetMode, decoration : ResetMode } -> List Snippet
-selectResets { marginAndPadding, decoration } =
+selectResets : { a | formElements : ResetMode } -> List Snippet
+selectResets { formElements } =
     [ selector "select:disabled"
-        [ batchIf (decoration == HardReset)
+        [ batchIf (formElements == HardReset)
             [ opacity inherit ]
         ]
 
     -- Remove padding
     , selector ":where(option)"
-        [ batchIf (marginAndPadding == HardReset)
+        [ batchIf (formElements == HardReset)
             [ padding zero ]
         ]
     ]
 
 
-fieldsetResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-fieldsetResets mode { marginAndPadding } =
-    case mode of
-        HardReset ->
-            [ -- Reset to invisible
-              selector ":where(fieldset)"
-                [ batchIf (marginAndPadding == HardReset)
-                    [ margin zero
-                    , padding zero
-                    ]
-                , minWidth zero
-                ]
-            , selector ":where(legend)"
-                [ padding zero ]
+fieldsetResets : { a | marginAndPadding : ResetMode, formElements : ResetMode } -> List Snippet
+fieldsetResets { marginAndPadding, formElements } =
+    [ -- Reset to invisible
+      selector ":where(fieldset)"
+        [ batchIf ((marginAndPadding == HardReset) || (formElements == HardReset))
+            [ margin zero
+            , padding zero
             ]
+        , batchIf (formElements == HardReset)
+            [ minWidth zero ]
 
-        Normalize ->
-            [ -- Change the inconsistent appearance in all browsers (opinionated).
-              selector ":where(fieldset)"
-                [ border3 (px 1) solid (hex "#a0a0a0") ]
-            ]
+        -- Change the inconsistent appearance in all browsers (opinionated).
+        , batchIf (formElements == Normalize)
+            [ border3 (px 1) solid (hex "#a0a0a0") ]
+        ]
+    , selector ":where(legend)"
+        [ batchIf (formElements == HardReset)
+            [ padding zero ]
+        ]
+    ]
 
 
 progressResets : List Snippet
@@ -637,10 +633,10 @@ progressResets =
     ]
 
 
-textareaResets : ResetMode -> List Snippet
-textareaResets mode =
+textareaResets : { a | formElements : ResetMode } -> List Snippet
+textareaResets { formElements } =
     [ selector ":where(textarea)" <|
-        case mode of
+        case formElements of
             HardReset ->
                 -- Remove the default vertical scrollbar in IE 10+.
                 [ overflow auto ]
@@ -655,9 +651,9 @@ textareaResets mode =
     ]
 
 
-searchResets : ResetMode -> List Snippet
-searchResets mode =
-    case mode of
+searchResets : { a | formElements : ResetMode } -> List Snippet
+searchResets { formElements } =
+    case formElements of
         HardReset ->
             [ -- 1. Correct the outline style in Safari.
               selector """:where([type="search"])"""
@@ -675,9 +671,9 @@ searchResets mode =
             ]
 
 
-spinButtonResets : ResetMode -> List Snippet
-spinButtonResets mode =
-    case mode of
+spinButtonResets : { a | formElements : ResetMode } -> List Snippet
+spinButtonResets { formElements } =
+    case formElements of
         HardReset ->
             [ -- Correct the cursor style of increment and decrement buttons in Chrome.
               each
@@ -697,9 +693,9 @@ spinButtonResets mode =
             ]
 
 
-inputPlaceholderResets : ResetMode -> List Snippet
-inputPlaceholderResets mode =
-    case mode of
+inputPlaceholderResets : { a | formElements : ResetMode } -> List Snippet
+inputPlaceholderResets { formElements } =
+    case formElements of
         HardReset ->
             []
 
@@ -712,9 +708,9 @@ inputPlaceholderResets mode =
             ]
 
 
-searchDecorationResets : ResetMode -> List Snippet
-searchDecorationResets mode =
-    case mode of
+searchDecorationResets : { a | formElements : ResetMode } -> List Snippet
+searchDecorationResets { formElements } =
+    case formElements of
         HardReset ->
             [ -- Remove the inner padding in Chrome and Safari on macOS.
               selector """:where([type="search"]::-webkit-search-decoration)"""
@@ -739,9 +735,9 @@ fileUploadButtonResets =
     ]
 
 
-labelResets : ResetMode -> List Snippet
-labelResets mode =
-    case mode of
+labelResets : { a | formElements : ResetMode } -> List Snippet
+labelResets { formElements } =
+    case formElements of
         HardReset ->
             [ -- Clickable labels
               selector ":where(label[for])"
