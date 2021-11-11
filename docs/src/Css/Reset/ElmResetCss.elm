@@ -27,6 +27,7 @@ snippets mode =
             { marginAndPadding = mode
             , typography = mode
             , decoration = mode
+            , heading = mode
             , list = mode
             , textLevel = mode
             , table = mode
@@ -41,7 +42,7 @@ snippets mode =
         -- Sections
         , bodyResets
         , verticalRhythm options
-        , headingsResets mode
+        , headingsResets options
 
         -- Grouping content
         , listResets options
@@ -198,9 +199,9 @@ verticalRhythm { marginAndPadding } =
     ]
 
 
-headingsResets : ResetMode -> List Snippet
-headingsResets mode =
-    [ case mode of
+headingsResets : { a | heading : ResetMode } -> List Snippet
+headingsResets { heading } =
+    [ case heading of
         HardReset ->
             selector ":where(h1, h2, h3, h4, h5, h6)"
                 [ fontSize inherit
