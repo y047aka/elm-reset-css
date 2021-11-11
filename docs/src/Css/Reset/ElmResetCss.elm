@@ -28,6 +28,7 @@ snippets mode =
             , typography = mode
             , decoration = mode
             , list = mode
+            , textLevel = mode
             , table = mode
             , formElements = mode
             }
@@ -50,12 +51,12 @@ snippets mode =
         , addressResets options
 
         -- Text-level semantics
-        , aResets mode options
+        , aResets options
         , abbrResets
         , bAndStrongResets
         , codeAndKbdAndSampResets
         , smallResets
-        , subAndSupResets mode options
+        , subAndSupResets options
 
         -- Embedded content
         , embeddedContent options
@@ -334,18 +335,22 @@ addressResets { marginAndPadding, typography } =
 -}
 
 
-aResets : ResetMode -> { a | typography : ResetMode } -> List Snippet
-aResets mode { typography } =
-    [ -- Remove the gray background on active links in IE 10.
-      selector ":where(a)"
-        [ batchIf (mode == HardReset)
-            [ backgroundColor transparent ]
-        , batchIf (typography == HardReset)
-            [ textDecoration none
-            , color inherit
+aResets : { a | textLevel : ResetMode } -> List Snippet
+aResets { textLevel } =
+    case textLevel of
+        HardReset ->
+            [ -- Remove the gray background on active links in IE 10.
+              selector ":where(a)"
+                [ batchIf (textLevel == HardReset)
+                    [ backgroundColor transparent
+                    , textDecoration none
+                    , color inherit
+                    ]
+                ]
             ]
-        ]
-    ]
+
+        Normalize ->
+            []
 
 
 abbrResets : List Snippet
@@ -385,27 +390,25 @@ smallResets =
     ]
 
 
-subAndSupResets : ResetMode -> { a | typography : ResetMode } -> List Snippet
-subAndSupResets mode { typography } =
-    [ -- Prevent `sub` and `sup` elements from affecting the line height in all browsers.
-      selector ":where(sub, sup)"
-        [ batchIf (mode == HardReset)
-            [ position relative ]
-        , batchIf (typography == HardReset)
-            [ fontSize (pct 75)
-            , lineHeight zero
-            , verticalAlign baseline
+subAndSupResets : { a | textLevel : ResetMode } -> List Snippet
+subAndSupResets { textLevel } =
+    case textLevel of
+        HardReset ->
+            [ -- Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+              selector ":where(sub, sup)"
+                [ position relative
+                , fontSize (pct 75)
+                , lineHeight zero
+                , verticalAlign baseline
+                ]
+            , selector ":where(sub)"
+                [ bottom (Css.em -0.25) ]
+            , selector ":where(sup)"
+                [ top (Css.em -0.5) ]
             ]
-        ]
-    , selector ":where(sub)"
-        [ batchIf (mode == HardReset)
-            [ bottom (Css.em -0.25) ]
-        ]
-    , selector ":where(sup)"
-        [ batchIf (mode == HardReset)
-            [ top (Css.em -0.5) ]
-        ]
-    ]
+
+        Normalize ->
+            []
 
 
 
