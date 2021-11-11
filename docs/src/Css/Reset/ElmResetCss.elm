@@ -27,6 +27,7 @@ snippets mode =
             { marginAndPadding = mode
             , typography = mode
             , decoration = mode
+            , list = mode
             , table = mode
             , formElements = mode
             }
@@ -42,7 +43,7 @@ snippets mode =
         , headingsResets mode
 
         -- Grouping content
-        , listResets mode options
+        , listResets options
         , hrResets mode options
         , listInNavResets mode
         , preResets mode options
@@ -223,32 +224,32 @@ headingsResets mode =
 -}
 
 
-listResets : ResetMode -> { a | marginAndPadding : ResetMode, typography : ResetMode, decoration : ResetMode } -> List Snippet
-listResets mode { marginAndPadding, typography, decoration } =
+listResets : { a | marginAndPadding : ResetMode, list : ResetMode } -> List Snippet
+listResets { marginAndPadding, list } =
     [ selector ":where(ul, ol)"
         [ batchIf (marginAndPadding == HardReset)
-            [ margin zero
-            , padding zero
+            [ margin zero ]
+        , batchIf (list == HardReset)
+            [ padding zero
+            , listStyle none
             ]
-        , batchIf (decoration == HardReset)
-            [ listStyle none ]
         ]
     , selector ":where(dl)"
         [ batchIf (marginAndPadding == HardReset)
             [ margin zero ]
         ]
     , selector ":where(dt)"
-        [ batchIf (typography == HardReset)
+        [ batchIf (list == HardReset)
             [ fontWeight bold ]
         ]
     , selector ":where(dd)"
-        [ batchIf (marginAndPadding == HardReset)
+        [ batchIf (list == HardReset)
             [ marginLeft zero ]
         ]
 
     -- Remove the margin on nested lists in Chrome, Edge, and Safari.
     , selector ":where(dl, ol, ul) :where(dl, ol, ul)"
-        [ batchIf (mode == Normalize)
+        [ batchIf (list == Normalize)
             [ margin zero ]
         ]
     ]
