@@ -27,6 +27,7 @@ snippets mode =
             { marginAndPadding = mode
             , typography = mode
             , decoration = mode
+            , table = mode
             , formElements = mode
             }
     in
@@ -61,7 +62,7 @@ snippets mode =
         , svgResets mode
 
         -- Tabular data
-        , tableResets mode options
+        , tableResets options
         , captionResets options
         , tableCellResets options
 
@@ -457,46 +458,50 @@ svgResets mode =
 -}
 
 
-tableResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-tableResets mode { marginAndPadding } =
+tableResets : { a | marginAndPadding : ResetMode, table : ResetMode } -> List Snippet
+tableResets { marginAndPadding, table } =
     [ {- 1. Collapse border spacing in all browsers (opinionated).
          2. Correct table border color inheritance in all Chrome, Edge, and Safari.
          3. Remove text indentation from table contents in Chrome, Edge, and Safari.
       -}
       selector ":where(table)"
-        [ batchIf (mode == marginAndPadding)
+        [ batchIf (marginAndPadding == HardReset)
             [ margin zero ]
-        , batchIf (mode == Normalize) [ borderCollapse collapse ] -- 1
+        , batchIf (table == Normalize) [ borderCollapse collapse ] -- 1
         , borderColor inherit -- 2
-        , batchIf (mode == Normalize) [ textIndent zero ] -- 3
+        , batchIf (table == Normalize) [ textIndent zero ] -- 3
         ]
     ]
 
 
-captionResets : { a | typography : ResetMode } -> List Snippet
-captionResets { typography } =
-    [ selector ":where(caption)"
-        [ batchIf (typography == HardReset)
-            [ textAlign left ]
-        ]
-    ]
-
-
-tableCellResets : { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
-tableCellResets { marginAndPadding, typography } =
-    [ selector ":where(td, th)"
-        [ batchIf (typography == HardReset)
-            [ verticalAlign top ]
-        , batchIf (marginAndPadding == HardReset)
-            [ padding zero ]
-        ]
-    , selector ":where(th)"
-        [ batchIf (typography == HardReset)
-            [ textAlign left
-            , fontWeight bold
+captionResets : { a | table : ResetMode } -> List Snippet
+captionResets { table } =
+    case table of
+        HardReset ->
+            [ selector ":where(caption)"
+                [ textAlign left ]
             ]
-        ]
-    ]
+
+        Normalize ->
+            []
+
+
+tableCellResets : { a | table : ResetMode } -> List Snippet
+tableCellResets { table } =
+    case table of
+        HardReset ->
+            [ selector ":where(td, th)"
+                [ verticalAlign top
+                , padding zero
+                ]
+            , selector ":where(th)"
+                [ textAlign left
+                , fontWeight bold
+                ]
+            ]
+
+        Normalize ->
+            []
 
 
 
