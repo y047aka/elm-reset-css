@@ -29,6 +29,7 @@ snippets mode =
             , decoration = mode
             , heading = mode
             , list = mode
+            , hr = mode
             , textLevel = mode
             , table = mode
             , formElements = mode
@@ -46,7 +47,7 @@ snippets mode =
 
         -- Grouping content
         , listResets options
-        , hrResets mode options
+        , hrResets options
         , listInNavResets mode
         , preResets mode options
         , addressResets options
@@ -257,8 +258,8 @@ listResets { marginAndPadding, list } =
     ]
 
 
-hrResets : ResetMode -> { a | marginAndPadding : ResetMode, decoration : ResetMode } -> List Snippet
-hrResets mode { marginAndPadding, decoration } =
+hrResets : { a | marginAndPadding : ResetMode, hr : ResetMode } -> List Snippet
+hrResets { marginAndPadding, hr } =
     [ {- 1. Correct the inheritance of border color in Firefox.
          2. Add the correct box sizing in Firefox.
       -}
@@ -267,17 +268,15 @@ hrResets mode { marginAndPadding, decoration } =
         , height zero -- 2
 
         -- 2. Show the overflow in Edge and IE.
-        , batchIf (mode == HardReset)
+        , batchIf (hr == HardReset)
             [ boxSizing contentBox -- 1
             , overflow visible -- 2
-            ]
-        , batchIf (decoration == HardReset)
-            [ borderWidth zero
+            , borderWidth zero
             , borderTopWidth (px 1)
             ]
         , batchIf (marginAndPadding == HardReset)
             [ margin zero ]
-        , batchIf (mode == HardReset)
+        , batchIf (hr == HardReset)
             [ property "clear" "both" ]
         ]
     ]
