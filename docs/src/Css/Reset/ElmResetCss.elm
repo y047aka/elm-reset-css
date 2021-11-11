@@ -27,6 +27,7 @@ snippets mode =
             { marginAndPadding = mode
             , typography = mode
             , decoration = mode
+            , root = mode
             , heading = mode
             , list = mode
             , hr = mode
@@ -38,7 +39,7 @@ snippets mode =
     List.concat
         [ -- Document
           everythingResets mode
-        , rootResets mode options
+        , rootResets options
 
         -- Sections
         , bodyResets
@@ -138,42 +139,36 @@ everythingResets mode =
     ]
 
 
-rootResets : ResetMode -> { a | typography : ResetMode } -> List Snippet
-rootResets mode { typography } =
-    [ selector ":where(:root)"
-        [ {- 1. Correct the line height in all browsers.
-             2. Prevent adjustments of font size after orientation changes in iOS.
-             3. Remove gray overlay on links for iOS.
-          -}
-          batchIf (typography == HardReset)
-            [ lineHeight (num 1.15) -- 1
-            , property "-webkit-text-size-adjust" "100%" -- 2
-            ]
-        , batchIf (mode == HardReset)
-            [ property "-webkit-tap-highlight-color" "transparent" -- 3
-            ]
+rootResets : { a | root : ResetMode } -> List Snippet
+rootResets { root } =
+    [ selector ":where(:root)" <|
+        case root of
+            HardReset ->
+                {- 1. Correct the line height in all browsers.
+                   2. Prevent adjustments of font size after orientation changes in iOS.
+                   3. Remove gray overlay on links for iOS.
+                -}
+                [ lineHeight (num 1.15) -- 1
+                , property "-webkit-text-size-adjust" "100%" -- 2
+                , property "-webkit-tap-highlight-color" "transparent" -- 3
+                ]
 
-        {- 1. Use the default cursor in all browsers (opinionated).
-           2. Change the line height in all browsers (opinionated).
-           3. Breaks words to prevent overflow in all browsers (opinionated).
-           4. Use a 4-space tab width in all browsers (opinionated).
-           5. Remove the grey highlight on links in iOS (opinionated).
-           6. Prevent adjustments of font size after orientation changes in iOS.
-        -}
-        , batchIf (mode == Normalize)
-            [ cursor default -- 1
-            , batchIf (typography == Normalize)
-                [ lineHeight (num 1.5) -- 2
+            Normalize ->
+                {- 1. Use the default cursor in all browsers (opinionated).
+                   2. Change the line height in all browsers (opinionated).
+                   3. Breaks words to prevent overflow in all browsers (opinionated).
+                   4. Use a 4-space tab width in all browsers (opinionated).
+                   5. Remove the grey highlight on links in iOS (opinionated).
+                   6. Prevent adjustments of font size after orientation changes in iOS.
+                -}
+                [ cursor default -- 1
+                , lineHeight (num 1.5) -- 2
+                , property "overflow-wrap" "break-word" -- 3
+                , property "-moz-tab-size" "4" -- 4
+                , property "tab-size" "4" -- 4
+                , property "-webkit-tap-highlight-color" "transparent" -- 5
+                , property "-webkit-text-size-adjust" "100%" -- 6
                 ]
-            , property "overflow-wrap" "break-word" -- 3
-            , property "-moz-tab-size" "4" -- 4
-            , property "tab-size" "4" -- 4
-            , property "-webkit-tap-highlight-color" "transparent" -- 5
-            , batchIf (typography == Normalize)
-                [ property "-webkit-text-size-adjust" "100%" -- 6
-                ]
-            ]
-        ]
     ]
 
 
