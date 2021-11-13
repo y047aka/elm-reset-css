@@ -24,6 +24,16 @@ type alias Options =
     }
 
 
+batchIf_HardReset : ResetMode -> List Style -> Style
+batchIf_HardReset mode =
+    batchIf (mode == HardReset)
+
+
+batchIf_Normalize : ResetMode -> List Style -> Style
+batchIf_Normalize mode =
+    batchIf (mode == Normalize)
+
+
 batchIf : Bool -> List Style -> Style
 batchIf condition styles =
     if condition then
@@ -159,7 +169,7 @@ everythingResets mode =
         [ selector "::before"
         , selector "::after"
         ]
-        [ batchIf (mode == Normalize)
+        [ batchIf_Normalize mode
             [ textDecoration inherit -- 1
             , property "vertical-align" "inherit" -- 2
             ]
@@ -287,7 +297,7 @@ hrResets mode =
         , height zero -- 2
 
         -- 2. Show the overflow in Edge and IE.
-        , batchIf (mode == HardReset)
+        , batchIf_HardReset mode
             [ boxSizing contentBox -- 1
             , overflow visible -- 2
             , borderWidth zero
@@ -327,11 +337,11 @@ preResets mode =
          3. Prevent overflow of the container in all browsers (opinionated).
       -}
       selector ":where(pre)"
-        [ batchIf (mode == HardReset)
+        [ batchIf_HardReset mode
             [ margin zero ]
         , fontFamilies [ monospace.value, monospace.value ] -- 1
         , fontSize (Css.em 1) -- 2
-        , batchIf (mode == Normalize) [ overflow auto ] -- 3
+        , batchIf_Normalize mode [ overflow auto ] -- 3
         ]
     ]
 
@@ -341,10 +351,8 @@ addressResets mode =
     case mode of
         HardReset ->
             [ selector ":where(address)"
-                [ batchIf (mode == HardReset)
-                    [ margin zero
-                    , fontStyle inherit
-                    ]
+                [ margin zero
+                , fontStyle inherit
                 ]
             ]
 
@@ -442,13 +450,13 @@ embeddedContent : ResetMode -> List Snippet
 embeddedContent mode =
     [ -- Prevent vertical alignment issues.
       selector ":where(svg, img, embed, object, iframe)"
-        [ batchIf (mode == HardReset)
+        [ batchIf_HardReset mode
             [ verticalAlign bottom ]
         ]
 
     -- Change the alignment on media elements in all browsers (opinionated).
     , selector ":where(audio, canvas, iframe, img, svg, video)"
-        [ batchIf (mode == Normalize)
+        [ batchIf_Normalize mode
             [ verticalAlign middle ]
         ]
     ]
@@ -471,7 +479,7 @@ svgResets : ResetMode -> List Snippet
 svgResets mode =
     [ -- Change the fill color to match the text color in all browsers (opinionated).
       selector ":where(svg:not([fill]))"
-        [ batchIf (mode == Normalize)
+        [ batchIf_Normalize mode
             [ property "fill" "currentColor" ]
         ]
     ]
@@ -490,11 +498,11 @@ tableResets mode =
          3. Remove text indentation from table contents in Chrome, Edge, and Safari.
       -}
       selector ":where(table)"
-        [ batchIf (mode == HardReset)
+        [ batchIf_HardReset mode
             [ margin zero ]
-        , batchIf (mode == Normalize) [ borderCollapse collapse ] -- 1
+        , batchIf_Normalize mode [ borderCollapse collapse ] -- 1
         , borderColor inherit -- 2
-        , batchIf (mode == Normalize) [ textIndent zero ] -- 3
+        , batchIf_Normalize mode [ textIndent zero ] -- 3
         ]
     ]
 
@@ -646,7 +654,7 @@ fieldsetResets mode =
                 -- Change the inconsistent appearance in all browsers (opinionated).
                 [ border3 (px 1) solid (hex "#a0a0a0") ]
     , selector ":where(legend)"
-        [ batchIf (mode == HardReset)
+        [ batchIf_HardReset mode
             [ padding zero ]
         ]
     ]
@@ -832,7 +840,7 @@ contenteditableResets : ResetMode -> List Snippet
 contenteditableResets mode =
     [ -- Remove outline for editable content.
       selector "[contenteditable]:focus"
-        [ batchIf (mode == HardReset)
+        [ batchIf_HardReset mode
             [ property "outline" "auto" ]
         ]
     ]
