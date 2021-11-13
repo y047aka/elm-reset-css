@@ -31,18 +31,12 @@ main =
 
 
 type alias Model =
-    { resetCss_1 : Maybe ResetCss
-    , resetCss_2 : Maybe ResetCss
-    , resetCss_3 : Maybe ResetCss
-    }
+    { slots : List (Maybe ResetCss) }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { resetCss_1 = Nothing
-      , resetCss_2 = Nothing
-      , resetCss_3 = Nothing
-      }
+    ( { slots = [ Nothing, Nothing, Nothing ] }
     , Cmd.none
     )
 
@@ -52,26 +46,27 @@ init _ =
 
 
 type Msg
-    = SetResetCss Slot String
-
-
-type Slot
-    = Slot_1
-    | Slot_2
-    | Slot_3
+    = SetResetCss Int String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SetResetCss Slot_1 str ->
-            ( { model | resetCss_1 = ResetCss.fromString str }, Cmd.none )
+        SetResetCss target str ->
+            ( { model
+                | slots =
+                    List.indexedMap
+                        (\i previous ->
+                            if i == target then
+                                ResetCss.fromString str
 
-        SetResetCss Slot_2 str ->
-            ( { model | resetCss_2 = ResetCss.fromString str }, Cmd.none )
-
-        SetResetCss Slot_3 str ->
-            ( { model | resetCss_3 = ResetCss.fromString str }, Cmd.none )
+                            else
+                                previous
+                        )
+                        model.slots
+              }
+            , Cmd.none
+            )
 
 
 
@@ -79,7 +74,7 @@ update msg model =
 
 
 view : Model -> Document Msg
-view model =
+view { slots } =
     { title = ""
     , body =
         [ main_ []
@@ -108,13 +103,8 @@ view model =
                         ]
                     ]
                 ]
-                (List.map resetCssSelector
-                    [ ( Slot_1, model.resetCss_1 )
-                    , ( Slot_2, model.resetCss_2 )
-                    , ( Slot_3, model.resetCss_3 )
-                    ]
-                )
-            , preview model
+                (List.indexedMap resetCssSelector slots)
+            , preview slots
             ]
         ]
     }
@@ -135,10 +125,10 @@ globalReset =
         ]
 
 
-resetCssSelector : ( Slot, Maybe ResetCss ) -> Html Msg
-resetCssSelector ( slot, current ) =
+resetCssSelector : Int -> Maybe ResetCss -> Html Msg
+resetCssSelector target current =
     div []
-        [ select [ onInput (SetResetCss slot) ] <|
+        [ select [ onInput (SetResetCss target) ] <|
             option
                 [ value ""
                 , selected (Maybe.withDefault True <| Maybe.map (always False) current)
@@ -156,8 +146,8 @@ resetCssSelector ( slot, current ) =
         ]
 
 
-preview : Model -> Html msg
-preview model =
+preview : List (Maybe ResetCss) -> Html msg
+preview slots =
     div [] <|
         List.map
             (\tag ->
@@ -194,14 +184,14 @@ preview model =
                             ]
                         ]
                         [ text (Tag.toString tag) ]
-                    , accordionContent model tag
+                    , accordionContent slots tag
                     ]
             )
             Tag.all
 
 
-accordionContent : Model -> Tag -> Html msg
-accordionContent { resetCss_1, resetCss_2, resetCss_3 } tag =
+accordionContent : List (Maybe ResetCss) -> Tag -> Html msg
+accordionContent slots tag =
     let
         column resetCss =
             div
@@ -240,4 +230,4 @@ accordionContent { resetCss_1, resetCss_2, resetCss_3 } tag =
                 ]
             ]
         ]
-        (List.map column [ resetCss_1, resetCss_2, resetCss_3 ])
+        (List.map column slots)
