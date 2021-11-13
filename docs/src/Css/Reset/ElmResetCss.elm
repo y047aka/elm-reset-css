@@ -24,34 +24,35 @@ snippets : ResetMode -> List Snippet
 snippets mode =
     let
         options =
-            { marginAndPadding = mode
-            , typography = mode
-            , decoration = mode
+            { mode = mode
             , root = mode
             , heading = mode
+            , groupingContent = mode
             , list = mode
             , hr = mode
             , textLevel = mode
+            , embeddedContent = mode
             , table = mode
             , formElements = mode
+            , interactive = mode
             }
     in
     List.concat
         [ -- Document
-          everythingResets mode
+          everythingResets options.mode
         , rootResets options.root
 
         -- Sections
         , bodyResets
-        , verticalRhythm options
+        , verticalRhythm options.mode
         , headingsResets options.heading
 
         -- Grouping content
         , listResets options.list
         , hrResets options.hr
         , listInNavResets options.list
-        , preResets mode options
-        , addressResets options
+        , preResets options.groupingContent
+        , addressResets options.groupingContent
 
         -- Text-level semantics
         , aResets options.textLevel
@@ -62,9 +63,9 @@ snippets mode =
         , subAndSupResets options.textLevel
 
         -- Embedded content
-        , embeddedContent options
-        , iframeResets options
-        , svgResets mode
+        , embeddedContent options.embeddedContent
+        , iframeResets options.embeddedContent
+        , svgResets options.embeddedContent
 
         -- Tabular data
         , tableResets options.table
@@ -75,7 +76,7 @@ snippets mode =
         , fieldResets options.formElements
         , inputResets options.formElements
         , buttonResets options.formElements
-        , focusringReset mode
+        , focusringReset options.formElements
         , selectResets options.formElements
         , fieldsetResets options.formElements
         , progressResets
@@ -88,9 +89,9 @@ snippets mode =
         , labelResets options.formElements
 
         -- Interactive
-        , dialogResets mode
-        , summaryDetailsResets mode
-        , contenteditableResets mode
+        , dialogResets options.interactive
+        , summaryDetailsResets options.interactive
+        , contenteditableResets options.interactive
 
         -- Accessibility
         , accessibility
@@ -186,13 +187,16 @@ bodyResets =
     ]
 
 
-verticalRhythm : { a | marginAndPadding : ResetMode } -> List Snippet
-verticalRhythm { marginAndPadding } =
-    [ selector ":where(p, blockquote, form, figure)"
-        [ batchIf (marginAndPadding == HardReset)
-            [ margin zero ]
-        ]
-    ]
+verticalRhythm : ResetMode -> List Snippet
+verticalRhythm mode =
+    case mode of
+        HardReset ->
+            [ selector ":where(p, blockquote, form, figure)"
+                [ margin zero ]
+            ]
+
+        Normalize ->
+            []
 
 
 headingsResets : ResetMode -> List Snippet
@@ -289,14 +293,14 @@ listInNavResets mode =
             ]
 
 
-preResets : ResetMode -> { a | marginAndPadding : ResetMode } -> List Snippet
-preResets mode { marginAndPadding } =
+preResets : ResetMode -> List Snippet
+preResets mode =
     [ {- 1. Correct the inheritance and scaling of font size in all browsers.
          2. Correct the odd `em` font sizing in all browsers.
          3. Prevent overflow of the container in all browsers (opinionated).
       -}
       selector ":where(pre)"
-        [ batchIf (marginAndPadding == HardReset)
+        [ batchIf (mode == HardReset)
             [ margin zero ]
         , fontFamilies [ monospace.value, monospace.value ] -- 1
         , fontSize (Css.em 1) -- 2
@@ -305,15 +309,20 @@ preResets mode { marginAndPadding } =
     ]
 
 
-addressResets : { a | marginAndPadding : ResetMode, typography : ResetMode } -> List Snippet
-addressResets { marginAndPadding, typography } =
-    [ selector ":where(address)"
-        [ batchIf (marginAndPadding == HardReset)
-            [ margin zero ]
-        , batchIf (typography == HardReset)
-            [ fontStyle inherit ]
-        ]
-    ]
+addressResets : ResetMode -> List Snippet
+addressResets mode =
+    case mode of
+        HardReset ->
+            [ selector ":where(address)"
+                [ batchIf (mode == HardReset)
+                    [ margin zero
+                    , fontStyle inherit
+                    ]
+                ]
+            ]
+
+        Normalize ->
+            []
 
 
 
@@ -402,32 +411,32 @@ subAndSupResets mode =
 -}
 
 
-embeddedContent : { a | typography : ResetMode } -> List Snippet
-embeddedContent { typography } =
+embeddedContent : ResetMode -> List Snippet
+embeddedContent mode =
     [ -- Prevent vertical alignment issues.
       selector ":where(svg, img, embed, object, iframe)"
-        [ batchIf (typography == HardReset)
+        [ batchIf (mode == HardReset)
             [ verticalAlign bottom ]
         ]
 
     -- Change the alignment on media elements in all browsers (opinionated).
     , selector ":where(audio, canvas, iframe, img, svg, video)"
-        [ batchIf (typography == Normalize)
+        [ batchIf (mode == Normalize)
             [ verticalAlign middle ]
         ]
     ]
 
 
-iframeResets : { a | marginAndPadding : ResetMode, decoration : ResetMode } -> List Snippet
-iframeResets { marginAndPadding, decoration } =
-    [ selector ":where(iframe)"
-        [ batchIf (marginAndPadding == HardReset)
-            [ margin zero ]
+iframeResets : ResetMode -> List Snippet
+iframeResets mode =
+    [ selector ":where(iframe)" <|
+        case mode of
+            HardReset ->
+                [ margin zero ]
 
-        -- Remove the border on iframes in all browsers (opinionated).
-        , batchIf (decoration == Normalize)
-            [ borderStyle none ]
-        ]
+            -- Remove the border on iframes in all browsers (opinionated).
+            Normalize ->
+                [ borderStyle none ]
     ]
 
 
