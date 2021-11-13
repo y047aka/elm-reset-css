@@ -8,7 +8,7 @@ import Css.Media as Media exposing (only, screen, withMedia)
 import Data.ResetCss as ResetCss exposing (ResetCss(..))
 import Data.Tag as Tag exposing (Tag(..))
 import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (attribute, css, value)
+import Html.Styled.Attributes exposing (attribute, css, selected, value)
 import Html.Styled.Events exposing (onInput)
 
 
@@ -108,7 +108,12 @@ view model =
                         ]
                     ]
                 ]
-                (List.map resetCssSelector [ Slot_1, Slot_2, Slot_3 ])
+                (List.map resetCssSelector
+                    [ ( Slot_1, model.resetCss_1 )
+                    , ( Slot_2, model.resetCss_2 )
+                    , ( Slot_3, model.resetCss_3 )
+                    ]
+                )
             , preview model
             ]
         ]
@@ -130,14 +135,21 @@ globalReset =
         ]
 
 
-resetCssSelector : Slot -> Html Msg
-resetCssSelector slot =
+resetCssSelector : ( Slot, Maybe ResetCss ) -> Html Msg
+resetCssSelector ( slot, current ) =
     div []
         [ select [ onInput (SetResetCss slot) ] <|
-            option [ value "" ] [ text "Browser Default" ]
+            option
+                [ value ""
+                , selected (Maybe.withDefault True <| Maybe.map (always False) current)
+                ]
+                [ text "Browser Default" ]
                 :: List.map
                     (\resetCss ->
-                        option [ value (ResetCss.toString resetCss) ]
+                        option
+                            [ value (ResetCss.toString resetCss)
+                            , selected (current == Just resetCss)
+                            ]
                             [ text <| .name <| ResetCss.toSummary resetCss ]
                     )
                     ResetCss.all
