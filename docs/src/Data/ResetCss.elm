@@ -3,7 +3,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toLibrary, toRootS
 import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
-import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
+import Css.Reset.ElmResetCss as ERC
 
 
 type ResetCss
@@ -14,7 +14,8 @@ type ResetCss
     | Ress
     | Sanitize
     | TheNewCssReset
-    | ElmResetCss ResetMode
+    | ERC_HardReset
+    | ERC_Normalize
 
 
 type alias Library =
@@ -51,11 +52,11 @@ fromString str =
         "TheNewCssReset" ->
             Just TheNewCssReset
 
-        "ElmHardReset" ->
-            Just (ElmResetCss ERC.HardReset)
+        "ERC_HardReset" ->
+            Just ERC_HardReset
 
-        "ElmNormalize" ->
-            Just (ElmResetCss ERC.Normalize)
+        "ERC_Normalize" ->
+            Just ERC_Normalize
 
         _ ->
             Nothing
@@ -85,11 +86,11 @@ toString resetCss =
         TheNewCssReset ->
             "TheNewCssReset"
 
-        ElmResetCss ERC.HardReset ->
-            "ElmHardReset"
+        ERC_HardReset ->
+            "ERC_HardReset"
 
-        ElmResetCss ERC.Normalize ->
-            "ElmNormalize"
+        ERC_Normalize ->
+            "ERC_Normalize"
 
 
 toSnippet : ResetCss -> List Snippet
@@ -116,8 +117,11 @@ toSnippet resetCss =
         TheNewCssReset ->
             theNewCssReset
 
-        ElmResetCss opiton ->
-            ERC.snippets opiton
+        ERC_HardReset ->
+            ERC.hardReset
+
+        ERC_Normalize ->
+            ERC.normalize
 
 
 toRootStyles : ResetCss -> List Style
@@ -178,13 +182,13 @@ toRootStyles resetCss =
             , property "display" "revert"
             ]
 
-        ElmResetCss ERC.HardReset ->
+        ERC_HardReset ->
             [ lineHeight (num 1.15)
             , property "-webkit-text-size-adjust" "100%"
             , property "-webkit-tap-highlight-color" "transparent"
             ]
 
-        ElmResetCss ERC.Normalize ->
+        ERC_Normalize ->
             [ cursor default -- 1
             , lineHeight (num 1.5) -- 2
             , property "overflow-wrap" "break-word" -- 3
@@ -261,7 +265,7 @@ toLibrary resetCss =
             , url = "https://github.com/elad2412/the-new-css-reset"
             }
 
-        ElmResetCss ERC.HardReset ->
+        ERC_HardReset ->
             { name = "elm-reset-css (hard reset)"
             , version = "v0.0.0"
             , updatedAt = "2021-10-09"
@@ -270,7 +274,7 @@ toLibrary resetCss =
             , url = "https://github.com/y047aka/elm-reset-css"
             }
 
-        ElmResetCss ERC.Normalize ->
+        ERC_Normalize ->
             { name = "elm-reset-css (normalize)"
             , version = "v0.0.0"
             , updatedAt = "2021-10-09"
@@ -289,6 +293,6 @@ all =
     , Ress
     , Sanitize
     , TheNewCssReset
-    , ElmResetCss ERC.HardReset
-    , ElmResetCss ERC.Normalize
+    , ERC_HardReset
+    , ERC_Normalize
     ]

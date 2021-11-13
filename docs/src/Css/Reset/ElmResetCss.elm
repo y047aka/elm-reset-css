@@ -1,4 +1,4 @@
-module Css.Reset.ElmResetCss exposing (ResetMode(..), snippets)
+module Css.Reset.ElmResetCss exposing (hardReset, normalize, snippetsWithOptions)
 
 import Css exposing (..)
 import Css.Global exposing (Snippet, each, everything, selector)
@@ -7,6 +7,21 @@ import Css.Global exposing (Snippet, each, everything, selector)
 type ResetMode
     = HardReset
     | Normalize
+
+
+type alias Options =
+    { mode : ResetMode
+    , root : ResetMode
+    , heading : ResetMode
+    , groupingContent : ResetMode
+    , list : ResetMode
+    , hr : ResetMode
+    , textLevel : ResetMode
+    , embeddedContent : ResetMode
+    , table : ResetMode
+    , formElements : ResetMode
+    , interactive : ResetMode
+    }
 
 
 batchIf : Bool -> List Style -> Style
@@ -18,25 +33,37 @@ batchIf condition styles =
         batch []
 
 
+hardReset : List Snippet
+hardReset =
+    snippetsByResetMode HardReset
+
+
+normalize : List Snippet
+normalize =
+    snippetsByResetMode Normalize
+
+
+snippetsByResetMode : ResetMode -> List Snippet
+snippetsByResetMode mode =
+    snippetsWithOptions
+        { mode = mode
+        , root = mode
+        , heading = mode
+        , groupingContent = mode
+        , list = mode
+        , hr = mode
+        , textLevel = mode
+        , embeddedContent = mode
+        , table = mode
+        , formElements = mode
+        , interactive = mode
+        }
+
+
 {-| Compile it with your elm-css code.
 -}
-snippets : ResetMode -> List Snippet
-snippets mode =
-    let
-        options =
-            { mode = mode
-            , root = mode
-            , heading = mode
-            , groupingContent = mode
-            , list = mode
-            , hr = mode
-            , textLevel = mode
-            , embeddedContent = mode
-            , table = mode
-            , formElements = mode
-            , interactive = mode
-            }
-    in
+snippetsWithOptions : Options -> List Snippet
+snippetsWithOptions options =
     List.concat
         [ -- Document
           everythingResets options.mode
