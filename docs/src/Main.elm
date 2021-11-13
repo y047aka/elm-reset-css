@@ -138,7 +138,7 @@ resetCssSelector slot =
                 :: List.map
                     (\resetCss ->
                         option [ value (ResetCss.toString resetCss) ]
-                            [ text <| .name <| ResetCss.toLibrary resetCss ]
+                            [ text <| .name <| ResetCss.toSummary resetCss ]
                     )
                     ResetCss.all
         ]

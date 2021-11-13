@@ -1,4 +1,4 @@
-module Data.ResetCss exposing (ResetCss(..), all, fromString, toLibrary, toRootStyles, toSnippet, toString)
+module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSnippet, toString, toSummary)
 
 import Css exposing (..)
 import Css.Global exposing (Snippet)
@@ -18,7 +18,7 @@ type ResetCss
     | ERC_Normalize
 
 
-type alias Library =
+type alias Summary =
     { author : String
     , license : String
     , name : String
@@ -199,8 +199,8 @@ toRootStyles resetCss =
             ]
 
 
-toLibrary : ResetCss -> Library
-toLibrary resetCss =
+toSummary : ResetCss -> Summary
+toSummary resetCss =
     case resetCss of
         EricMeyer ->
             { name = "Eric Meyer’s Reset CSS"
