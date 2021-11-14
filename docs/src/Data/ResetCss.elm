@@ -3,7 +3,6 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
-import Css.Reset.ElmResetCss as ERC
 
 
 type ResetCss
@@ -118,10 +117,10 @@ toSnippet resetCss =
             theNewCssReset
 
         ERC_HardReset ->
-            ERC.hardReset
+            erc_HardReset
 
         ERC_Normalize ->
-            ERC.normalize
+            erc_Normalize
 
 
 toRootStyles : ResetCss -> List Style
@@ -267,8 +266,8 @@ toSummary resetCss =
 
         ERC_HardReset ->
             { name = "elm-reset-css (hard reset)"
-            , version = "v0.0.0"
-            , updatedAt = "2021-10-09"
+            , version = "v2.3.0"
+            , updatedAt = "2021-11-14"
             , author = "Yoshitaka Totsuka"
             , license = "MIT"
             , url = "https://github.com/y047aka/elm-reset-css"
@@ -276,8 +275,8 @@ toSummary resetCss =
 
         ERC_Normalize ->
             { name = "elm-reset-css (normalize)"
-            , version = "v0.0.0"
-            , updatedAt = "2021-10-09"
+            , version = "v2.3.0"
+            , updatedAt = "2021-11-14"
             , author = "Yoshitaka Totsuka"
             , license = "MIT"
             , url = "https://github.com/y047aka/elm-reset-css"
