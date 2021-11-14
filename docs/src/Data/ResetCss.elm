@@ -258,8 +258,8 @@ toSummary resetCss =
 
         TheNewCssReset ->
             { name = "The New CSS Reset"
-            , version = "v1.2.0"
-            , updatedAt = "2021-07-23"
+            , version = "v1.3.1"
+            , updatedAt = "2021-10-28"
             , author = "Elad Shechter"
             , license = "MIT"
             , url = "https://github.com/elad2412/the-new-css-reset"
