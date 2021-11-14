@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "node ./build.js",
+    "build": "node ./esbuild/build.js",
     "start": "elm-live src/Main.elm --dir=./local --pushstate --hot --open -- --debug --output=./local/elm.js"
   },
   "devDependencies": {

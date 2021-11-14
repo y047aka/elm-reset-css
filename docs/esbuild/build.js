@@ -2,9 +2,9 @@ const esbuild = require('esbuild')
 const ElmPlugin = require('esbuild-plugin-elm')
 
 esbuild.build({
-  entryPoints: ['index.js'],
+  entryPoints: ['./esbuild/index.js'],
   bundle: true,
-  outdir: '.',
+  outfile: 'index.js',
   minify: true,
   plugins: [
     ElmPlugin({ debug: false, optimize: true })
