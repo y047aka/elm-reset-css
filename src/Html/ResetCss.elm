@@ -1,6 +1,7 @@
 module Html.ResetCss exposing
     ( ericMeyer, html5Doctor, destyle
     , normalize, ress, sanitize, theNewCssReset
+    , erc_HardReset, erc_Normalize
     )
 
 {-| This module helps you to reset base styles. You can use them with elm/html.
@@ -15,11 +16,13 @@ module Html.ResetCss exposing
 
 @docs ericMeyer, html5Doctor, destyle
 @docs normalize, ress, sanitize, theNewCssReset
+@docs erc_HardReset, erc_Normalize
 
 -}
 
 import Css.Global exposing (global)
 import Css.Reset.Destyle as Destyle
+import Css.Reset.ERC as ERC
 import Css.Reset.EricMeyer as EricMeyer
 import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
@@ -89,5 +92,23 @@ sanitize =
 theNewCssReset : Html msg
 theNewCssReset =
     TheNewCssReset.snippets
+        |> global
+        |> toUnstyled
+
+
+{-| ElmResetCss
+-}
+erc_HardReset : Html msg
+erc_HardReset =
+    ERC.hardReset
+        |> global
+        |> toUnstyled
+
+
+{-| ElmResetCss
+-}
+erc_Normalize : Html msg
+erc_Normalize =
+    ERC.normalize
         |> global
         |> toUnstyled
