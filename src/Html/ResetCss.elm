@@ -6,14 +6,6 @@ module Html.ResetCss exposing
 
 {-| This module helps you to reset base styles. You can use them with elm/html.
 
-  - Eric Meyer’s Reset CSS
-  - html5doctor.com Reset Stylesheet
-  - destyle.css
-  - Normalize.css
-  - ress
-  - sanitize.css
-  - The New CSS Reset
-
 @docs ericMeyer, html5Doctor, destyle
 @docs normalize, ress, sanitize, theNewCssReset
 @docs erc_HardReset, erc_Normalize
@@ -33,7 +25,7 @@ import Html exposing (Html)
 import Html.Styled exposing (toUnstyled)
 
 
-{-| Eric Meyer’s Reset CSS
+{-| <https://meyerweb.com/eric/tools/css/reset/>
 -}
 ericMeyer : Html msg
 ericMeyer =
@@ -42,7 +34,7 @@ ericMeyer =
         |> toUnstyled
 
 
-{-| html5doctor.com Reset Stylesheet
+{-| <https://github.com/richclark/HTML5resetCSS>
 -}
 html5Doctor : Html msg
 html5Doctor =
@@ -51,7 +43,7 @@ html5Doctor =
         |> toUnstyled
 
 
-{-| destyle.css
+{-| <https://github.com/nicolas-cusan/destyle.css>
 -}
 destyle : Html msg
 destyle =
@@ -60,7 +52,7 @@ destyle =
         |> toUnstyled
 
 
-{-| Normalize.css
+{-| <https://github.com/necolas/normalize.css>
 -}
 normalize : Html msg
 normalize =
@@ -69,7 +61,7 @@ normalize =
         |> toUnstyled
 
 
-{-| ress
+{-| <https://github.com/filipelinhares/ress>
 -}
 ress : Html msg
 ress =
@@ -78,7 +70,7 @@ ress =
         |> toUnstyled
 
 
-{-| sanitize.css
+{-| <https://github.com/csstools/sanitize.css>
 -}
 sanitize : Html msg
 sanitize =
@@ -87,7 +79,7 @@ sanitize =
         |> toUnstyled
 
 
-{-| The New CSS Reset
+{-| <https://github.com/elad2412/the-new-css-reset>
 -}
 theNewCssReset : Html msg
 theNewCssReset =

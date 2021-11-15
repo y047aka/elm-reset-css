@@ -17,7 +17,7 @@ https://github.com/nicolas-cusan/destyle.css
 
 **Normalize.css** - v8.0.1 (2018-11-05)  
 Nicolas Gallagher / MIT  
-https://github.com/necolas/normalize.css/
+https://github.com/necolas/normalize.css
 
 **ress** - v4.0.0 (2021-04-21)  
 Filipe Linhares / MIT  

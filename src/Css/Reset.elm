@@ -6,14 +6,6 @@ module Css.Reset exposing
 
 {-| This module helps you to reset base styles. Compile it with your elm-css code.
 
-  - Eric Meyer’s Reset CSS
-  - html5doctor.com Reset Stylesheet
-  - destyle.css
-  - Normalize.css
-  - ress
-  - sanitize.css
-  - The New CSS Reset
-
 @docs ericMeyer, html5Doctor, destyle
 @docs normalize, ress, sanitize, theNewCssReset
 @docs erc_HardReset, erc_Normalize
@@ -31,63 +23,63 @@ import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
 
 
-{-| Eric Meyer’s Reset CSS which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://meyerweb.com/eric/tools/css/reset/>
 -}
 ericMeyer : List Snippet
 ericMeyer =
     EricMeyer.snippets
 
 
-{-| html5doctor.com Reset Stylesheet which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://github.com/richclark/HTML5resetCSS>
 -}
 html5Doctor : List Snippet
 html5Doctor =
     Html5Doctor.snippets
 
 
-{-| destyle.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://github.com/nicolas-cusan/destyle.css>
 -}
 destyle : List Snippet
 destyle =
     Destyle.snippets
 
 
-{-| Normalize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://github.com/necolas/normalize.css>
 -}
 normalize : List Snippet
 normalize =
     Normalize.snippets
 
 
-{-| ress which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://github.com/filipelinhares/ress>
 -}
 ress : List Snippet
 ress =
     Ress.snippets
 
 
-{-| sanitize.css which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://github.com/csstools/sanitize.css>
 -}
 sanitize : List Snippet
 sanitize =
     Sanitize.snippets
 
 
-{-| The New CSS Reset which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| <https://github.com/elad2412/the-new-css-reset>
 -}
 theNewCssReset : List Snippet
 theNewCssReset =
     TheNewCssReset.snippets
 
 
-{-| ElmResetCss which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| ElmResetCss
 -}
 erc_HardReset : List Snippet
 erc_HardReset =
     ERC.hardReset
 
 
-{-| ElmResetCss which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
+{-| ElmResetCss
 -}
 erc_Normalize : List Snippet
 erc_Normalize =
