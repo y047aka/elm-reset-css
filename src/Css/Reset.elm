@@ -70,15 +70,15 @@ html5Doctor =
 
 
 {-| -}
-destyle : List Snippet
-destyle =
-    Destyle.snippets
-
-
-{-| -}
 normalize : List Snippet
 normalize =
     Normalize.snippets
+
+
+{-| -}
+sanitize : List Snippet
+sanitize =
+    Sanitize.snippets
 
 
 {-| -}
@@ -88,9 +88,9 @@ ress =
 
 
 {-| -}
-sanitize : List Snippet
-sanitize =
-    Sanitize.snippets
+destyle : List Snippet
+destyle =
+    Destyle.snippets
 
 
 {-| -}

@@ -76,17 +76,17 @@ html5Doctor =
 
 
 {-| -}
-destyle : Html msg
-destyle =
-    Destyle.snippets
+normalize : Html msg
+normalize =
+    Normalize.snippets
         |> global
         |> toUnstyled
 
 
 {-| -}
-normalize : Html msg
-normalize =
-    Normalize.snippets
+sanitize : Html msg
+sanitize =
+    Sanitize.snippets
         |> global
         |> toUnstyled
 
@@ -100,9 +100,9 @@ ress =
 
 
 {-| -}
-sanitize : Html msg
-sanitize =
-    Sanitize.snippets
+destyle : Html msg
+destyle =
+    Destyle.snippets
         |> global
         |> toUnstyled
 
