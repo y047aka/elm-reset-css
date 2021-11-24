@@ -55,7 +55,7 @@ module Css.Reset exposing
     Nicolas Gallagher / MIT
 
   - [sanitize.css (2012)](https://github.com/csstools/sanitize.css)  
-    v12.0.1 (2020-08-20)  
+    v13.0.0 (2021-09-14)  
     CSS Tools / CC0 1.0 Universal
 
   - [ress (2015)](https://github.com/filipelinhares/ress)  
@@ -63,7 +63,7 @@ module Css.Reset exposing
     Filipe Linhares / MIT
 
   - [destyle.css (2019)](https://github.com/nicolas-cusan/destyle.css)  
-    v2.0.2 (2020-10-16)  
+    v3.0.0 (2021-09-06)  
     Nicolas Cusan / MIT
 
   - [The New CSS Reset (2021)](https://github.com/elad2412/the-new-css-reset)  
