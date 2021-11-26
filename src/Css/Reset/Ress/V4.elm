@@ -1,4 +1,4 @@
-module Css.Reset.Ress.V4 exposing (snippets)
+module Css.Reset.Ress.V4 exposing (v4)
 
 {-|
 
@@ -11,8 +11,8 @@ import Css.Global exposing (..)
 
 
 {-| -}
-snippets : List Snippet
-snippets =
+v4 : List Snippet
+v4 =
     {- ress.css • v4.0.0
        MIT License
        github.com/filipelinhares/ress

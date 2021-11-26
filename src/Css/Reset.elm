@@ -115,7 +115,7 @@ sanitize =
 {-| -}
 ress : List Snippet
 ress =
-    Ress.snippets
+    Ress.latest
 
 
 {-| -}

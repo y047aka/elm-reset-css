@@ -123,7 +123,7 @@ sanitize =
 {-| -}
 ress : Html msg
 ress =
-    Ress.snippets
+    Ress.latest
         |> global
         |> toUnstyled
 
