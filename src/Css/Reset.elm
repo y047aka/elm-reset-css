@@ -109,7 +109,7 @@ normalize =
 {-| -}
 sanitize : List Snippet
 sanitize =
-    Sanitize.snippets
+    Sanitize.latest
 
 
 {-| -}

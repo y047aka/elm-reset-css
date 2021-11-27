@@ -115,7 +115,7 @@ normalize =
 {-| -}
 sanitize : Html msg
 sanitize =
-    Sanitize.snippets
+    Sanitize.latest
         |> global
         |> toUnstyled
 
