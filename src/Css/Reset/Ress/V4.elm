@@ -2,7 +2,7 @@ module Css.Reset.Ress.V4 exposing (v4)
 
 {-|
 
-@docs snippets
+@docs v4
 
 -}
 
