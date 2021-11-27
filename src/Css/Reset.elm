@@ -121,7 +121,7 @@ ress =
 {-| -}
 destyle : List Snippet
 destyle =
-    Destyle.snippets
+    Destyle.latest
 
 
 {-| -}

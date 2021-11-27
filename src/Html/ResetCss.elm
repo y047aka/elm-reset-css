@@ -131,7 +131,7 @@ ress =
 {-| -}
 destyle : Html msg
 destyle =
-    Destyle.snippets
+    Destyle.latest
         |> global
         |> toUnstyled
 
