@@ -157,16 +157,16 @@ forms =
     , selector "[disabled]"
         [ cursor default ]
     , each
-        [ selector "[type=\"number\"]::-webkit-inner-spin-button"
-        , selector "[type=\"number\"]::-webkit-outer-spin-button"
+        [ selector """[type="number"]::-webkit-inner-spin-button"""
+        , selector """[type="number"]::-webkit-outer-spin-button"""
         ]
         [ height auto -- Correct the cursor style of increment and decrement buttons in Chrome
         ]
-    , selector "[type=\"search\"]"
+    , selector """[type="search"]"""
         [ property "-webkit-appearance" "textfield" -- Correct the odd appearance in Chrome and Safari
         , outlineOffset (px -2) -- Correct the outline style in Safari
         ]
-    , selector "[type=\"search\"]::-webkit-search-decoration"
+    , selector """[type="search"]::-webkit-search-decoration"""
         [ property "-webkit-appearance" "none" -- Remove the inner padding in Chrome and Safari on macOS
         ]
     , textarea
@@ -198,10 +198,10 @@ forms =
     -- Apply cursor pointer to button elements
     , each
         [ button
-        , selector "[type=\"button\"]"
-        , selector "[type=\"reset\"]"
-        , selector "[type=\"submit\"]"
-        , selector "[role=\"button\"]"
+        , selector """[type="button"]"""
+        , selector """[type="reset"]"""
+        , selector """[type="submit"]"""
+        , selector """[role="button"]"""
         ]
         [ cursor pointer
         , color inherit
@@ -210,9 +210,9 @@ forms =
     -- Remove inner padding and border in Firefox 4+
     , each
         [ selector "button::-moz-focus-inner"
-        , selector "[type=\"button\"]::-moz-focus-inner"
-        , selector "[type=\"reset\"]::-moz-focus-inner"
-        , selector "[type=\"submit\"]::-moz-focus-inner"
+        , selector """[type="button"]::-moz-focus-inner"""
+        , selector """[type="reset"]::-moz-focus-inner"""
+        , selector """[type="submit"]::-moz-focus-inner"""
         ]
         [ borderStyle none
         , padding zero
@@ -221,17 +221,17 @@ forms =
     -- Replace focus style removed in the border reset above
     , each
         [ selector "button:-moz-focusring"
-        , selector "[type=\"button\"]::-moz-focus-inner"
-        , selector "[type=\"reset\"]::-moz-focus-inner"
-        , selector "[type=\"submit\"]::-moz-focus-inner"
+        , selector """[type="button"]::-moz-focus-inner"""
+        , selector """[type="reset"]::-moz-focus-inner"""
+        , selector """[type="submit"]::-moz-focus-inner"""
         ]
         [ property "outline" "1px dotted ButtonText"
         ]
     , each
         [ button
-        , selector "html [type=\"button\"]" -- Prevent a WebKit bug where (2) destroys native `audio` and `video`controls in Android 4
-        , selector "[type=\"reset\"]"
-        , selector "[type=\"submit\"]"
+        , selector """html [type="button"]""" -- Prevent a WebKit bug where (2) destroys native `audio` and `video`controls in Android 4
+        , selector """[type="reset"]"""
+        , selector """[type="submit"]"""
         ]
         [ property "-webkit-appearance" "button" -- Correct the inability to style clickable types in iOS
         ]
@@ -307,16 +307,16 @@ accessibility : List Snippet
 accessibility =
     [ -- Hide content from screens but not screenreaders
       media [ only screen [] ]
-        [ selector "[hidden~=\"screen\"]"
+        [ selector """[hidden~="screen"]"""
             [ display inherit ]
-        , selector "[hidden~=\"screen\"]:not(:active):not(:focus):not(:target)"
+        , selector """[hidden~="screen"]:not(:active):not(:focus):not(:target)"""
             [ position absolute |> important
             , property "clip" "rect(0 0 0 0)" |> important
             ]
         ]
 
     --  Specify the progress cursor of updating elements
-    , selector "[aria-busy=\"true\"]"
+    , selector """[aria-busy="true"]"""
         [ cursor Css.progress ]
 
     -- Specify the pointer cursor of trigger elements

@@ -302,9 +302,9 @@ forms =
     -- Correct the inability to style buttons in iOS and Safari.
     , each
         [ button
-        , selector "[type=\"button\"]"
-        , selector "[type=\"reset\"]"
-        , selector "[type=\"submit\"]"
+        , selector """[type="button"]"""
+        , selector """[type="reset"]"""
+        , selector """[type="submit"]"""
         ]
         [ property "-webkit-appearance" "button"
         ]
@@ -353,14 +353,14 @@ forms =
 
     -- Remove the padding in IE 10-.
     , each
-        [ selector "[type=\"checkbox\"]"
-        , selector "[type=\"radio\"]"
+        [ selector """[type="checkbox"]"""
+        , selector """[type="radio"]"""
         ]
         [ padding zero ]
 
     -- 1. Correct the odd appearance in Chrome, Edge, and Safari.
     -- 2. Correct the outline style in Safari.
-    , selector "[type=\"search\"]"
+    , selector """[type="search"]"""
         [ property "-webkit-appearance" "textfield" -- 1
         , outlineOffset (px -2) -- 2
         ]
@@ -499,7 +499,7 @@ userInteraction =
 accessibility : List Snippet
 accessibility =
     [ -- Change the cursor on busy elements in all browsers (opinionated).
-      selector "[aria-busy=\"true\"]"
+      selector """[aria-busy="true"]"""
         [ cursor Css.progress ]
 
     -- Change the cursor on control elements in all browsers (opinionated).
@@ -510,7 +510,7 @@ accessibility =
        inoperable elements in all browsers (opinionated).
     -}
     , each
-        [ selector "[aria-disabled=\"true\"]"
+        [ selector """[aria-disabled="true"]"""
         , selector "[disabled]"
         ]
         [ cursor notAllowed ]
@@ -518,9 +518,9 @@ accessibility =
     {- Change the display on visually hidden accessible elements
        in all browsers (opinionated).
     -}
-    , selector "[aria-hidden=\"false\"][hidden]"
+    , selector """[aria-hidden="false"][hidden]"""
         [ display initial ]
-    , selector "[aria-hidden=\"false\"][hidden]:not(:focus)"
+    , selector """[aria-hidden="false"][hidden]:not(:focus)"""
         [ property "clip" "rect(0, 0, 0, 0)"
         , position absolute
         ]

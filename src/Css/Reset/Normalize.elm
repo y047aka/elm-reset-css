@@ -212,18 +212,18 @@ forms =
     -- Correct the inability to style clickable types in iOS and Safari.
     , each
         [ button
-        , selector "[type=\"button\"]"
-        , selector "[type=\"reset\"]"
-        , selector "[type=\"submit\"]"
+        , selector """[type="button"]"""
+        , selector """[type="reset"]"""
+        , selector """[type="submit"]"""
         ]
         [ property "-webkit-appearance" "button" ]
 
     -- Remove the inner border and padding in Firefox.
     , each
         [ selector "button::-moz-focus-inner"
-        , selector "[type=\"button\"]::-moz-focus-inner"
-        , selector "[type=\"reset\"]::-moz-focus-inner"
-        , selector "[type=\"submit\"]::-moz-focus-inner"
+        , selector """[type="button"]::-moz-focus-inner"""
+        , selector """[type="reset"]::-moz-focus-inner"""
+        , selector """[type="submit"]::-moz-focus-inner"""
         ]
         [ borderStyle none
         , padding zero
@@ -232,9 +232,9 @@ forms =
     -- Restore the focus styles unset by the previous rule.
     , each
         [ selector "button:-moz-focusring"
-        , selector "[type=\"button\"]:-moz-focusring"
-        , selector "[type=\"reset\"]:-moz-focusring"
-        , selector "[type=\"submit\"]:-moz-focusring"
+        , selector """[type="button"]:-moz-focusring"""
+        , selector """[type="reset"]:-moz-focusring"""
+        , selector """[type="submit"]:-moz-focusring"""
         ]
         [ property "outline" "1px dotted ButtonText" ]
 
@@ -267,8 +267,8 @@ forms =
     -- 1. Add the correct box sizing in IE 10.
     -- 2. Remove the padding in IE 10.
     , each
-        [ selector "[type=\"checkbox\"]"
-        , selector "[type=\"radio\"]"
+        [ selector """[type="checkbox"]"""
+        , selector """[type="radio"]"""
         ]
         [ boxSizing borderBox -- 1
         , padding zero -- 2
@@ -276,20 +276,20 @@ forms =
 
     -- Correct the cursor style of increment and decrement buttons in Chrome.
     , each
-        [ selector "[type=\"number\"]::-webkit-inner-spin-button"
-        , selector "[type=\"number\"]::-webkit-outer-spin-button"
+        [ selector """[type="number"]::-webkit-inner-spin-button"""
+        , selector """[type="number"]::-webkit-outer-spin-button"""
         ]
         [ height auto ]
 
     -- 1. Correct the odd appearance in Chrome and Safari.
     -- 2. Correct the outline style in Safari.
-    , selector "[type=\"search\"]"
+    , selector """[type="search"]"""
         [ property "-webkit-appearance" "textfield" -- 1
         , outlineOffset (px -2) -- 2
         ]
 
     -- Remove the inner padding in Chrome and Safari on macOS.
-    , selector "[type=\"search\"]::-webkit-search-decoration"
+    , selector """[type="search"]::-webkit-search-decoration"""
         [ property "-webkit-appearance" "none" ]
 
     -- 1. Correct the inability to style clickable types in iOS and Safari.
