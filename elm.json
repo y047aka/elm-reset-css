@@ -3,7 +3,7 @@
     "name": "y047aka/elm-reset-css",
     "summary": "The Collection of Reset CSS",
     "license": "MIT",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "exposed-modules": [
         "Html.ResetCss",
         "Css.Reset",
