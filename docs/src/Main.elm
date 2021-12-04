@@ -1,6 +1,6 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Browser exposing (Document)
+import Browser
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Global exposing (children, descendants, withAttribute)
@@ -21,9 +21,29 @@ main =
     Browser.document
         { init = init
         , update = update
-        , view = view
+        , view =
+            view
+                >> (\{ title, body } ->
+                        { title = title
+                        , body = List.map toUnstyled (globalReset :: body)
+                        }
+                   )
         , subscriptions = \_ -> Sub.none
         }
+
+
+globalReset : Html msg
+globalReset =
+    Css.Global.global
+        [ Css.Global.everything
+            [ boxSizing borderBox ]
+        , Css.Global.html
+            [ height (pct 100) ]
+        , Css.Global.body
+            [ height (pct 100)
+            , margin zero
+            ]
+        ]
 
 
 
@@ -73,7 +93,7 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Document Msg
+view : Model -> { title : String, body : List (Html Msg) }
 view { slots } =
     { title = ""
     , body =
@@ -104,25 +124,17 @@ view { slots } =
                     ]
                 ]
                 (List.indexedMap resetCssSelector slots)
-            , preview slots
+            , div [] <|
+                List.map
+                    (\tag ->
+                        detailsWithSummary
+                            (Tag.toString tag)
+                            (accordionContent slots tag)
+                    )
+                    Tag.all
             ]
         ]
     }
-        |> (\{ title, body } -> { title = title, body = List.map toUnstyled (globalReset :: body) })
-
-
-globalReset : Html msg
-globalReset =
-    Css.Global.global
-        [ Css.Global.everything
-            [ boxSizing borderBox ]
-        , Css.Global.html
-            [ height (pct 100) ]
-        , Css.Global.body
-            [ height (pct 100)
-            , margin zero
-            ]
-        ]
 
 
 resetCssSelector : Int -> Maybe ResetCss -> Html Msg
@@ -146,48 +158,43 @@ resetCssSelector target current =
         ]
 
 
-preview : List (Maybe ResetCss) -> Html msg
-preview slots =
-    div [] <|
-        List.map
-            (\tag ->
-                details
-                    [ attribute "open" ""
-                    , css
-                        [ borderBottom3 (px 1) solid (hex "#EEE")
-                        , children
-                            [ Css.Global.div
-                                [ overflow hidden ]
-                            ]
-                        , withAttribute "open"
-                            [ children
-                                [ Css.Global.div
-                                    [ let
-                                        accordion =
-                                            keyframes
-                                                [ ( 0, [ Animations.custom "max-height" "0" ] )
-                                                , ( 100, [ Animations.custom "max-height" "100vh" ] )
-                                                ]
-                                      in
-                                      animationName accordion
-                                    , animationDuration (ms 400)
+detailsWithSummary : String -> Html msg -> Html msg
+detailsWithSummary label_ content =
+    details
+        [ attribute "open" ""
+        , css
+            [ borderBottom3 (px 1) solid (hex "#EEE")
+            , children
+                [ Css.Global.div
+                    [ overflow hidden ]
+                ]
+            , withAttribute "open"
+                [ children
+                    [ Css.Global.div
+                        [ let
+                            accordion =
+                                keyframes
+                                    [ ( 0, [ Animations.custom "max-height" "0" ] )
+                                    , ( 100, [ Animations.custom "max-height" "100vh" ] )
                                     ]
-                                ]
-                            ]
+                          in
+                          animationName accordion
+                        , animationDuration (ms 400)
                         ]
                     ]
-                    [ summary
-                        [ css
-                            [ padding (px 15)
-                            , fontSize (px 20)
-                            , fontWeight bold
-                            ]
-                        ]
-                        [ text (Tag.toString tag) ]
-                    , accordionContent slots tag
-                    ]
-            )
-            Tag.all
+                ]
+            ]
+        ]
+        [ summary
+            [ css
+                [ padding (px 15)
+                , fontSize (px 20)
+                , fontWeight bold
+                ]
+            ]
+            [ text label_ ]
+        , content
+        ]
 
 
 accordionContent : List (Maybe ResetCss) -> Tag -> Html msg
