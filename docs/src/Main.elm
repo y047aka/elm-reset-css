@@ -1,6 +1,7 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
+import Browser.Navigation as Nav exposing (Key)
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Global exposing (children, descendants, withAttribute)
@@ -10,6 +11,8 @@ import Data.Tag as Tag exposing (Tag(..))
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (attribute, css, selected, value)
 import Html.Styled.Events exposing (onInput)
+import Url exposing (Url)
+import Url.Parser as Parser exposing (Parser)
 
 
 
@@ -18,7 +21,7 @@ import Html.Styled.Events exposing (onInput)
 
 main : Program () Model Msg
 main =
-    Browser.document
+    Browser.application
         { init = init
         , update = update
         , view =
@@ -29,6 +32,8 @@ main =
                         }
                    )
         , subscriptions = \_ -> Sub.none
+        , onUrlChange = UrlChanged
+        , onUrlRequest = UrlRequested
         }
 
 
@@ -51,14 +56,42 @@ globalReset =
 
 
 type alias Model =
-    { slots : List (Maybe ResetCss) }
+    { key : Key
+    , page : Page
+    , slots : List (Maybe ResetCss)
+    }
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { slots = [ Nothing, Nothing, Nothing ] }
-    , Cmd.none
-    )
+type Page
+    = NotFound
+    | Top
+
+
+init : () -> Url -> Key -> ( Model, Cmd Msg )
+init _ url key =
+    { key = key
+    , page = Top
+    , slots = [ Nothing, Nothing, Nothing ]
+    }
+        |> routing url
+
+
+
+-- ROUTER
+
+
+parser : Parser (Page -> a) a
+parser =
+    Parser.oneOf
+        [ Parser.map Top Parser.top
+        ]
+
+
+routing : Url -> Model -> ( Model, Cmd Msg )
+routing url model =
+    Parser.parse parser url
+        |> Maybe.withDefault NotFound
+        |> (\page -> ( { model | page = page }, Cmd.none ))
 
 
 
@@ -66,12 +99,25 @@ init _ =
 
 
 type Msg
-    = SetResetCss Int String
+    = UrlRequested Browser.UrlRequest
+    | UrlChanged Url
+    | SetResetCss Int String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        UrlRequested urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
+
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        UrlChanged url ->
+            routing url model
+
         SetResetCss target str ->
             ( { model
                 | slots =
@@ -94,47 +140,58 @@ update msg model =
 
 
 view : Model -> { title : String, body : List (Html Msg) }
-view { slots } =
-    { title = ""
-    , body =
-        [ main_ []
-            [ header
-                [ css
-                    [ position sticky
-                    , top zero
-                    , displayFlex
-                    , padding2 (px 10) zero
-                    , backgroundColor (hsla 0 0 0 0.01)
-                    , property "-webkit-backdrop-filter" "blur(15px)"
-                    , property "backdrop-filter" "blur(15px)"
-                    , children
-                        [ Css.Global.div
-                            [ width (pct 33.333)
-                            , paddingLeft (px 15)
-                            , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
-                                [ width (pct 100)
-                                , nthChild "n+2" [ display none ]
-                                ]
-                            , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
-                                [ width (pct 50)
-                                , nthChild "n+3" [ display none ]
-                                ]
+view model =
+    case model.page of
+        NotFound ->
+            { title = ""
+            , body = []
+            }
+
+        Top ->
+            { title = ""
+            , body = topPage model
+            }
+
+
+topPage : Model -> List (Html Msg)
+topPage model =
+    [ main_ []
+        [ header
+            [ css
+                [ position sticky
+                , top zero
+                , displayFlex
+                , padding2 (px 10) zero
+                , backgroundColor (hsla 0 0 0 0.01)
+                , property "-webkit-backdrop-filter" "blur(15px)"
+                , property "backdrop-filter" "blur(15px)"
+                , children
+                    [ Css.Global.div
+                        [ width (pct 33.333)
+                        , paddingLeft (px 15)
+                        , withMedia [ only screen [ Media.maxWidth (px 767) ] ]
+                            [ width (pct 100)
+                            , nthChild "n+2" [ display none ]
+                            ]
+                        , withMedia [ only screen [ Media.minWidth (px 768), Media.maxWidth (px 1279) ] ]
+                            [ width (pct 50)
+                            , nthChild "n+3" [ display none ]
                             ]
                         ]
                     ]
                 ]
-                (List.indexedMap resetCssSelector slots)
-            , div [] <|
-                List.map
-                    (\tag ->
-                        detailsWithSummary
-                            (Tag.toString tag)
-                            (accordionContent slots tag)
-                    )
-                    Tag.all
             ]
+            (List.indexedMap resetCssSelector model.slots)
+        , div [] <|
+            List.map
+                (\tag ->
+                    detailsWithSummary
+                        (Tag.toString tag)
+                        (accordionContent model.slots tag)
+                )
+                Tag.all
         ]
-    }
+    ]
 
 
 resetCssSelector : Int -> Maybe ResetCss -> Html Msg
