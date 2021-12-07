@@ -1,11 +1,15 @@
-module Css.Reset.Ress exposing (latest, v3, v2)
+module Css.Reset.Ress exposing
+    ( v4, v3, v2
+    , latest
+    )
 
 {-|
 
 
 # ress
 
-@docs latest, v3, v2
+@docs v4, v3, v2
+@docs latest
 
 -}
 
@@ -19,8 +23,8 @@ import Css.Reset.Ress.V4 as V4
 Filipe Linhares / MIT  
 <https://github.com/filipelinhares/ress>
 -}
-latest : List Snippet
-latest =
+v4 : List Snippet
+v4 =
     V4.v4
 
 
@@ -36,3 +40,10 @@ v3 =
 v2 : List Snippet
 v2 =
     V2.v2
+
+
+{-| Deprecated.
+-}
+latest : List Snippet
+latest =
+    v4

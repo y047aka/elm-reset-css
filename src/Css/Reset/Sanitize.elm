@@ -1,11 +1,15 @@
-module Css.Reset.Sanitize exposing (latest, v12)
+module Css.Reset.Sanitize exposing
+    ( v13, v12
+    , latest
+    )
 
 {-|
 
 
 # sanitize.css
 
-@docs latest, v12
+@docs v13, v12
+@docs latest
 
 -}
 
@@ -18,8 +22,8 @@ import Css.Reset.Sanitize.V13 as V13
 CSS Tools / CC0 1.0 Universal  
 <https://github.com/csstools/sanitize.css>
 -}
-latest : List Snippet
-latest =
+v13 : List Snippet
+v13 =
     V13.v13
 
 
@@ -28,3 +32,10 @@ latest =
 v12 : List Snippet
 v12 =
     V12.v12
+
+
+{-| Deprecated.
+-}
+latest : List Snippet
+latest =
+    v13

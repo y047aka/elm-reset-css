@@ -1,11 +1,15 @@
-module Css.Reset.Destyle exposing (latest, v2)
+module Css.Reset.Destyle exposing
+    ( v3, v2
+    , latest
+    )
 
 {-|
 
 
 # destyle.css
 
-@docs latest, v2
+@docs v3, v2
+@docs latest
 
 -}
 
@@ -18,8 +22,8 @@ import Css.Reset.Destyle.V3 as V3
 Nicolas Cusan / MIT  
 <https://github.com/nicolas-cusan/destyle.css>
 -}
-latest : List Snippet
-latest =
+v3 : List Snippet
+v3 =
     V3.v3
 
 
@@ -28,3 +32,10 @@ latest =
 v2 : List Snippet
 v2 =
     V2.v2
+
+
+{-| Deprecated.
+-}
+latest : List Snippet
+latest =
+    v3
