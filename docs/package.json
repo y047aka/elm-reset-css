@@ -1,13 +1,15 @@
 {
   "scripts": {
-    "start": "elm-watch hot",
-    "build": "node ./esbuild/build.js"
+    "start": "run-pty % elm-watch hot % npm run esbuild -- --serve=9000 --servedir=public",
+    "build": "node ./esbuild/build.js",
+    "esbuild": "esbuild app.ts --bundle --outdir=public/build --public-path=/build/"
   },
   "devDependencies": {
     "elm": "^0.19.1-5",
     "elm-format": "^0.8.5",
     "elm-watch": "^1.1.1",
     "esbuild": "^0.13.15",
-    "esbuild-plugin-elm": "^0.0.6"
+    "esbuild-plugin-elm": "^0.0.6",
+    "run-pty": "^4.0.3"
   }
 }

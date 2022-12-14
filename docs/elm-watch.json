@@ -4,7 +4,7 @@
             "inputs": [
                 "src/Main.elm"
             ],
-            "output": "local/main.js"
+            "output": "public/build/main.js"
         }
     }
 }
