@@ -3,6 +3,3 @@ node_modules
 
 # Elm Dependency directory
 elm-stuff
-
-# Local dev environment
-public/build/main.js

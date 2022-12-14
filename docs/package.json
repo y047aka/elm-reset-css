@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "start": "run-pty % elm-watch hot % npm run esbuild -- --serve=9000 --servedir=public",
-    "build": "node ./esbuild/build.js",
-    "esbuild": "esbuild app.ts --bundle --outdir=public/build --public-path=/build/"
+    "start": "run-pty % elm-watch hot % npm run esbuild -- --serve=9000 --servedir=./",
+    "build": "elm-watch make --optimize && npm run esbuild -- --minify",
+    "esbuild": "esbuild app.ts --bundle --outdir=build --public-path=/"
   },
   "devDependencies": {
     "elm": "^0.19.1-5",
