@@ -1,7 +1,6 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Browser.Navigation as Nav exposing (Key)
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Global exposing (children, descendants, withAttribute)
@@ -11,8 +10,6 @@ import Data.Tag as Tag exposing (Tag(..))
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (attribute, css, selected, value)
 import Html.Styled.Events exposing (onInput)
-import Url exposing (Url)
-import Url.Parser as Parser exposing (Parser)
 
 
 
@@ -21,7 +18,7 @@ import Url.Parser as Parser exposing (Parser)
 
 main : Program () Model Msg
 main =
-    Browser.application
+    Browser.document
         { init = init
         , update = update
         , view =
@@ -32,8 +29,6 @@ main =
                         }
                    )
         , subscriptions = \_ -> Sub.none
-        , onUrlChange = UrlChanged
-        , onUrlRequest = UrlRequested
         }
 
 
@@ -56,42 +51,16 @@ globalReset =
 
 
 type alias Model =
-    { key : Key
-    , page : Page
-    , slots : List (Maybe ResetCss)
-    }
+    { slots : List (Maybe ResetCss) }
 
 
-type Page
-    = NotFound
-    | Top
+init : () -> ( Model, Cmd Msg )
+init _ =
+     ( { slots = [ Nothing, Nothing, Nothing ] }
+     , Cmd.none
+     )
 
 
-init : () -> Url -> Key -> ( Model, Cmd Msg )
-init _ url key =
-    { key = key
-    , page = Top
-    , slots = [ Nothing, Nothing, Nothing ]
-    }
-        |> routing url
-
-
-
--- ROUTER
-
-
-parser : Parser (Page -> a) a
-parser =
-    Parser.oneOf
-        [ Parser.map Top Parser.top
-        ]
-
-
-routing : Url -> Model -> ( Model, Cmd Msg )
-routing url model =
-    Parser.parse parser url
-        |> Maybe.withDefault NotFound
-        |> (\page -> ( { model | page = page }, Cmd.none ))
 
 
 
@@ -99,25 +68,12 @@ routing url model =
 
 
 type Msg
-    = UrlRequested Browser.UrlRequest
-    | UrlChanged Url
-    | SetResetCss Int String
+    = SetResetCss Int String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UrlRequested urlRequest ->
-            case urlRequest of
-                Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
-
-                Browser.External href ->
-                    ( model, Nav.load href )
-
-        UrlChanged url ->
-            routing url model
-
         SetResetCss target str ->
             ( { model
                 | slots =
@@ -141,16 +97,9 @@ update msg model =
 
 view : Model -> { title : String, body : List (Html Msg) }
 view model =
-    case model.page of
-        NotFound ->
-            { title = ""
-            , body = []
-            }
-
-        Top ->
-            { title = ""
-            , body = topPage model
-            }
+    { title = "elm-reset-css"
+    , body = topPage model
+    }
 
 
 topPage : Model -> List (Html Msg)

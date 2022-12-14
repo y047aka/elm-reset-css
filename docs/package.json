@@ -1,12 +1,12 @@
 {
   "scripts": {
-    "build": "node ./esbuild/build.js",
-    "start": "elm-live src/Main.elm --dir=./local --pushstate --hot --open -- --debug --output=./local/elm.js"
+    "start": "elm-watch hot",
+    "build": "node ./esbuild/build.js"
   },
   "devDependencies": {
     "elm": "^0.19.1-5",
     "elm-format": "^0.8.5",
-    "elm-live": "^4.0.2",
+    "elm-watch": "^1.1.1",
     "esbuild": "^0.13.15",
     "esbuild-plugin-elm": "^0.0.6"
   }

@@ -5,4 +5,4 @@ node_modules
 elm-stuff
 
 # Local dev environment
-local/elm.js
+local/main.js
