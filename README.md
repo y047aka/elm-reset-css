@@ -21,7 +21,7 @@ MIT / Filipe Linhares
 - [destyle.css] - v4.0.0 (2022-11-08)  
 MIT / Nicolas Cusan
 
-- [The New CSS Reset] - v1.3.1 (2021-10-28)  
+- [The New CSS Reset] - v1.7.3 (2022-08-07)  
 MIT / Elad Shechter
 
 [Eric Meyer’s Reset CSS]: https://meyerweb.com/eric/tools/css/reset/
