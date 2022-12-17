@@ -433,7 +433,7 @@ subAndSupResets mode =
               selector ":where(sub, sup)"
                 [ position relative
                 , fontSize (pct 75)
-                , lineHeight zero
+                , lineHeight (num 0)
                 , verticalAlign baseline
                 ]
             , selector ":where(sub)"

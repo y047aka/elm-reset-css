@@ -6,7 +6,7 @@ module Css.Reset.EricMeyer exposing (snippets)
 
 -}
 
-import Css exposing (baseline, block, border, borderCollapse, borderSpacing, collapse, display, fontSize, int, lineHeight, listStyle, margin, none, padding, pct, property, verticalAlign, zero)
+import Css exposing (baseline, block, border, borderCollapse, borderSpacing, collapse, display, fontSize, lineHeight, listStyle, margin, none, num, padding, pct, property, verticalAlign, zero)
 import Css.Global exposing (..)
 
 
@@ -124,7 +124,7 @@ snippets =
         ]
         [ display block ]
     , body
-        [ lineHeight (int 1) ]
+        [ lineHeight (num 1) ]
     , each [ ol, ul ]
         [ listStyle none ]
     , each [ blockquote, q ]

@@ -6,7 +6,7 @@ module Css.Reset.Html5Doctor exposing (snippets)
 
 -}
 
-import Css exposing (backgroundColor, baseline, block, bold, border, borderBottom2, borderCollapse, borderSpacing, borderTop3, collapse, color, cursor, display, dotted, fontSize, fontStyle, fontWeight, height, help, hex, int, italic, lineHeight, lineThrough, listStyle, margin, margin2, middle, none, outline, padding, pct, property, px, solid, textDecoration, verticalAlign, zero)
+import Css exposing (backgroundColor, baseline, block, bold, border, borderBottom2, borderCollapse, borderSpacing, borderTop3, collapse, color, cursor, display, dotted, fontSize, fontStyle, fontWeight, height, help, hex, italic, lineHeight, lineThrough, listStyle, margin, margin2, middle, none, num, outline, padding, pct, property, px, solid, textDecoration, verticalAlign, zero)
 import Css.Global exposing (..)
 
 
@@ -100,7 +100,7 @@ snippets =
         , property "background" "transparent"
         ]
     , body
-        [ lineHeight (int 1) ]
+        [ lineHeight (num 1) ]
     , each
         [ article
         , aside

@@ -133,7 +133,7 @@ toRootStyles resetCss =
             , fontSize (pct 100)
             , property "font" "inherit"
             , verticalAlign baseline
-            , lineHeight (int 1)
+            , lineHeight (num 1)
             ]
 
         Html5Doctor ->
@@ -144,7 +144,7 @@ toRootStyles resetCss =
             , fontSize (pct 100)
             , verticalAlign baseline
             , property "background" "transparent"
-            , lineHeight (int 1)
+            , lineHeight (num 1)
             ]
 
         Destyle ->

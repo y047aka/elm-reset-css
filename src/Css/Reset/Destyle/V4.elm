@@ -249,7 +249,7 @@ textLevelSemantics =
         , typeSelector "sup"
         ]
         [ fontSize (pct 75)
-        , lineHeight zero
+        , lineHeight (num 0)
         , position relative
         , verticalAlign baseline
         ]
