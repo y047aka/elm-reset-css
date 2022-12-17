@@ -15,7 +15,7 @@ MIT / Nicolas Gallagher
 - [sanitize.css] - v13.0.0 (2021-09-14)  
 CC0 1.0 Universal / CSS Tools
 
-- [ress] - v4.0.0 (2021-04-21)  
+- [ress] - v5.0.2 (2022-03-09)  
 MIT / Filipe Linhares
 
 - [destyle.css] - v3.0.2 (2021-12-07)  
