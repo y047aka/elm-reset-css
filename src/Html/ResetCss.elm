@@ -92,7 +92,7 @@ sanitize =
 {-| -}
 ress : Html msg
 ress =
-    Ress.v4
+    Ress.v5
         |> global
         |> toUnstyled
 
