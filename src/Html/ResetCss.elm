@@ -84,7 +84,7 @@ normalize =
 {-| -}
 sanitize : Html msg
 sanitize =
-    Sanitize.latest
+    Sanitize.v13
         |> global
         |> toUnstyled
 
@@ -92,7 +92,7 @@ sanitize =
 {-| -}
 ress : Html msg
 ress =
-    Ress.latest
+    Ress.v4
         |> global
         |> toUnstyled
 
@@ -100,7 +100,7 @@ ress =
 {-| -}
 destyle : Html msg
 destyle =
-    Destyle.latest
+    Destyle.v3
         |> global
         |> toUnstyled
 

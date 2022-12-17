@@ -78,19 +78,19 @@ normalize =
 {-| -}
 sanitize : List Snippet
 sanitize =
-    Sanitize.latest
+    Sanitize.v13
 
 
 {-| -}
 ress : List Snippet
 ress =
-    Ress.latest
+    Ress.v4
 
 
 {-| -}
 destyle : List Snippet
 destyle =
-    Destyle.latest
+    Destyle.v3
 
 
 {-| -}
