@@ -100,7 +100,7 @@ ress =
 {-| -}
 destyle : Html msg
 destyle =
-    Destyle.v3
+    Destyle.v4
         |> global
         |> toUnstyled
 

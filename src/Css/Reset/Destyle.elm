@@ -1,5 +1,5 @@
 module Css.Reset.Destyle exposing
-    ( v3, v2
+    ( v4, v3, v2
     , latest
     )
 
@@ -8,7 +8,7 @@ module Css.Reset.Destyle exposing
 
 # destyle.css
 
-@docs v3, v2
+@docs v4, v3, v2
 @docs latest
 
 -}
@@ -16,11 +16,19 @@ module Css.Reset.Destyle exposing
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle.V2 as V2
 import Css.Reset.Destyle.V3 as V3
+import Css.Reset.Destyle.V4 as V4
 
 
-{-| v3.0.2 (2021-12-07)
+{-| v4.0.0 (2022-11-08)
 Nicolas Cusan / MIT
 <https://github.com/nicolas-cusan/destyle.css>
+-}
+v4 : List Snippet
+v4 =
+    V4.snippets
+
+
+{-| <https://github.com/nicolas-cusan/destyle.css/tree/v3.0.2>
 -}
 v3 : List Snippet
 v3 =
@@ -38,4 +46,4 @@ v2 =
 -}
 latest : List Snippet
 latest =
-    v3
+    v4
