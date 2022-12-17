@@ -13,7 +13,7 @@ import Css.Global exposing (..)
 {-| -}
 snippets : List Snippet
 snippets =
-    -- destyle.css v3.0.0 | MIT License | https://github.com/nicolas-cusan/destyle.css
+    -- destyle.css v3.0.2 | MIT License | https://github.com/nicolas-cusan/destyle.css
     List.concat
         [ resetBoxModelAndSetBorders
         , document
@@ -431,6 +431,7 @@ table =
     [ -- 1. Correct table border color inheritance in all Chrome and Safari.
       Css.Global.table
         [ borderColor inherit -- 1
+        , borderCollapse collapse
         ]
     , caption
         [ textAlign left ]

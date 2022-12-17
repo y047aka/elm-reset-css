@@ -18,7 +18,7 @@ CC0 1.0 Universal / CSS Tools
 - [ress] - v4.0.0 (2021-04-21)  
 MIT / Filipe Linhares
 
-- [destyle.css] - v3.0.0 (2021-09-06)  
+- [destyle.css] - v3.0.2 (2021-12-07)  
 MIT / Nicolas Cusan
 
 - [The New CSS Reset] - v1.3.1 (2021-10-28)  

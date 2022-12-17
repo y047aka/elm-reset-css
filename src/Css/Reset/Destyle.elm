@@ -18,7 +18,7 @@ import Css.Reset.Destyle.V2 as V2
 import Css.Reset.Destyle.V3 as V3
 
 
-{-| v3.0.0 (2021-09-06)
+{-| v3.0.2 (2021-12-07)
 Nicolas Cusan / MIT
 <https://github.com/nicolas-cusan/destyle.css>
 -}
