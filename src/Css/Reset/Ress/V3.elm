@@ -1,8 +1,8 @@
-module Css.Reset.Ress.V3 exposing (v3)
+module Css.Reset.Ress.V3 exposing (snippets)
 
 {-|
 
-@docs v3
+@docs snippets
 
 -}
 
@@ -12,8 +12,8 @@ import Css.Media exposing (only, screen)
 
 
 {-| -}
-v3 : List Snippet
-v3 =
+snippets : List Snippet
+snippets =
     {- ress.css • v3.0.1
        MIT License
        github.com/filipelinhares/ress

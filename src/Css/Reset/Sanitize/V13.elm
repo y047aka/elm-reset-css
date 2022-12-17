@@ -1,8 +1,8 @@
-module Css.Reset.Sanitize.V13 exposing (v13)
+module Css.Reset.Sanitize.V13 exposing (snippets)
 
 {-|
 
-@docs v13
+@docs snippets
 
 -}
 
@@ -11,8 +11,8 @@ import Css.Global exposing (..)
 
 
 {-| -}
-v13 : List Snippet
-v13 =
+snippets : List Snippet
+snippets =
     List.concat
         [ document
         , sections

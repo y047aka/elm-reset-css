@@ -1,8 +1,8 @@
-module Css.Reset.Destyle.V2 exposing (v2)
+module Css.Reset.Destyle.V2 exposing (snippets)
 
 {-|
 
-@docs v2
+@docs snippets
 
 -}
 
@@ -11,8 +11,8 @@ import Css.Global exposing (..)
 
 
 {-| -}
-v2 : List Snippet
-v2 =
+snippets : List Snippet
+snippets =
     -- destyle.css v2.0.2 | MIT License | https://github.com/nicolas-cusan/destyle.css
     List.concat
         [ resetBoxModelAndSetBorders
