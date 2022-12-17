@@ -37,37 +37,6 @@ module Html.ResetCss exposing
             , footer [] [ text "©2021 y047aka" ]
             ]
 
-
-# Collection
-
-  - [Eric Meyer’s Reset CSS (2008)](https://meyerweb.com/eric/tools/css/reset/)  
-    v2.0 (2011-01-26)  
-    Eric Meyer / none (public domain)
-
-  - [html5doctor.com Reset Stylesheet (2009)](https://github.com/richclark/HTML5resetCSS)  
-    v1.6.1 (2010-09-17)  
-    Richard Clark / Free of charge under a CC0 Public Domain Dedication and MIT License
-
-  - [Normalize.css (2011)](https://github.com/necolas/normalize.css)  
-    v8.0.1 (2018-11-05)  
-    Nicolas Gallagher / MIT
-
-  - [sanitize.css (2012)](https://github.com/csstools/sanitize.css)  
-    v13.0.0 (2021-09-14)  
-    CSS Tools / CC0 1.0 Universal
-
-  - [ress (2015)](https://github.com/filipelinhares/ress)  
-    v4.0.0 (2021-04-21)  
-    Filipe Linhares / MIT
-
-  - [destyle.css (2019)](https://github.com/nicolas-cusan/destyle.css)  
-    v3.0.0 (2021-09-06)  
-    Nicolas Cusan / MIT
-
-  - [The New CSS Reset (2021)](https://github.com/elad2412/the-new-css-reset)  
-    v1.3.1 (2021-10-28)  
-    Elad Shechter / MIT
-
 @docs ericMeyer, html5Doctor
 @docs normalize, sanitize, ress, destyle
 @docs theNewCssReset
