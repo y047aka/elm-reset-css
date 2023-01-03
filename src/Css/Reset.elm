@@ -102,10 +102,10 @@ theNewCssReset =
 {-| -}
 erc_HardReset : List Snippet
 erc_HardReset =
-    ERC.hardReset
+    ERC.snippets
 
 
 {-| -}
 erc_Normalize : List Snippet
 erc_Normalize =
-    ERC.normalize
+    ERC.snippets

@@ -116,7 +116,7 @@ theNewCssReset =
 {-| -}
 erc_HardReset : Html msg
 erc_HardReset =
-    ERC.hardReset
+    ERC.snippets
         |> global
         |> toUnstyled
 
@@ -124,6 +124,6 @@ erc_HardReset =
 {-| -}
 erc_Normalize : Html msg
 erc_Normalize =
-    ERC.normalize
+    ERC.snippets
         |> global
         |> toUnstyled
