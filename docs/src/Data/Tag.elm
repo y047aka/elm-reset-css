@@ -373,43 +373,43 @@ tabularDataRenderer =
             [ caption [] [ text "Table Caption" ]
             , thead []
                 [ tr []
-                    [ text "Table Heading 1"
-                    , text "Table Heading 2"
-                    , text "Table Heading 3"
-                    , text "Table Heading 4"
-                    , text "Table Heading 5"
+                    [ th [] [ text "Table Heading 1" ]
+                    , th [] [ text "Table Heading 2" ]
+                    , th [] [ text "Table Heading 3" ]
+                    , th [] [ text "Table Heading 4" ]
+                    , th [] [ text "Table Heading 5" ]
                     ]
                 ]
             , tfoot []
                 [ tr []
-                    [ text "Table Footer 1"
-                    , text "Table Footer 2"
-                    , text "Table Footer 3"
-                    , text "Table Footer 4"
-                    , text "Table Footer 5"
+                    [ td [] [ text "Table Footer 1" ]
+                    , td [] [ text "Table Footer 2" ]
+                    , td [] [ text "Table Footer 3" ]
+                    , td [] [ text "Table Footer 4" ]
+                    , td [] [ text "Table Footer 5" ]
                     ]
                 ]
             , tbody []
                 [ tr []
-                    [ text "Table Cell 1"
-                    , text "Table Cell 2"
-                    , text "Table Cell 3"
-                    , text "Table Cell 4"
-                    , text "Table Cell 5"
+                    [ td [] [ text "Table Cell 1" ]
+                    , td [] [ text "Table Cell 2" ]
+                    , td [] [ text "Table Cell 3" ]
+                    , td [] [ text "Table Cell 4" ]
+                    , td [] [ text "Table Cell 5" ]
                     ]
                 , tr []
-                    [ text "Table Cell 1"
-                    , text "Table Cell 2"
-                    , text "Table Cell 3"
-                    , text "Table Cell 4"
-                    , text "Table Cell 5"
+                    [ td [] [ text "Table Cell 1" ]
+                    , td [] [ text "Table Cell 2" ]
+                    , td [] [ text "Table Cell 3" ]
+                    , td [] [ text "Table Cell 4" ]
+                    , td [] [ text "Table Cell 5" ]
                     ]
                 , tr []
-                    [ text "Table Cell 1"
-                    , text "Table Cell 2"
-                    , text "Table Cell 3"
-                    , text "Table Cell 4"
-                    , text "Table Cell 5"
+                    [ td [] [ text "Table Cell 1" ]
+                    , td [] [ text "Table Cell 2" ]
+                    , td [] [ text "Table Cell 3" ]
+                    , td [] [ text "Table Cell 4" ]
+                    , td [] [ text "Table Cell 5" ]
                     ]
                 ]
             ]
