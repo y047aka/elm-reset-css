@@ -182,20 +182,10 @@ toRootStyles resetCss =
             ]
 
         ERC_HardReset ->
-            [ lineHeight (num 1.15)
-            , property "-webkit-text-size-adjust" "100%"
-            , property "-webkit-tap-highlight-color" "transparent"
-            ]
+            [ lineHeight (num 1) ]
 
         ERC_Normalize ->
-            [ cursor default -- 1
-            , lineHeight (num 1.5) -- 2
-            , property "overflow-wrap" "break-word" -- 3
-            , property "-moz-tab-size" "4" -- 4
-            , property "tab-size" "4" -- 4
-            , property "-webkit-tap-highlight-color" "transparent" -- 5
-            , property "-webkit-text-size-adjust" "100%" -- 6
-            ]
+            []
 
 
 toSummary : ResetCss -> Summary
