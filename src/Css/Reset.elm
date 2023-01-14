@@ -104,6 +104,7 @@ erc_HardReset : List Snippet
 erc_HardReset =
     ERC.snippetsWith
         { margin = Reset
+        , font = Reset
         , lineHeight = Reset
         , border = Reset
         , headings = Reset
@@ -118,6 +119,7 @@ erc_Normalize : List Snippet
 erc_Normalize =
     ERC.snippetsWith
         { margin = BrowserDefault
+        , font = Opinionated
         , lineHeight = BrowserDefault
         , border = BrowserDefault
         , headings = BrowserDefault
@@ -132,6 +134,7 @@ erc_Opinionated : List Snippet
 erc_Opinionated =
     ERC.snippetsWith
         { margin = BrowserDefault
+        , font = Opinionated
         , lineHeight = Opinionated
         , border = BrowserDefault
         , headings = BrowserDefault

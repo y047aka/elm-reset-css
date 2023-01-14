@@ -27,6 +27,7 @@ type ResetMode
 
 type alias Config =
     { margin : ResetMode
+    , font : ResetMode
     , lineHeight : ResetMode
     , border : ResetMode
     , headings : ResetMode
@@ -39,6 +40,7 @@ type alias Config =
 defaultConfig : Config
 defaultConfig =
     { margin = Reset
+    , font = Opinionated
     , lineHeight = Reset
     , border = Reset
     , headings = Reset
@@ -62,7 +64,14 @@ snippetsWith c =
     , everything
         [ batchIf (c.margin == Reset) [ margin zero ] ]
     , selector ":where(:root)"
-        [ case c.lineHeight of
+        [ case c.font of
+            Reset ->
+                fontFamilies [ "sans-serif" ]
+
+            _ ->
+                fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]
+
+        , case c.lineHeight of
             Reset ->
                 lineHeight (num 1)
 

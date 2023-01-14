@@ -5,6 +5,7 @@ import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
 import Css.Reset.ModernCssResert as ModernCssResert
 
+
 type ResetCss
     = EricMeyer
     | Html5Doctor
@@ -17,6 +18,7 @@ type ResetCss
     | ERC_HardReset
     | ERC_Normalize
     | ERC_Opinionated
+
 
 type alias Summary =
     { author : String
@@ -206,13 +208,17 @@ toRootStyles resetCss =
             ]
 
         ERC_HardReset ->
-            [ lineHeight (num 1) ]
+            [ fontFamilies [ "sans-serif" ]
+            , lineHeight (num 1)
+            ]
 
         ERC_Normalize ->
-            []
+            [ fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ] ]
 
         ERC_Opinionated ->
-            [ lineHeight (num 1.5) ]
+            [ fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]
+            , lineHeight (num 1.5)
+            ]
 
 
 toSummary : ResetCss -> Summary
