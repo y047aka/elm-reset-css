@@ -55,8 +55,7 @@ snippetsWith : Config -> List Snippet
 snippetsWith c =
     [ selector "*, ::before, ::after"
         [ boxSizing borderBox
-
-        -- , backgroundRepeat noRepeat
+        , backgroundRepeat noRepeat
         , batchIf (c.border == Reset) [ borderWidth zero ]
         ]
     , everything
