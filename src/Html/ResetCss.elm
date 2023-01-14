@@ -2,7 +2,7 @@ module Html.ResetCss exposing
     ( ericMeyer, html5Doctor
     , normalize, sanitize, ress, destyle
     , theNewCssReset
-    , erc_HardReset, erc_Normalize
+    , erc_HardReset, erc_Normalize, erc_Opinionated
     )
 
 {-| You can use them with elm/html.
@@ -40,7 +40,7 @@ module Html.ResetCss exposing
 @docs ericMeyer, html5Doctor
 @docs normalize, sanitize, ress, destyle
 @docs theNewCssReset
-@docs erc_HardReset, erc_Normalize
+@docs erc_HardReset, erc_Normalize, erc_Opinionated
 
 -}
 
@@ -125,5 +125,13 @@ erc_HardReset =
 erc_Normalize : Html msg
 erc_Normalize =
     Css.Reset.erc_Normalize
+        |> global
+        |> toUnstyled
+
+
+{-| -}
+erc_Opinionated : Html msg
+erc_Opinionated =
+    Css.Reset.erc_Opinionated
         |> global
         |> toUnstyled

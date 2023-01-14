@@ -22,6 +22,7 @@ type ResetMode
     = BrowserDefault
     | Reset
     | Normalize
+    | Opinionated
 
 
 type alias Config =
@@ -41,9 +42,9 @@ defaultConfig =
     , lineHeight = Reset
     , border = Reset
     , headings = Reset
-    , lists = Reset
+    , lists = Opinionated
     , a = Reset
-    , forms = Reset
+    , forms = Opinionated
     }
 
 
@@ -61,7 +62,16 @@ snippetsWith c =
     , everything
         [ batchIf (c.margin == Reset) [ margin zero ] ]
     , selector ":where(:root)"
-        [ batchIf (c.lineHeight == Reset) [ lineHeight (num 1) ] ]
+        [ case c.lineHeight of
+            Reset ->
+                lineHeight (num 1)
+
+            Opinionated ->
+                lineHeight (num 1.5)
+
+            _ ->
+                batch []
+        ]
 
     -- Headings
     , selectorIf (c.headings == Reset) ":where(h1, h2, h3, h4, h5, h6)" <|
@@ -106,7 +116,7 @@ snippetsWith c =
         , backgroundColor transparent
         , color inherit
         ]
-    , selector ":where(textarea)"
+    , selectorIf (c.forms == Opinionated) ":where(textarea)" <|
         [ resize vertical ]
     , selector """:where(button, [type="button"], [type="reset"], [type="submit"])"""
         [ cursor pointer ]
@@ -114,6 +124,12 @@ snippetsWith c =
         [ cursor default ]
     , selector ":where(label[for])"
         [ cursor pointer ]
+
+    -- Navigation
+    , selectorIf (c.lists == Opinionated) ":where(nav) :where(ol, ul)" <|
+        [ padding zero
+        , listStyle none
+        ]
 
     -- Embedded content
     , selector ":where(iframe)"

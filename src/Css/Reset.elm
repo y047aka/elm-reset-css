@@ -2,7 +2,7 @@ module Css.Reset exposing
     ( ericMeyer, html5Doctor
     , normalize, sanitize, ress, destyle
     , theNewCssReset
-    , erc_HardReset, erc_Normalize
+    , erc_HardReset, erc_Normalize, erc_Opinionated
     )
 
 {-| Compile it with your [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) code.
@@ -42,7 +42,7 @@ module Css.Reset exposing
 @docs ericMeyer, html5Doctor
 @docs normalize, sanitize, ress, destyle
 @docs theNewCssReset
-@docs erc_HardReset, erc_Normalize
+@docs erc_HardReset, erc_Normalize, erc_Opinionated
 
 -}
 
@@ -124,4 +124,18 @@ erc_Normalize =
         , lists = BrowserDefault
         , a = BrowserDefault
         , forms = BrowserDefault
+        }
+
+
+{-| -}
+erc_Opinionated : List Snippet
+erc_Opinionated =
+    ERC.snippetsWith
+        { margin = BrowserDefault
+        , lineHeight = Opinionated
+        , border = BrowserDefault
+        , headings = BrowserDefault
+        , lists = Opinionated
+        , a = BrowserDefault
+        , forms = Opinionated
         }

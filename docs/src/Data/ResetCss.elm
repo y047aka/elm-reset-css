@@ -16,7 +16,7 @@ type ResetCss
     | TheNewCssReset
     | ERC_HardReset
     | ERC_Normalize
-
+    | ERC_Opinionated
 
 type alias Summary =
     { author : String
@@ -61,6 +61,9 @@ fromString str =
         "ERC_Normalize" ->
             Just ERC_Normalize
 
+        "ERC_Opinionated" ->
+            Just ERC_Opinionated
+
         _ ->
             Nothing
 
@@ -98,6 +101,9 @@ toString resetCss =
         ERC_Normalize ->
             "ERC_Normalize"
 
+        ERC_Opinionated ->
+            "ERC_Opinionated"
+
 
 toSnippet : ResetCss -> List Snippet
 toSnippet resetCss =
@@ -131,6 +137,9 @@ toSnippet resetCss =
 
         ERC_Normalize ->
             erc_Normalize
+
+        ERC_Opinionated ->
+            erc_Opinionated
 
 
 toRootStyles : ResetCss -> List Style
@@ -201,6 +210,9 @@ toRootStyles resetCss =
 
         ERC_Normalize ->
             []
+
+        ERC_Opinionated ->
+            [ lineHeight (num 1.5) ]
 
 
 toSummary : ResetCss -> Summary
@@ -296,6 +308,15 @@ toSummary resetCss =
             , url = "https://github.com/y047aka/elm-reset-css"
             }
 
+        ERC_Opinionated ->
+            { name = "elm-reset-css (opinionated)"
+            , version = "v2.3.0"
+            , updatedAt = "2021-11-14"
+            , author = "Yoshitaka Totsuka"
+            , license = "MIT"
+            , url = "https://github.com/y047aka/elm-reset-css"
+            }
+
 
 all : List ResetCss
 all =
@@ -309,4 +330,5 @@ all =
     , TheNewCssReset
     , ERC_HardReset
     , ERC_Normalize
+    , ERC_Opinionated
     ]
