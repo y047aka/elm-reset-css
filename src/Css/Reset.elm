@@ -110,6 +110,7 @@ erc_HardReset =
         , headings = Reset
         , lists = Reset
         , a = Reset
+        , table = Reset
         , forms = Reset
         }
 
@@ -125,6 +126,7 @@ erc_Normalize =
         , headings = BrowserDefault
         , lists = BrowserDefault
         , a = BrowserDefault
+        , table = Normalize
         , forms = BrowserDefault
         }
 
@@ -140,5 +142,6 @@ erc_Opinionated =
         , headings = BrowserDefault
         , lists = Opinionated
         , a = BrowserDefault
+        , table = Reset
         , forms = Opinionated
         }

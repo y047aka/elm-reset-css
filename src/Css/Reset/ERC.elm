@@ -33,6 +33,7 @@ type alias Config =
     , headings : ResetMode
     , lists : ResetMode
     , a : ResetMode
+    , table : ResetMode
     , forms : ResetMode
     }
 
@@ -46,6 +47,7 @@ defaultConfig =
     , headings = Reset
     , lists = Opinionated
     , a = Reset
+    , table = Reset
     , forms = Opinionated
     }
 
@@ -108,9 +110,9 @@ snippetsWith c =
     -- Table
     , selector ":where(table)"
         [ borderCollapse collapse ]
-    , selector ":where(caption)"
+    , selectorIf (c.table == Reset) ":where(caption)" <|
         [ textAlign left ]
-    , selector ":where(th, td)"
+    , selectorIf (c.table == Reset) ":where(th, td)" <|
         [ textAlign left
         , verticalAlign top
         , fontWeight normal
