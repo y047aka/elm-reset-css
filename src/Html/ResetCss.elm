@@ -45,8 +45,8 @@ module Html.ResetCss exposing
 -}
 
 import Css.Global exposing (global)
+import Css.Reset
 import Css.Reset.Destyle as Destyle
-import Css.Reset.ERC as ERC
 import Css.Reset.EricMeyer as EricMeyer
 import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
@@ -116,7 +116,7 @@ theNewCssReset =
 {-| -}
 erc_HardReset : Html msg
 erc_HardReset =
-    ERC.snippets
+    Css.Reset.erc_HardReset
         |> global
         |> toUnstyled
 
@@ -124,6 +124,6 @@ erc_HardReset =
 {-| -}
 erc_Normalize : Html msg
 erc_Normalize =
-    ERC.snippets
+    Css.Reset.erc_Normalize
         |> global
         |> toUnstyled

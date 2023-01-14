@@ -48,7 +48,7 @@ module Css.Reset exposing
 
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
-import Css.Reset.ERC as ERC
+import Css.Reset.ERC as ERC exposing (ResetMode(..))
 import Css.Reset.EricMeyer as EricMeyer
 import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
@@ -102,10 +102,26 @@ theNewCssReset =
 {-| -}
 erc_HardReset : List Snippet
 erc_HardReset =
-    ERC.snippets
+    ERC.snippetsWith
+        { margin = Reset
+        , lineHeight = Reset
+        , border = Reset
+        , headings = Reset
+        , lists = Reset
+        , a = Reset
+        , forms = Reset
+        }
 
 
 {-| -}
 erc_Normalize : List Snippet
 erc_Normalize =
-    ERC.snippets
+    ERC.snippetsWith
+        { margin = BrowserDefault
+        , lineHeight = BrowserDefault
+        , border = BrowserDefault
+        , headings = BrowserDefault
+        , lists = BrowserDefault
+        , a = BrowserDefault
+        , forms = BrowserDefault
+        }

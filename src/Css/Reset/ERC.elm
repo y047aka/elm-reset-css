@@ -1,13 +1,17 @@
-module Css.Reset.ERC exposing (snippets)
+module Css.Reset.ERC exposing
+    ( Config, ResetMode(..)
+    , snippetsWith
+    )
 
 {-| ElmResetCss which was converted to [rtfeldman/elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/).
 
-@docs snippets
+@docs Config, ResetMode
+@docs snippetsWith
 
 -}
 
 import Css exposing (..)
-import Css.Global exposing (Snippet, everything, selector)
+import Css.Global exposing (Snippet, each, everything, selector)
 
 
 
@@ -15,7 +19,8 @@ import Css.Global exposing (Snippet, everything, selector)
 
 
 type ResetMode
-    = Reset
+    = BrowserDefault
+    | Reset
     | Normalize
 
 
@@ -23,6 +28,10 @@ type alias Config =
     { margin : ResetMode
     , lineHeight : ResetMode
     , border : ResetMode
+    , headings : ResetMode
+    , lists : ResetMode
+    , a : ResetMode
+    , forms : ResetMode
     }
 
 
@@ -31,6 +40,10 @@ defaultConfig =
     { margin = Reset
     , lineHeight = Reset
     , border = Reset
+    , headings = Reset
+    , lists = Reset
+    , a = Reset
+    , forms = Reset
     }
 
 
@@ -38,15 +51,12 @@ defaultConfig =
 -- SNIPPETS
 
 
-snippets : List Snippet
-snippets =
-    let
-        c =
-            defaultConfig
-    in
+snippetsWith : Config -> List Snippet
+snippetsWith c =
     [ selector "*, ::before, ::after"
         [ boxSizing borderBox
-        , backgroundRepeat noRepeat
+
+        -- , backgroundRepeat noRepeat
         , batchIf (c.border == Reset) [ borderWidth zero ]
         ]
     , everything
@@ -55,19 +65,19 @@ snippets =
         [ batchIf (c.lineHeight == Reset) [ lineHeight (num 1) ] ]
 
     -- Headings
-    , selector ":where(h1, h2, h3, h4, h5, h6)"
+    , selectorIf (c.headings == Reset) ":where(h1, h2, h3, h4, h5, h6)" <|
         [ fontSize inherit
         , fontWeight inherit
         ]
 
     -- List
-    , selector ":where(ol, ul)"
+    , selectorIf (c.lists == Reset) ":where(ol, ul)" <|
         [ padding zero
         , listStyle none
         ]
 
     -- Text-level semantics
-    , selector ":where(a)"
+    , selectorIf (c.a == Reset) ":where(a)" <|
         [ textDecoration none
         , color inherit
         ]
@@ -90,7 +100,7 @@ snippets =
         ]
 
     -- Forms
-    , selector ":where(button, input, optgroup, select, textarea)"
+    , selectorIf (c.forms == Reset) ":where(button, input, optgroup, select, textarea)" <|
         [ property "appearance" "none"
         , padding zero
         , property "font" "inherit"
@@ -123,3 +133,12 @@ batchIf bool styles =
 
     else
         batch []
+
+
+selectorIf : Bool -> String -> List Style -> Snippet
+selectorIf bool selector_ styles =
+    if bool then
+        selector selector_ styles
+
+    else
+        each [] []
