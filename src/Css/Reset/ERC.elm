@@ -65,12 +65,11 @@ snippetsWith c =
         [ batchIf (c.margin == Reset) [ margin zero ] ]
     , selector ":where(:root)"
         [ case c.font of
-            Reset ->
-                fontFamilies [ "sans-serif" ]
-
-            _ ->
+            Opinionated ->
                 fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]
 
+            _ ->
+                fontFamilies [ "sans-serif" ]
         , case c.lineHeight of
             Reset ->
                 lineHeight (num 1)

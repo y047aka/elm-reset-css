@@ -213,7 +213,7 @@ toRootStyles resetCss =
             ]
 
         ERC_Normalize ->
-            [ fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ] ]
+            [ fontFamilies [ "sans-serif" ] ]
 
         ERC_Opinionated ->
             [ fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]

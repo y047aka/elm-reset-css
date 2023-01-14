@@ -119,7 +119,7 @@ erc_Normalize : List Snippet
 erc_Normalize =
     ERC.snippetsWith
         { margin = BrowserDefault
-        , font = Opinionated
+        , font = Reset
         , lineHeight = BrowserDefault
         , border = BrowserDefault
         , headings = BrowserDefault
