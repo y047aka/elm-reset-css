@@ -3,7 +3,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
-
+import Css.Reset.ModernCssResert as ModernCssResert
 
 type ResetCss
     = EricMeyer
@@ -12,6 +12,7 @@ type ResetCss
     | Normalize
     | Ress
     | Sanitize
+    | ModernCssResert
     | TheNewCssReset
     | ERC_HardReset
     | ERC_Normalize
@@ -48,6 +49,9 @@ fromString str =
         "Sanitize" ->
             Just Sanitize
 
+        "ModernCssResert" ->
+            Just ModernCssResert
+
         "TheNewCssReset" ->
             Just TheNewCssReset
 
@@ -82,6 +86,9 @@ toString resetCss =
         Sanitize ->
             "Sanitize"
 
+        ModernCssResert ->
+            "ModernCssResert"
+
         TheNewCssReset ->
             "TheNewCssReset"
 
@@ -112,6 +119,9 @@ toSnippet resetCss =
 
         Sanitize ->
             sanitize
+
+        ModernCssResert ->
+            ModernCssResert.snippets
 
         TheNewCssReset ->
             theNewCssReset
@@ -174,6 +184,11 @@ toRootStyles resetCss =
             , property "tab-size" "4"
             , property "-webkit-tap-highlight-color" "transparent"
             , property "-webkit-text-size-adjust" "100%"
+            ]
+
+        ModernCssResert ->
+            [ textRendering optimizeSpeed
+            , lineHeight (num 1.5)
             ]
 
         TheNewCssReset ->
@@ -245,6 +260,15 @@ toSummary resetCss =
             , url = "https://github.com/csstools/sanitize.css"
             }
 
+        ModernCssResert ->
+            { name = "A Modern CSS Reset"
+            , version = "undefined"
+            , updatedAt = "2019-10-01"
+            , author = "Andy Bell"
+            , license = "MIT"
+            , url = "https://github.com/Andy-set-studio/modern-css-reset"
+            }
+
         TheNewCssReset ->
             { name = "The New CSS Reset"
             , version = "v1.3.1"
@@ -281,6 +305,7 @@ all =
     , Normalize
     , Ress
     , Sanitize
+    , ModernCssResert
     , TheNewCssReset
     , ERC_HardReset
     , ERC_Normalize
