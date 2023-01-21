@@ -4,6 +4,7 @@ import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
 import Css.Reset.ModernCssResert as ModernCssResert
+import Css.Reset.Ress
 
 
 type ResetCss
@@ -12,6 +13,7 @@ type ResetCss
     | Destyle
     | Normalize
     | Ress
+    | Ress_v3
     | Sanitize
     | ModernCssResert
     | TheNewCssReset
@@ -47,6 +49,9 @@ fromString str =
 
         "Ress" ->
             Just Ress
+
+        "Ress_v3" ->
+            Just Ress_v3
 
         "Sanitize" ->
             Just Sanitize
@@ -88,6 +93,9 @@ toString resetCss =
         Ress ->
             "Ress"
 
+        Ress_v3 ->
+            "Ress_v3"
+
         Sanitize ->
             "Sanitize"
 
@@ -124,6 +132,9 @@ toSnippet resetCss =
 
         Ress ->
             ress
+
+        Ress_v3 ->
+            Css.Reset.Ress.v3
 
         Sanitize ->
             sanitize
@@ -180,6 +191,14 @@ toRootStyles resetCss =
             ]
 
         Ress ->
+            [ boxSizing borderBox
+            , property "-webkit-text-size-adjust" "100%" -- Prevent adjustments of font size after orientation changes in iOS
+            , property "word-break" "normal"
+            , property "-moz-tab-size" "4"
+            , property "tab-size" "4"
+            ]
+
+        Ress_v3 ->
             [ boxSizing borderBox
             , property "-webkit-text-size-adjust" "100%" -- Prevent adjustments of font size after orientation changes in iOS
             , property "word-break" "normal"
@@ -269,6 +288,15 @@ toSummary resetCss =
             , url = "https://github.com/filipelinhares/ress"
             }
 
+        Ress_v3 ->
+            { name = "ress (v3)"
+            , version = "v3.0.0"
+            , updatedAt = "2021-04-21"
+            , author = "Filipe Linhares"
+            , license = "MIT"
+            , url = "https://github.com/filipelinhares/ress"
+            }
+
         Sanitize ->
             { name = "sanitize.css"
             , version = "v13.0.0"
@@ -331,6 +359,7 @@ all =
     , Destyle
     , Normalize
     , Ress
+    , Ress_v3
     , Sanitize
     , ModernCssResert
     , TheNewCssReset
