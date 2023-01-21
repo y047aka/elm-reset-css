@@ -38,20 +38,6 @@ type alias Config =
     }
 
 
-defaultConfig : Config
-defaultConfig =
-    { margin = Reset
-    , font = Opinionated
-    , lineHeight = Reset
-    , border = Reset
-    , headings = Reset
-    , lists = Opinionated
-    , a = Reset
-    , table = Reset
-    , forms = Opinionated
-    }
-
-
 
 -- SNIPPETS
 
@@ -67,6 +53,9 @@ snippetsWith c =
         [ batchIf (c.margin == Reset) [ margin zero ] ]
     , selector ":where(:root)"
         [ case c.font of
+            BrowserDefault ->
+                batch []
+
             Opinionated ->
                 fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]
 
@@ -119,7 +108,7 @@ snippetsWith c =
         ]
 
     -- Forms
-    , selectorIf (c.forms == Reset) ":where(button, input, optgroup, select, textarea)" <|
+    , selectorIf (c.forms == Reset || c.forms == Opinionated) ":where(button, input, optgroup, select, textarea)" <|
         [ property "appearance" "none"
         , padding zero
         , property "font" "inherit"

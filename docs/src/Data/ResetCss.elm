@@ -3,6 +3,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
+import Css.Reset.ERC as ERC exposing (ResetMode(..))
 import Css.Reset.ModernCssResert as ModernCssResert
 import Css.Reset.Ress
 
@@ -20,6 +21,7 @@ type ResetCss
     | ERC_HardReset
     | ERC_Normalize
     | ERC_Opinionated
+    | ERC_FollowRessV3
 
 
 type alias Summary =
@@ -71,6 +73,9 @@ fromString str =
         "ERC_Opinionated" ->
             Just ERC_Opinionated
 
+        "ERC_FollowRessV3" ->
+            Just ERC_FollowRessV3
+
         _ ->
             Nothing
 
@@ -114,6 +119,9 @@ toString resetCss =
         ERC_Opinionated ->
             "ERC_Opinionated"
 
+        ERC_FollowRessV3 ->
+            "ERC_FollowRessV3"
+
 
 toSnippet : ResetCss -> List Snippet
 toSnippet resetCss =
@@ -153,6 +161,20 @@ toSnippet resetCss =
 
         ERC_Opinionated ->
             erc_Opinionated
+
+        ERC_FollowRessV3 ->
+            ERC.snippetsWith
+                { margin = Reset
+                , font = BrowserDefault
+                , lineHeight = BrowserDefault
+                , border = Reset
+                , headings = BrowserDefault
+                , lists = Reset
+                , a = BrowserDefault
+                , table = BrowserDefault
+                , forms = Opinionated
+                }
+
 
 
 toRootStyles : ResetCss -> List Style
@@ -238,6 +260,9 @@ toRootStyles resetCss =
             [ fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]
             , lineHeight (num 1.5)
             ]
+
+        ERC_FollowRessV3 ->
+            []
 
 
 toSummary : ResetCss -> Summary
@@ -351,6 +376,15 @@ toSummary resetCss =
             , url = "https://github.com/y047aka/elm-reset-css"
             }
 
+        ERC_FollowRessV3 ->
+            { name = "elm-reset-css (follow ress v3)"
+            , version = "v2.3.0"
+            , updatedAt = "2021-11-14"
+            , author = "Yoshitaka Totsuka"
+            , license = "MIT"
+            , url = "https://github.com/y047aka/elm-reset-css"
+            }
+
 
 all : List ResetCss
 all =
@@ -366,4 +400,5 @@ all =
     , ERC_HardReset
     , ERC_Normalize
     , ERC_Opinionated
+    , ERC_FollowRessV3
     ]
