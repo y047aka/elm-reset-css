@@ -51,7 +51,7 @@ snippetsWith c =
         ]
     , everything
         [ batchIf (c.margin == Reset) [ margin zero ] ]
-    , selector ":where(:root)"
+    , where_ ":root"
         [ case c.font of
             BrowserDefault ->
                 batch []
@@ -73,55 +73,55 @@ snippetsWith c =
         ]
 
     -- Headings
-    , selectorIf (c.headings == Reset) ":where(h1, h2, h3, h4, h5, h6)" <|
+    , whereIf (c.headings == Reset) "h1, h2, h3, h4, h5, h6" <|
         [ fontSize inherit
         , fontWeight inherit
         ]
 
     -- List
-    , selectorIf (c.lists == Reset) ":where(ol, ul)" <|
+    , whereIf (c.lists == Reset) "ol, ul" <|
         [ padding zero
         , listStyle none
         ]
 
     -- Text-level semantics
-    , selectorIf (c.a == Reset) ":where(a)" <|
+    , whereIf (c.a == Reset) "a" <|
         [ textDecoration none
         , color inherit
         ]
 
     -- Grouping content
-    , selector ":where(hr)"
+    , where_ "hr"
         [ borderWidth3 (px 1) zero zero ]
-    , selector ":where(address)"
+    , where_ "address"
         [ fontStyle inherit ]
 
     -- Table
-    , selector ":where(table)"
+    , where_ "table"
         [ borderCollapse collapse ]
-    , selectorIf (c.table == Reset) ":where(caption)" <|
+    , whereIf (c.table == Reset) "caption" <|
         [ textAlign left ]
-    , selectorIf (c.table == Reset) ":where(th, td)" <|
+    , whereIf (c.table == Reset) "th, td" <|
         [ textAlign left
         , verticalAlign top
         , fontWeight normal
         ]
 
     -- Forms
-    , selectorIf (c.forms == Reset || c.forms == Opinionated) ":where(button, input, optgroup, select, textarea)" <|
+    , whereIf (c.forms == Reset || c.forms == Opinionated) "button, input, optgroup, select, textarea" <|
         [ property "appearance" "none"
         , padding zero
         , property "font" "inherit"
         , backgroundColor transparent
         , color inherit
         ]
-    , selectorIf (c.forms == Opinionated) ":where(textarea)" <|
+    , whereIf (c.forms == Opinionated) "textarea" <|
         [ resize vertical ]
-    , selector """:where(button, [type="button"], [type="reset"], [type="submit"])"""
+    , where_ """button, [type="button"], [type="reset"], [type="submit"]"""
         [ cursor pointer ]
-    , selector """:where(button:disabled, [type="button"]:disabled, [type="reset"]:disabled, [type="submit"]:disabled)"""
+    , where_ """button:disabled, [type="button"]:disabled, [type="reset"]:disabled, [type="submit"]:disabled"""
         [ cursor default ]
-    , selector ":where(label[for])"
+    , where_ "label[for]"
         [ cursor pointer ]
 
     -- Navigation
@@ -131,7 +131,7 @@ snippetsWith c =
         ]
 
     -- Embedded content
-    , selector ":where(iframe)"
+    , where_ "iframe"
         [ borderStyle none ]
     ]
 
@@ -153,6 +153,20 @@ selectorIf : Bool -> String -> List Style -> Snippet
 selectorIf bool selector_ styles =
     if bool then
         selector selector_ styles
+
+    else
+        each [] []
+
+
+where_ : String -> List Style -> Snippet
+where_ selector_ styles =
+    selector (":where(" ++ selector_ ++ ")") styles
+
+
+whereIf : Bool -> String -> List Style -> Snippet
+whereIf bool selector_ styles =
+    if bool then
+        where_ selector_ styles
 
     else
         each [] []
