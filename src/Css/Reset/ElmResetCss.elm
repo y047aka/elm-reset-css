@@ -1,4 +1,4 @@
-module Css.Reset.ERC exposing
+module Css.Reset.ElmResetCss exposing
     ( Config, ResetMode(..)
     , snippetsWith
     )
@@ -18,6 +18,7 @@ import Css.Global exposing (Snippet, each, everything, selector)
 -- Config
 
 
+{-| -}
 type ResetMode
     = BrowserDefault
     | Reset
@@ -25,6 +26,7 @@ type ResetMode
     | Opinionated
 
 
+{-| -}
 type alias Config =
     { margin : ResetMode
     , font : ResetMode
@@ -42,6 +44,7 @@ type alias Config =
 -- SNIPPETS
 
 
+{-| -}
 snippetsWith : Config -> List Snippet
 snippetsWith c =
     [ selector "*, ::before, ::after"

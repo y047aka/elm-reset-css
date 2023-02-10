@@ -48,7 +48,7 @@ module Css.Reset exposing
 
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
-import Css.Reset.ERC as ERC exposing (ResetMode(..))
+import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 import Css.Reset.EricMeyer as EricMeyer
 import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
