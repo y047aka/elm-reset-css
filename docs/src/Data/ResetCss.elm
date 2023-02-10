@@ -160,7 +160,18 @@ toSnippet resetCss =
             erc_Normalize
 
         ERC_Opinionated ->
-            erc_Opinionated
+            ERC.snippetsWith
+                { margin = BrowserDefault
+                , font = Opinionated
+                , lineHeight = Opinionated
+                , border = BrowserDefault
+                , headings = BrowserDefault
+                , lists = Opinionated
+                , a = BrowserDefault
+                , table = Reset
+                , forms = Opinionated
+                }
+
 
         ERC_FollowRessV3 ->
             ERC.snippetsWith
