@@ -3,7 +3,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 import Css exposing (..)
 import Css.Global exposing (Snippet)
 import Css.Reset exposing (..)
-import Css.Reset.ERC as ERC exposing (ResetMode(..))
+import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 import Css.Reset.ModernCssResert as ModernCssResert
 import Css.Reset.Ress
 

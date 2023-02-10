@@ -519,11 +519,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.bQ.bv === region.b0.bv)
+	if (region.bI.bv === region.bV.bv)
 	{
-		return 'on line ' + region.bQ.bv;
+		return 'on line ' + region.bI.bv;
 	}
-	return 'on lines ' + region.bQ.bv + ' through ' + region.b0.bv;
+	return 'on lines ' + region.bI.bv + ' through ' + region.bV.bv;
 }
 
 
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		y: func(record.y),
-		bR: record.bR,
-		bO: record.bO
+		bJ: record.bJ,
+		bG: record.bG
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.y;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bR;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bJ;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.bO) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.bG) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3983,7 +3983,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 		impl.cA,
 		impl.cz,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.bP && impl.bP(sendToApp)
+			var divertHrefToApp = impl.bH && impl.bH(sendToApp)
 			var view = impl.cC;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bG);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bF);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.bU) && (_VirtualDom_doc.title = title = doc.bU);
+				(title !== doc.bL) && (_VirtualDom_doc.title = title = doc.bL);
 			});
 		}
 	);
@@ -4058,7 +4058,7 @@ function _Browser_application(impl)
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		bP: function(sendToApp)
+		bH: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.b8 === next.b8
-							&& curr.b3 === next.b3
-							&& curr.b7.a === next.b7.a
+							&& curr.b7 === next.b7
+							&& curr.b$ === next.b$
+							&& curr.b6.a === next.b6.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4916,7 +4916,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {bd: fragment, b3: host, bj: path, b7: port_, b8: protocol, bm: query};
+		return {bd: fragment, b$: host, bj: path, b6: port_, b7: protocol, bm: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5224,7 +5224,7 @@ var $rtfeldman$elm_css$Css$Global$typeSelector = F2(
 	});
 var $rtfeldman$elm_css$Css$Global$body = $rtfeldman$elm_css$Css$Global$typeSelector('body');
 var $rtfeldman$elm_css$Css$Structure$Compatible = 0;
-var $rtfeldman$elm_css$Css$borderBox = {bF: 0, aP: 0, bz: 'border-box'};
+var $rtfeldman$elm_css$Css$borderBox = {bE: 0, aP: 0, bz: 'border-box'};
 var $rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
 	return {$: 0, a: a};
 };
@@ -5593,7 +5593,7 @@ var $rtfeldman$elm_css$Css$String$mapJoin = F3(
 		return A4($rtfeldman$elm_css$Css$String$mapJoinHelp, map, sep, strs, '');
 	});
 var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.b1 + (A2(
+	return '(' + (expression.bW + (A2(
 		$elm$core$Maybe$withDefault,
 		'',
 		A2(
@@ -7049,7 +7049,7 @@ var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 			B: 0,
 			C: 0,
 			q: 0,
-			bL: 0,
+			b1: 0,
 			T: numericValue,
 			M: 0,
 			av: unitLabel,
@@ -8228,7 +8228,7 @@ var $rtfeldman$elm_css$Css$Media$feature = F2(
 	function (key, _v0) {
 		var value = _v0.bz;
 		return {
-			b1: key,
+			bW: key,
 			bz: $elm$core$Maybe$Just(value)
 		};
 	});
@@ -8238,7 +8238,7 @@ var $rtfeldman$elm_css$Css$Media$maxWidth = function (value) {
 var $rtfeldman$elm_css$Css$Media$minWidth = function (value) {
 	return A2($rtfeldman$elm_css$Css$Media$feature, 'min-width', value);
 };
-var $rtfeldman$elm_css$Css$none = {aj: 0, bX: 0, u: 0, a: 0, f: 0, cn: 0, b4: 0, a0: 0, H: 0, B: 0, q: 0, c: 0, b: 0, a2: 0, aX: 0, cv: 0, L: 0, by: 0, cx: 0, at: 0, ag: 0, z: 0, e: 0, cB: 0, bz: 'none'};
+var $rtfeldman$elm_css$Css$none = {aj: 0, bP: 0, u: 0, a: 0, f: 0, cn: 0, b0: 0, a0: 0, H: 0, B: 0, q: 0, c: 0, b: 0, a2: 0, aX: 0, cv: 0, L: 0, by: 0, cx: 0, at: 0, ag: 0, z: 0, e: 0, cB: 0, bz: 'none'};
 var $rtfeldman$elm_css$Css$Preprocess$ExtendSelector = F2(
 	function (a, b) {
 		return {$: 1, a: a, b: b};
@@ -10614,7 +10614,7 @@ var $rtfeldman$elm_css$Css$num = function (val) {
 	return {
 		C: 0,
 		q: 0,
-		bL: 0,
+		b1: 0,
 		aG: 0,
 		aW: 0,
 		T: val,
@@ -10631,7 +10631,7 @@ var $rtfeldman$elm_css$Css$qt = function (str) {
 };
 var $rtfeldman$elm_css$Css$textRendering = $rtfeldman$elm_css$Css$prop1('text-rendering');
 var $rtfeldman$elm_css$Css$Internal$IncompatibleUnits = 0;
-var $rtfeldman$elm_css$Css$initial = {a5: 0, a6: 0, aB: 0, a7: 0, aj: 0, a8: 0, ak: 0, S: 0, u: 0, aP: 0, Q: 0, a: 0, f: 0, E: 0, a$: 0, aD: 0, aR: 0, _: 0, h: 0, aE: 0, d: 0, aa: 0, aU: 0, bf: 0, a0: 0, R: 0, F: 0, x: 0, G: 0, H: 0, B: 0, C: 0, q: 0, bL: 0, aV: 0, c: 0, b: 0, a2: 0, aG: 0, T: 0, aX: 0, ao: 0, L: 0, aZ: 0, at: 0, af: 0, M: 0, au: 0, ag: 0, z: 0, av: '', aM: 0, bz: 'initial', aN: 0, ai: 0};
+var $rtfeldman$elm_css$Css$initial = {a5: 0, a6: 0, aB: 0, a7: 0, aj: 0, a8: 0, ak: 0, S: 0, u: 0, aP: 0, Q: 0, a: 0, f: 0, E: 0, a$: 0, aD: 0, aR: 0, _: 0, h: 0, aE: 0, d: 0, aa: 0, aU: 0, bf: 0, a0: 0, R: 0, F: 0, x: 0, G: 0, H: 0, B: 0, C: 0, q: 0, b1: 0, aV: 0, c: 0, b: 0, a2: 0, aG: 0, T: 0, aX: 0, ao: 0, L: 0, aZ: 0, at: 0, af: 0, M: 0, au: 0, ag: 0, z: 0, av: '', aM: 0, bz: 'initial', aN: 0, ai: 0};
 var $rtfeldman$elm_css$Css$unset = _Utils_update(
 	$rtfeldman$elm_css$Css$initial,
 	{bz: 'unset'});
@@ -10828,9 +10828,9 @@ var $author$project$Data$ResetCss$toRootStyles = function (resetCss) {
 			return _List_Nil;
 	}
 };
-var $author$project$Css$Reset$ERC$BrowserDefault = 0;
-var $author$project$Css$Reset$ERC$Opinionated = 3;
-var $author$project$Css$Reset$ERC$Reset = 1;
+var $author$project$Css$Reset$ElmResetCss$BrowserDefault = 0;
+var $author$project$Css$Reset$ElmResetCss$Opinionated = 3;
+var $author$project$Css$Reset$ElmResetCss$Reset = 1;
 var $author$project$Css$Reset$Destyle$V4$document = _List_fromArray(
 	[
 		$rtfeldman$elm_css$Css$Global$html(
@@ -11109,7 +11109,7 @@ var $author$project$Css$Reset$Destyle$V4$forms = _List_fromArray(
 			]))
 	]);
 var $rtfeldman$elm_css$Css$borderTopWidth = $rtfeldman$elm_css$Css$prop1('border-top-width');
-var $rtfeldman$elm_css$Css$contentBox = {bF: 0, aP: 0, bz: 'content-box'};
+var $rtfeldman$elm_css$Css$contentBox = {bE: 0, aP: 0, bz: 'content-box'};
 var $rtfeldman$elm_css$Css$fontStyle = $rtfeldman$elm_css$Css$prop1('font-style');
 var $rtfeldman$elm_css$Css$Global$hr = $rtfeldman$elm_css$Css$Global$typeSelector('hr');
 var $rtfeldman$elm_css$Css$monospace = {_: 0, bz: 'monospace'};
@@ -11283,7 +11283,7 @@ var $rtfeldman$elm_css$Css$borderColor = function (c) {
 	return A2($rtfeldman$elm_css$Css$property, 'border-color', c.bz);
 };
 var $rtfeldman$elm_css$Css$Global$caption = $rtfeldman$elm_css$Css$Global$typeSelector('caption');
-var $rtfeldman$elm_css$Css$collapse = {bY: 0, bz: 'collapse', aN: 0};
+var $rtfeldman$elm_css$Css$collapse = {bR: 0, bz: 'collapse', aN: 0};
 var $rtfeldman$elm_css$Css$left = $rtfeldman$elm_css$Css$prop1('left');
 var $rtfeldman$elm_css$Css$Global$table = $rtfeldman$elm_css$Css$Global$typeSelector('table');
 var $rtfeldman$elm_css$Css$Global$td = $rtfeldman$elm_css$Css$Global$typeSelector('td');
@@ -11454,28 +11454,28 @@ var $author$project$Css$Reset$Destyle$V4$snippets = $elm$core$List$concat(
 var $author$project$Css$Reset$Destyle$v4 = $author$project$Css$Reset$Destyle$V4$snippets;
 var $author$project$Css$Reset$destyle = $author$project$Css$Reset$Destyle$v4;
 var $rtfeldman$elm_css$Css$backgroundRepeat = $rtfeldman$elm_css$Css$prop1('background-repeat');
-var $author$project$Css$Reset$ERC$batchIf = F2(
+var $author$project$Css$Reset$ElmResetCss$batchIf = F2(
 	function (bool, styles) {
 		return bool ? $rtfeldman$elm_css$Css$batch(styles) : $rtfeldman$elm_css$Css$batch(_List_Nil);
 	});
 var $rtfeldman$elm_css$Css$borderWidth3 = $rtfeldman$elm_css$Css$prop3('border-width');
 var $rtfeldman$elm_css$Css$noRepeat = {ak: 0, S: 0, bz: 'no-repeat'};
-var $rtfeldman$elm_css$Css$normal = {b2: 0, aE: 0, aa: 0, bL: 0, b6: 0, bz: 'normal', ai: 0};
+var $rtfeldman$elm_css$Css$normal = {bX: 0, aE: 0, aa: 0, b1: 0, b5: 0, bz: 'normal', ai: 0};
 var $rtfeldman$elm_css$Css$resize = $rtfeldman$elm_css$Css$prop1('resize');
-var $author$project$Css$Reset$ERC$selectorIf = F3(
+var $author$project$Css$Reset$ElmResetCss$selectorIf = F3(
 	function (bool, selector_, styles) {
 		return bool ? A2($rtfeldman$elm_css$Css$Global$selector, selector_, styles) : A2($rtfeldman$elm_css$Css$Global$each, _List_Nil, _List_Nil);
 	});
 var $rtfeldman$elm_css$Css$vertical = {by: 0, bz: 'vertical'};
-var $author$project$Css$Reset$ERC$where_ = F2(
+var $author$project$Css$Reset$ElmResetCss$where_ = F2(
 	function (selector_, styles) {
 		return A2($rtfeldman$elm_css$Css$Global$selector, ':where(' + (selector_ + ')'), styles);
 	});
-var $author$project$Css$Reset$ERC$whereIf = F3(
+var $author$project$Css$Reset$ElmResetCss$whereIf = F3(
 	function (bool, selector_, styles) {
-		return bool ? A2($author$project$Css$Reset$ERC$where_, selector_, styles) : A2($rtfeldman$elm_css$Css$Global$each, _List_Nil, _List_Nil);
+		return bool ? A2($author$project$Css$Reset$ElmResetCss$where_, selector_, styles) : A2($rtfeldman$elm_css$Css$Global$each, _List_Nil, _List_Nil);
 	});
-var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
+var $author$project$Css$Reset$ElmResetCss$snippetsWith = function (c) {
 	return _List_fromArray(
 		[
 			A2(
@@ -11486,8 +11486,8 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$boxSizing($rtfeldman$elm_css$Css$borderBox),
 					$rtfeldman$elm_css$Css$backgroundRepeat($rtfeldman$elm_css$Css$noRepeat),
 					A2(
-					$author$project$Css$Reset$ERC$batchIf,
-					c.bH === 1,
+					$author$project$Css$Reset$ElmResetCss$batchIf,
+					c.bQ === 1,
 					_List_fromArray(
 						[
 							$rtfeldman$elm_css$Css$borderWidth($rtfeldman$elm_css$Css$zero)
@@ -11497,20 +11497,20 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 			_List_fromArray(
 				[
 					A2(
-					$author$project$Css$Reset$ERC$batchIf,
-					c.bN === 1,
+					$author$project$Css$Reset$ElmResetCss$batchIf,
+					c.b3 === 1,
 					_List_fromArray(
 						[
 							$rtfeldman$elm_css$Css$margin($rtfeldman$elm_css$Css$zero)
 						]))
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			':root',
 			_List_fromArray(
 				[
 					function () {
-					var _v0 = c.bI;
+					var _v0 = c.bY;
 					switch (_v0) {
 						case 0:
 							return $rtfeldman$elm_css$Css$batch(_List_Nil);
@@ -11534,7 +11534,7 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					}
 				}(),
 					function () {
-					var _v1 = c.bL;
+					var _v1 = c.b1;
 					switch (_v1) {
 						case 1:
 							return $rtfeldman$elm_css$Css$lineHeight(
@@ -11548,8 +11548,8 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 				}()
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			c.bK === 1,
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			c.b_ === 1,
 			'h1, h2, h3, h4, h5, h6',
 			_List_fromArray(
 				[
@@ -11557,8 +11557,8 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$fontWeight($rtfeldman$elm_css$Css$inherit)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			c.bM === 1,
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			c.b2 === 1,
 			'ol, ul',
 			_List_fromArray(
 				[
@@ -11566,8 +11566,8 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$listStyle($rtfeldman$elm_css$Css$none)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			c.bA === 1,
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			c.bM === 1,
 			'a',
 			_List_fromArray(
 				[
@@ -11575,7 +11575,7 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$color($rtfeldman$elm_css$Css$inherit)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'hr',
 			_List_fromArray(
 				[
@@ -11586,30 +11586,30 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$zero)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'address',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$fontStyle($rtfeldman$elm_css$Css$inherit)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'table',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$borderCollapse($rtfeldman$elm_css$Css$collapse)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			c.bS === 1,
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			c.b9 === 1,
 			'caption',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$left)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			c.bS === 1,
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			c.b9 === 1,
 			'th, td',
 			_List_fromArray(
 				[
@@ -11618,8 +11618,8 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$fontWeight($rtfeldman$elm_css$Css$normal)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			(c.bJ === 1) || (c.bJ === 3),
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			(c.bZ === 1) || (c.bZ === 3),
 			'button, input, optgroup, select, textarea',
 			_List_fromArray(
 				[
@@ -11630,37 +11630,37 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$color($rtfeldman$elm_css$Css$inherit)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$whereIf,
-			c.bJ === 3,
+			$author$project$Css$Reset$ElmResetCss$whereIf,
+			c.bZ === 3,
 			'textarea',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$vertical)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'button, [type="button"], [type="reset"], [type="submit"]',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$cursor($rtfeldman$elm_css$Css$pointer)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'button:disabled, [type="button"]:disabled, [type="reset"]:disabled, [type="submit"]:disabled',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$cursor($rtfeldman$elm_css$Css$default)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'label[for]',
 			_List_fromArray(
 				[
 					$rtfeldman$elm_css$Css$cursor($rtfeldman$elm_css$Css$pointer)
 				])),
 			A3(
-			$author$project$Css$Reset$ERC$selectorIf,
-			c.bM === 3,
+			$author$project$Css$Reset$ElmResetCss$selectorIf,
+			c.b2 === 3,
 			':where(nav) :where(ol, ul)',
 			_List_fromArray(
 				[
@@ -11668,7 +11668,7 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 					$rtfeldman$elm_css$Css$listStyle($rtfeldman$elm_css$Css$none)
 				])),
 			A2(
-			$author$project$Css$Reset$ERC$where_,
+			$author$project$Css$Reset$ElmResetCss$where_,
 			'iframe',
 			_List_fromArray(
 				[
@@ -11676,13 +11676,11 @@ var $author$project$Css$Reset$ERC$snippetsWith = function (c) {
 				]))
 		]);
 };
-var $author$project$Css$Reset$erc_HardReset = $author$project$Css$Reset$ERC$snippetsWith(
-	{bA: 1, bH: 1, bI: 1, bJ: 1, bK: 1, bL: 1, bM: 1, bN: 1, bS: 1});
-var $author$project$Css$Reset$ERC$Normalize = 2;
-var $author$project$Css$Reset$erc_Normalize = $author$project$Css$Reset$ERC$snippetsWith(
-	{bA: 0, bH: 0, bI: 1, bJ: 0, bK: 0, bL: 0, bM: 0, bN: 0, bS: 2});
-var $author$project$Css$Reset$erc_Opinionated = $author$project$Css$Reset$ERC$snippetsWith(
-	{bA: 0, bH: 0, bI: 3, bJ: 3, bK: 0, bL: 3, bM: 3, bN: 0, bS: 1});
+var $author$project$Css$Reset$erc_HardReset = $author$project$Css$Reset$ElmResetCss$snippetsWith(
+	{bM: 1, bQ: 1, bY: 1, bZ: 1, b_: 1, b1: 1, b2: 1, b3: 1, b9: 1});
+var $author$project$Css$Reset$ElmResetCss$Normalize = 2;
+var $author$project$Css$Reset$erc_Normalize = $author$project$Css$Reset$ElmResetCss$snippetsWith(
+	{bM: 0, bQ: 0, bY: 1, bZ: 0, b_: 0, b1: 0, b2: 0, b3: 0, b9: 2});
 var $rtfeldman$elm_css$Css$Global$article = $rtfeldman$elm_css$Css$Global$typeSelector('article');
 var $rtfeldman$elm_css$Css$Global$aside = $rtfeldman$elm_css$Css$Global$typeSelector('aside');
 var $rtfeldman$elm_css$Css$Global$audio = $rtfeldman$elm_css$Css$Global$typeSelector('audio');
@@ -13492,7 +13490,7 @@ var $author$project$Css$Reset$ModernCssResert$snippets = _List_fromArray(
 					]))
 			]))
 	]);
-var $rtfeldman$elm_css$Css$breakWord = {b6: 0, bz: 'break-word'};
+var $rtfeldman$elm_css$Css$breakWord = {b5: 0, bz: 'break-word'};
 var $rtfeldman$elm_css$Css$overflowWrap = $rtfeldman$elm_css$Css$prop1('overflow-wrap');
 var $author$project$Css$Reset$TheNewCssReset$snippets = _List_fromArray(
 	[
@@ -14036,10 +14034,11 @@ var $author$project$Data$ResetCss$toSnippet = function (resetCss) {
 		case 10:
 			return $author$project$Css$Reset$erc_Normalize;
 		case 11:
-			return $author$project$Css$Reset$erc_Opinionated;
+			return $author$project$Css$Reset$ElmResetCss$snippetsWith(
+				{bM: 0, bQ: 0, bY: 3, bZ: 3, b_: 0, b1: 3, b2: 3, b3: 0, b9: 1});
 		default:
-			return $author$project$Css$Reset$ERC$snippetsWith(
-				{bA: 0, bH: 1, bI: 0, bJ: 3, bK: 0, bL: 0, bM: 1, bN: 1, bS: 0});
+			return $author$project$Css$Reset$ElmResetCss$snippetsWith(
+				{bM: 0, bQ: 1, bY: 0, bZ: 3, b_: 0, b1: 0, b2: 1, b3: 1, b9: 0});
 	}
 };
 var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
@@ -14234,7 +14233,7 @@ var $rtfeldman$elm_css$Css$Animations$keyframes = function (tuples) {
 };
 var $rtfeldman$elm_css$Css$ms = function (amount) {
 	return {
-		b$: 0,
+		bU: 0,
 		bz: $elm$core$String$fromFloat(amount) + 'ms'
 	};
 };
@@ -14730,8 +14729,8 @@ var $author$project$Main$topPage = function (model) {
 };
 var $author$project$Main$view = function (model) {
 	return {
-		bG: $author$project$Main$topPage(model),
-		bU: 'elm-reset-css'
+		bF: $author$project$Main$topPage(model),
+		bL: 'elm-reset-css'
 	};
 };
 var $author$project$Main$main = $elm$browser$Browser$document(
@@ -14745,14 +14744,14 @@ var $author$project$Main$main = $elm$browser$Browser$document(
 			$elm$core$Basics$composeR,
 			$author$project$Main$view,
 			function (_v1) {
-				var title = _v1.bU;
-				var body = _v1.bG;
+				var title = _v1.bL;
+				var body = _v1.bF;
 				return {
-					bG: A2(
+					bF: A2(
 						$elm$core$List$map,
 						$rtfeldman$elm_css$Html$Styled$toUnstyled,
 						A2($elm$core$List$cons, $author$project$Main$globalReset, body)),
-					bU: title
+					bL: title
 				};
 			})
 	});
