@@ -12,7 +12,6 @@ module Internal.Table exposing
 
 import Css exposing (BorderCollapse, ExplicitLength, FontWeight, IncompatibleUnits, Length, Style, Visibility)
 import Css.Global exposing (Snippet)
-import Css.Reset.EricMeyer exposing (snippets)
 import Internal exposing (whereIf)
 
 
@@ -55,11 +54,11 @@ init =
 
 table : Table -> List Snippet
 table t =
-    [ (List.filterMap identity >> whereIf (List.isEmpty snippets) "table")
+    [ (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "table" styles))
         [ Maybe.map Css.borderCollapse t.table.borderCollapse
         , Maybe.map Css.borderSpacing t.table.borderSpacing
         ]
-    , (List.filterMap identity >> whereIf (List.isEmpty snippets) "th, td")
+    , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "th, td" styles))
         [ Maybe.map Css.padding t.thOrTd.padding
         , Maybe.map Css.textAlign t.thOrTd.textAlign
         , Maybe.map Css.verticalAlign t.thOrTd.verticalAlign
