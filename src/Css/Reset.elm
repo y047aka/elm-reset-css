@@ -46,7 +46,8 @@ module Css.Reset exposing
 
 -}
 
-import Css.Global exposing (Snippet)
+import Css exposing (BackgroundClip, BoxSizing, Length, property)
+import Css.Global exposing (Snippet, selector)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 import Css.Reset.EricMeyer as EricMeyer
@@ -55,6 +56,54 @@ import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
+import Internal exposing (whereIf)
+import Internal.Table as Table exposing (Table)
+
+
+type alias Config =
+    { everything :
+        { boxSizing : Maybe (BoxSizing (BackgroundClip {}))
+        , borderWidth : Maybe (Length {} {})
+        }
+    , root : { webkitTextSizeAdjust : Maybe String }
+    , table : Table
+    }
+
+
+init : Config
+init =
+    { everything =
+        { boxSizing = Nothing
+        , borderWidth = Nothing
+        }
+    , root = { webkitTextSizeAdjust = Nothing }
+    , table = Table.init
+    }
+
+
+config : Config
+config =
+    { init
+        | everything = (\ev -> { ev | boxSizing = Just Css.borderBox }) init.everything
+    }
+
+
+snippets : List Snippet
+snippets =
+    [ [ (List.filterMap identity >> (\styles -> selector "*, ::before, ::after" styles))
+            [ Maybe.map Css.boxSizing config.everything.boxSizing
+            , Maybe.map Css.borderWidth config.everything.borderWidth
+            ]
+      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) ":root" styles))
+            [ Maybe.map (property "-webkit-text-size-adjust") config.root.webkitTextSizeAdjust ]
+      ]
+    , Table.table config.table
+    ]
+        |> List.concat
+
+
+
+-- DEPRECATED
 
 
 {-| -}
