@@ -46,7 +46,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BoxSizing, Length, property)
+import Css exposing (BackgroundClip, BoxSizing, Color, FontSize, FontWeight, Length, TextDecorationLine, property)
 import Css.Global exposing (Snippet, selector)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -66,17 +66,32 @@ type alias Config =
         , borderWidth : Maybe (Length {} {})
         }
     , root : { webkitTextSizeAdjust : Maybe String }
+    , headings :
+        { fontSize : Maybe (FontSize {})
+        , fontWeight : Maybe (FontWeight {})
+        }
+    , textLevel :
+        { a :
+            { textDecoration : Maybe (TextDecorationLine {})
+            , color : Maybe Color
+            }
+        , b : { fontWeight : Maybe (FontWeight {}) }
+        , subOrSup : { fontSize : Maybe (FontSize {}) }
+        }
     , table : Table
     }
 
 
 init : Config
 init =
-    { everything =
-        { boxSizing = Nothing
-        , borderWidth = Nothing
-        }
+    { everything = { boxSizing = Nothing, borderWidth = Nothing }
     , root = { webkitTextSizeAdjust = Nothing }
+    , headings = { fontSize = Nothing, fontWeight = Nothing }
+    , textLevel =
+        { a = { textDecoration = Nothing, color = Nothing }
+        , b = { fontWeight = Nothing }
+        , subOrSup = { fontSize = Nothing }
+        }
     , table = Table.init
     }
 
@@ -94,9 +109,27 @@ snippets =
             [ Maybe.map Css.boxSizing config.everything.boxSizing
             , Maybe.map Css.borderWidth config.everything.borderWidth
             ]
+
+      -- Root
       , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) ":root" styles))
             [ Maybe.map (property "-webkit-text-size-adjust") config.root.webkitTextSizeAdjust ]
+
+      -- Headings
+      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "h1, h2, h3, h4, h5, h6" styles))
+            [ Maybe.map Css.fontSize config.headings.fontSize ]
+
+      -- Text-level
+      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "a" styles))
+            [ Maybe.map Css.textDecoration config.textLevel.a.textDecoration
+            , Maybe.map Css.color config.textLevel.a.color
+            ]
+      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "b, strong" styles))
+            [ Maybe.map Css.fontWeight config.textLevel.b.fontWeight ]
+      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "sub, sup" styles))
+            [ Maybe.map Css.fontSize config.textLevel.subOrSup.fontSize ]
       ]
+
+    -- Table
     , Table.table config.table
     ]
         |> List.concat
