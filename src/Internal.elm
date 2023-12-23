@@ -1,4 +1,4 @@
-module Internal exposing (whereIf, where_)
+module Internal exposing (selectorIfNonEmpty, whereIfNonEmpty)
 
 import Css exposing (Style, batch)
 import Css.Global exposing (Snippet, each, selector)
@@ -18,19 +18,39 @@ batchIf bool styles =
 
 
 selectorIf : Bool -> String -> List Style -> Snippet
-selectorIf bool selector_ styles =
+selectorIf bool selectorStr styles =
     if bool then
-        selector selector_ styles
+        selector selectorStr styles
 
     else
         each [] []
 
 
+selectorIfNonEmpty : String -> List (Maybe Style) -> Snippet
+selectorIfNonEmpty selectorStr styles =
+    case List.filterMap identity styles of
+        [] ->
+            each [] []
+
+        nonEmpty ->
+            selector selectorStr nonEmpty
+
+
 where_ : String -> List Style -> Snippet
-where_ selector_ styles =
-    selector (":where(" ++ selector_ ++ ")") styles
+where_ selectorStr styles =
+    selector (":where(" ++ selectorStr ++ ")") styles
 
 
 whereIf : Bool -> String -> List Style -> Snippet
-whereIf bool selector_ styles =
-    selectorIf bool (":where(" ++ selector_ ++ ")") styles
+whereIf bool selectorStr styles =
+    selectorIf bool (":where(" ++ selectorStr ++ ")") styles
+
+
+whereIfNonEmpty : String -> List (Maybe Style) -> Snippet
+whereIfNonEmpty selectorStr styles =
+    case List.filterMap identity styles of
+        [] ->
+            each [] []
+
+        nonEmpty ->
+            where_ selectorStr nonEmpty

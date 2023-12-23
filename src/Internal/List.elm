@@ -4,8 +4,7 @@ module Internal.List exposing (..)
 
 import Css exposing (ListStyle)
 import Css.Global exposing (Snippet)
-import Css.Reset.EricMeyer exposing (snippets)
-import Internal exposing (whereIf)
+import Internal exposing (whereIfNonEmpty)
 
 
 type alias List_ =
@@ -31,6 +30,6 @@ init =
 
 list : List_ -> List Snippet
 list l =
-    [ (List.filterMap identity >> whereIf (List.isEmpty snippets) "li")
+    [ whereIfNonEmpty "li"
         [ Maybe.map Css.listStyle l.listItem.listStyle ]
     ]

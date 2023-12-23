@@ -12,7 +12,7 @@ module Internal.Table exposing
 
 import Css exposing (BorderCollapse, ExplicitLength, FontWeight, IncompatibleUnits, Length, Style, Visibility)
 import Css.Global exposing (Snippet)
-import Internal exposing (whereIf)
+import Internal exposing (whereIfNonEmpty)
 
 
 type alias Table =
@@ -54,11 +54,11 @@ init =
 
 table : Table -> List Snippet
 table t =
-    [ (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "table" styles))
+    [ whereIfNonEmpty "table"
         [ Maybe.map Css.borderCollapse t.table.borderCollapse
         , Maybe.map Css.borderSpacing t.table.borderSpacing
         ]
-    , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "th, td" styles))
+    , whereIfNonEmpty "th, td"
         [ Maybe.map Css.padding t.thOrTd.padding
         , Maybe.map Css.textAlign t.thOrTd.textAlign
         , Maybe.map Css.verticalAlign t.thOrTd.verticalAlign

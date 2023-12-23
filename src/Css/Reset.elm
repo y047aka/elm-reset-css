@@ -47,7 +47,7 @@ module Css.Reset exposing
 -}
 
 import Css exposing (BackgroundClip, BoxSizing, Color, FontSize, FontWeight, Length, TextDecorationLine, property)
-import Css.Global exposing (Snippet, selector)
+import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 import Css.Reset.EricMeyer as EricMeyer
@@ -56,7 +56,7 @@ import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
-import Internal exposing (whereIf)
+import Internal exposing (selectorIfNonEmpty, whereIfNonEmpty)
 import Internal.Table as Table exposing (Table)
 
 
@@ -105,27 +105,27 @@ config =
 
 snippets : List Snippet
 snippets =
-    [ [ (List.filterMap identity >> (\styles -> selector "*, ::before, ::after" styles))
+    [ [ selectorIfNonEmpty "*, ::before, ::after"
             [ Maybe.map Css.boxSizing config.everything.boxSizing
             , Maybe.map Css.borderWidth config.everything.borderWidth
             ]
 
       -- Root
-      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) ":root" styles))
+      , whereIfNonEmpty ":root"
             [ Maybe.map (property "-webkit-text-size-adjust") config.root.webkitTextSizeAdjust ]
 
       -- Headings
-      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "h1, h2, h3, h4, h5, h6" styles))
+      , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
             [ Maybe.map Css.fontSize config.headings.fontSize ]
 
       -- Text-level
-      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "a" styles))
+      , whereIfNonEmpty "a"
             [ Maybe.map Css.textDecoration config.textLevel.a.textDecoration
             , Maybe.map Css.color config.textLevel.a.color
             ]
-      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "b, strong" styles))
+      , whereIfNonEmpty "b, strong"
             [ Maybe.map Css.fontWeight config.textLevel.b.fontWeight ]
-      , (List.filterMap identity >> (\styles -> whereIf (List.isEmpty styles) "sub, sup" styles))
+      , whereIfNonEmpty "sub, sup"
             [ Maybe.map Css.fontSize config.textLevel.subOrSup.fontSize ]
       ]
 
