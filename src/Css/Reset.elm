@@ -46,7 +46,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BoxSizing, Color, FontSize, FontWeight, Length, ListStyle, TextDecorationLine, property)
+import Css exposing (BackgroundClip, BorderCollapse, BoxSizing, Color, ExplicitLength, FontSize, FontWeight, IncompatibleUnits, Length, ListStyle, Style, TextDecorationLine, Visibility, property)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -57,7 +57,6 @@ import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
 import Internal exposing (selectorIfNonEmpty, whereIfNonEmpty)
-import Internal.Table as Table exposing (Table)
 
 
 type alias Config =
@@ -102,6 +101,21 @@ type alias TextLevel =
     }
 
 
+type alias Table =
+    { table :
+        { borderCollapse : Maybe (BorderCollapse (Visibility {}))
+        , borderSpacing : Maybe (Length {} {})
+        }
+    , thOrTd :
+        { padding : Maybe (Length {} {})
+        , textAlign : Maybe (ExplicitLength IncompatibleUnits -> Style)
+        , verticalAlign : Maybe (ExplicitLength IncompatibleUnits -> Style)
+        , fontWeight : Maybe (FontWeight {})
+        , border : Maybe (Length {} {})
+        }
+    }
+
+
 init : Config
 init =
     { everything = init_everything
@@ -109,7 +123,7 @@ init =
     , headings = init_headings
     , groupingContent = init_groupingContent
     , textLevel = init_textLevel
-    , table = Table.init
+    , table = init_table
     }
 
 
@@ -140,6 +154,22 @@ init_textLevel =
     { a = { textDecoration = Nothing, color = Nothing }
     , b = { fontWeight = Nothing }
     , subOrSup = { fontSize = Nothing }
+    }
+
+
+init_table : Table
+init_table =
+    { table =
+        { borderCollapse = Nothing
+        , borderSpacing = Nothing
+        }
+    , thOrTd =
+        { padding = Nothing
+        , textAlign = Nothing
+        , verticalAlign = Nothing
+        , fontWeight = Nothing
+        , border = Nothing
+        }
     }
 
 
