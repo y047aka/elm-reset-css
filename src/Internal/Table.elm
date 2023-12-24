@@ -1,18 +1,16 @@
 module Internal.Table exposing
-    ( Table, init, table
+    ( Table, init
     , browserDefault_table, hardReset_table, normalize_table
     )
 
 {-|
 
-@docs Table, init, table
+@docs Table, init
 @docs browserDefault_table, hardReset_table, normalize_table
 
 -}
 
 import Css exposing (BorderCollapse, ExplicitLength, FontWeight, IncompatibleUnits, Length, Style, Visibility)
-import Css.Global exposing (Snippet)
-import Internal exposing (whereIfNonEmpty)
 
 
 type alias Table =
@@ -50,22 +48,6 @@ init =
         , border = Nothing
         }
     }
-
-
-table : Table -> List Snippet
-table t =
-    [ whereIfNonEmpty "table"
-        [ Maybe.map Css.borderCollapse t.table.borderCollapse
-        , Maybe.map Css.borderSpacing t.table.borderSpacing
-        ]
-    , whereIfNonEmpty "th, td"
-        [ Maybe.map Css.padding t.thOrTd.padding
-        , Maybe.map Css.textAlign t.thOrTd.textAlign
-        , Maybe.map Css.verticalAlign t.thOrTd.verticalAlign
-        , Maybe.map Css.fontWeight t.thOrTd.fontWeight
-        , Maybe.map Css.border t.thOrTd.border
-        ]
-    ]
 
 
 browserDefault_table : Table

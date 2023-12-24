@@ -61,38 +61,70 @@ import Internal.Table as Table exposing (Table)
 
 
 type alias Config =
-    { everything :
-        { boxSizing : Maybe (BoxSizing (BackgroundClip {}))
-        , borderWidth : Maybe (Length {} {})
-        }
-    , root : { webkitTextSizeAdjust : Maybe String }
-    , headings :
-        { fontSize : Maybe (FontSize {})
-        , fontWeight : Maybe (FontWeight {})
-        }
-    , textLevel :
-        { a :
-            { textDecoration : Maybe (TextDecorationLine {})
-            , color : Maybe Color
-            }
-        , b : { fontWeight : Maybe (FontWeight {}) }
-        , subOrSup : { fontSize : Maybe (FontSize {}) }
-        }
+    { everything : Everything
+    , root : Root
+    , headings : Headings
+    , textLevel : TextLevel
     , table : Table
+    }
+
+
+type alias Everything =
+    { boxSizing : Maybe (BoxSizing (BackgroundClip {}))
+    , borderWidth : Maybe (Length {} {})
+    }
+
+
+type alias Root =
+    { webkitTextSizeAdjust : Maybe String }
+
+
+type alias Headings =
+    { fontSize : Maybe (FontSize {})
+    , fontWeight : Maybe (FontWeight {})
+    }
+
+
+type alias TextLevel =
+    { a :
+        { textDecoration : Maybe (TextDecorationLine {})
+        , color : Maybe Color
+        }
+    , b : { fontWeight : Maybe (FontWeight {}) }
+    , subOrSup : { fontSize : Maybe (FontSize {}) }
     }
 
 
 init : Config
 init =
-    { everything = { boxSizing = Nothing, borderWidth = Nothing }
-    , root = { webkitTextSizeAdjust = Nothing }
-    , headings = { fontSize = Nothing, fontWeight = Nothing }
-    , textLevel =
-        { a = { textDecoration = Nothing, color = Nothing }
-        , b = { fontWeight = Nothing }
-        , subOrSup = { fontSize = Nothing }
-        }
+    { everything = init_everything
+    , root = init_root
+    , headings = init_headings
+    , textLevel = init_textLevel
     , table = Table.init
+    }
+
+
+init_everything : Everything
+init_everything =
+    { boxSizing = Nothing, borderWidth = Nothing }
+
+
+init_root : Root
+init_root =
+    { webkitTextSizeAdjust = Nothing }
+
+
+init_headings : Headings
+init_headings =
+    { fontSize = Nothing, fontWeight = Nothing }
+
+
+init_textLevel : TextLevel
+init_textLevel =
+    { a = { textDecoration = Nothing, color = Nothing }
+    , b = { fontWeight = Nothing }
+    , subOrSup = { fontSize = Nothing }
     }
 
 
@@ -103,36 +135,44 @@ config =
     }
 
 
-snippets : List Snippet
-snippets =
-    [ [ selectorIfNonEmpty "*, ::before, ::after"
-            [ Maybe.map Css.boxSizing config.everything.boxSizing
-            , Maybe.map Css.borderWidth config.everything.borderWidth
-            ]
+toSnippets : Config -> List Snippet
+toSnippets c =
+    [ selectorIfNonEmpty "*, ::before, ::after"
+        [ Maybe.map Css.boxSizing c.everything.boxSizing
+        , Maybe.map Css.borderWidth c.everything.borderWidth
+        ]
 
-      -- Root
-      , whereIfNonEmpty ":root"
-            [ Maybe.map (property "-webkit-text-size-adjust") config.root.webkitTextSizeAdjust ]
+    -- Root
+    , whereIfNonEmpty ":root"
+        [ Maybe.map (property "-webkit-text-size-adjust") c.root.webkitTextSizeAdjust ]
 
-      -- Headings
-      , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
-            [ Maybe.map Css.fontSize config.headings.fontSize ]
+    -- Headings
+    , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
+        [ Maybe.map Css.fontSize c.headings.fontSize ]
 
-      -- Text-level
-      , whereIfNonEmpty "a"
-            [ Maybe.map Css.textDecoration config.textLevel.a.textDecoration
-            , Maybe.map Css.color config.textLevel.a.color
-            ]
-      , whereIfNonEmpty "b, strong"
-            [ Maybe.map Css.fontWeight config.textLevel.b.fontWeight ]
-      , whereIfNonEmpty "sub, sup"
-            [ Maybe.map Css.fontSize config.textLevel.subOrSup.fontSize ]
-      ]
+    -- Text-level
+    , whereIfNonEmpty "a"
+        [ Maybe.map Css.textDecoration c.textLevel.a.textDecoration
+        , Maybe.map Css.color c.textLevel.a.color
+        ]
+    , whereIfNonEmpty "b, strong"
+        [ Maybe.map Css.fontWeight c.textLevel.b.fontWeight ]
+    , whereIfNonEmpty "sub, sup"
+        [ Maybe.map Css.fontSize c.textLevel.subOrSup.fontSize ]
 
     -- Table
-    , Table.table config.table
+    , whereIfNonEmpty "table"
+        [ Maybe.map Css.borderCollapse c.table.table.borderCollapse
+        , Maybe.map Css.borderSpacing c.table.table.borderSpacing
+        ]
+    , whereIfNonEmpty "th, td"
+        [ Maybe.map Css.padding c.table.thOrTd.padding
+        , Maybe.map Css.textAlign c.table.thOrTd.textAlign
+        , Maybe.map Css.verticalAlign c.table.thOrTd.verticalAlign
+        , Maybe.map Css.fontWeight c.table.thOrTd.fontWeight
+        , Maybe.map Css.border c.table.thOrTd.border
+        ]
     ]
-        |> List.concat
 
 
 
