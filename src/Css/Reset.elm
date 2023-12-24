@@ -118,47 +118,47 @@ type alias Table =
 
 init : Config
 init =
-    { everything = init_everything
-    , root = init_root
-    , headings = init_headings
-    , groupingContent = init_groupingContent
-    , textLevel = init_textLevel
-    , table = init_table
+    { everything = empty_everything
+    , root = empty_root
+    , headings = empty_headings
+    , groupingContent = empty_groupingContent
+    , textLevel = empty_textLevel
+    , table = empty_table
     }
 
 
-init_everything : Everything
-init_everything =
+empty_everything : Everything
+empty_everything =
     { boxSizing = Nothing, borderWidth = Nothing }
 
 
-init_root : Root
-init_root =
+empty_root : Root
+empty_root =
     { webkitTextSizeAdjust = Nothing }
 
 
-init_headings : Headings
-init_headings =
+empty_headings : Headings
+empty_headings =
     { fontSize = Nothing, fontWeight = Nothing }
 
 
-init_groupingContent : GroupingContent
-init_groupingContent =
+empty_groupingContent : GroupingContent
+empty_groupingContent =
     { olOrUl = {}
     , listItem = { listStyle = Nothing }
     }
 
 
-init_textLevel : TextLevel
-init_textLevel =
+empty_textLevel : TextLevel
+empty_textLevel =
     { a = { textDecoration = Nothing, color = Nothing }
     , b = { fontWeight = Nothing }
     , subOrSup = { fontSize = Nothing }
     }
 
 
-init_table : Table
-init_table =
+empty_table : Table
+empty_table =
     { table =
         { borderCollapse = Nothing
         , borderSpacing = Nothing
