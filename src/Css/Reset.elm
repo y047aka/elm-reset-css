@@ -46,7 +46,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BoxSizing, Color, FontSize, FontWeight, Length, TextDecorationLine, property)
+import Css exposing (BackgroundClip, BoxSizing, Color, FontSize, FontWeight, Length, ListStyle, TextDecorationLine, property)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -64,6 +64,7 @@ type alias Config =
     { everything : Everything
     , root : Root
     , headings : Headings
+    , groupingContent : GroupingContent
     , textLevel : TextLevel
     , table : Table
     }
@@ -77,6 +78,12 @@ type alias Everything =
 
 type alias Root =
     { webkitTextSizeAdjust : Maybe String }
+
+
+type alias GroupingContent =
+    { olOrUl : {}
+    , listItem : { listStyle : Maybe (ListStyle {}) }
+    }
 
 
 type alias Headings =
@@ -100,6 +107,7 @@ init =
     { everything = init_everything
     , root = init_root
     , headings = init_headings
+    , groupingContent = init_groupingContent
     , textLevel = init_textLevel
     , table = Table.init
     }
@@ -118,6 +126,13 @@ init_root =
 init_headings : Headings
 init_headings =
     { fontSize = Nothing, fontWeight = Nothing }
+
+
+init_groupingContent : GroupingContent
+init_groupingContent =
+    { olOrUl = {}
+    , listItem = { listStyle = Nothing }
+    }
 
 
 init_textLevel : TextLevel
@@ -149,6 +164,10 @@ toSnippets c =
     -- Headings
     , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
         [ Maybe.map Css.fontSize c.headings.fontSize ]
+
+    -- Grouping content
+    , whereIfNonEmpty "li"
+        [ Maybe.map Css.listStyle c.groupingContent.listItem.listStyle ]
 
     -- Text-level
     , whereIfNonEmpty "a"
