@@ -46,7 +46,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BorderCollapse, BoxSizing, Color, ExplicitLength, FontSize, FontWeight, IncompatibleUnits, Length, ListStyle, Style, TextDecorationLine, Visibility, property)
+import Css exposing (BackgroundClip, BorderCollapse, BorderStyle, BoxSizing, Color, Display, ExplicitLength, FontSize, FontStyle, FontWeight, IncompatibleUnits, Length, LengthOrAuto, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, ListStyle, Overflow, Style, TextDecorationLine, Visibility, property)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -62,10 +62,13 @@ import Internal exposing (selectorIfNonEmpty, whereIfNonEmpty)
 type alias Config =
     { everything : Everything
     , root : Root
+    , body : Body
     , headings : Headings
     , groupingContent : GroupingContent
     , textLevel : TextLevel
+    , embeddedContent : EmbeddedContent
     , table : Table
+    , form : Form
     }
 
 
@@ -76,12 +79,27 @@ type alias Everything =
 
 
 type alias Root =
-    { webkitTextSizeAdjust : Maybe String }
+    { textSizeAdjust : Maybe String }
+
+
+type alias Body =
+    { minHeight : Maybe (LengthOrMinMaxDimension {}) }
 
 
 type alias GroupingContent =
-    { olOrUl : {}
-    , listItem : { listStyle : Maybe (ListStyle {}) }
+    { ulOrOl : { listStyle : Maybe (ListStyle {}) }
+    , hr :
+        { boxSizing : Maybe (BoxSizing (Visibility {}))
+        , height : Maybe (LengthOrAuto {})
+        , overflow : Maybe (Overflow {})
+        , borderTopWidth : Maybe (Length {} {})
+        , color : Maybe Color
+        }
+    , pre :
+        { fontFamilies : Maybe (List String)
+        , fontSize : Maybe (FontSize {})
+        }
+    , address : { fontStyle : Maybe (FontStyle {}) }
     }
 
 
@@ -101,6 +119,16 @@ type alias TextLevel =
     }
 
 
+type alias EmbeddedContent =
+    { imgOrPicture :
+        { display : Maybe (Display {})
+        , maxWidth : Maybe (LengthOrNoneOrMinMaxDimension {})
+        , borderStyle : Maybe (BorderStyle {})
+        }
+    , iframe : { borderStyle : Maybe (BorderStyle {}) }
+    }
+
+
 type alias Table =
     { table :
         { borderCollapse : Maybe (BorderCollapse (Visibility {}))
@@ -116,14 +144,25 @@ type alias Table =
     }
 
 
+type alias Form =
+    { elements :
+        { appearance : Maybe String
+        , font : Maybe String
+        }
+    }
+
+
 init : Config
 init =
     { everything = empty_everything
     , root = empty_root
+    , body = empty_body
     , headings = empty_headings
     , groupingContent = empty_groupingContent
     , textLevel = empty_textLevel
+    , embeddedContent = empty_embeddedContent
     , table = empty_table
+    , form = empty_form
     }
 
 
@@ -134,7 +173,12 @@ empty_everything =
 
 empty_root : Root
 empty_root =
-    { webkitTextSizeAdjust = Nothing }
+    { textSizeAdjust = Nothing }
+
+
+empty_body : Body
+empty_body =
+    { minHeight = Nothing }
 
 
 empty_headings : Headings
@@ -144,8 +188,16 @@ empty_headings =
 
 empty_groupingContent : GroupingContent
 empty_groupingContent =
-    { olOrUl = {}
-    , listItem = { listStyle = Nothing }
+    { ulOrOl = { listStyle = Nothing }
+    , hr =
+        { boxSizing = Nothing
+        , height = Nothing
+        , overflow = Nothing
+        , borderTopWidth = Nothing
+        , color = Nothing
+        }
+    , pre = { fontFamilies = Nothing, fontSize = Nothing }
+    , address = { fontStyle = Nothing }
     }
 
 
@@ -154,6 +206,17 @@ empty_textLevel =
     { a = { textDecoration = Nothing, color = Nothing }
     , b = { fontWeight = Nothing }
     , subOrSup = { fontSize = Nothing }
+    }
+
+
+empty_embeddedContent : EmbeddedContent
+empty_embeddedContent =
+    { imgOrPicture =
+        { display = Nothing
+        , maxWidth = Nothing
+        , borderStyle = Nothing
+        }
+    , iframe = { borderStyle = Nothing }
     }
 
 
@@ -173,6 +236,11 @@ empty_table =
     }
 
 
+empty_form : Form
+empty_form =
+    { elements = { appearance = Nothing, font = Nothing } }
+
+
 config : Config
 config =
     { init
@@ -189,15 +257,35 @@ toSnippets c =
 
     -- Root
     , whereIfNonEmpty ":root"
-        [ Maybe.map (property "-webkit-text-size-adjust") c.root.webkitTextSizeAdjust ]
+        [ Maybe.map (property "-moz-text-size-adjust") c.root.textSizeAdjust
+        , Maybe.map (property "-webkit-text-size-adjust") c.root.textSizeAdjust
+        , Maybe.map (property "text-size-adjust") c.root.textSizeAdjust
+        ]
+
+    -- Body
+    , whereIfNonEmpty "body"
+        [ Maybe.map Css.minHeight c.body.minHeight ]
 
     -- Headings
     , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
         [ Maybe.map Css.fontSize c.headings.fontSize ]
 
     -- Grouping content
-    , whereIfNonEmpty "li"
-        [ Maybe.map Css.listStyle c.groupingContent.listItem.listStyle ]
+    , whereIfNonEmpty """ul[role="list"], ol[role="list"]"""
+        [ Maybe.map Css.listStyle c.groupingContent.ulOrOl.listStyle ]
+    , whereIfNonEmpty "hr"
+        [ Maybe.map Css.boxSizing c.groupingContent.hr.boxSizing
+        , Maybe.map Css.height c.groupingContent.hr.height
+        , Maybe.map Css.overflow c.groupingContent.hr.overflow
+        , Maybe.map Css.borderTopWidth c.groupingContent.hr.borderTopWidth
+        , Maybe.map Css.color c.groupingContent.hr.color
+        ]
+    , whereIfNonEmpty "pre"
+        [ Maybe.map Css.fontFamilies c.groupingContent.pre.fontFamilies
+        , Maybe.map Css.fontSize c.groupingContent.pre.fontSize
+        ]
+    , whereIfNonEmpty "address"
+        [ Maybe.map Css.fontStyle c.groupingContent.address.fontStyle ]
 
     -- Text-level
     , whereIfNonEmpty "a"
@@ -208,6 +296,15 @@ toSnippets c =
         [ Maybe.map Css.fontWeight c.textLevel.b.fontWeight ]
     , whereIfNonEmpty "sub, sup"
         [ Maybe.map Css.fontSize c.textLevel.subOrSup.fontSize ]
+
+    -- Embedded content
+    , whereIfNonEmpty "img, picture"
+        [ Maybe.map Css.display c.embeddedContent.imgOrPicture.display
+        , Maybe.map Css.maxWidth c.embeddedContent.imgOrPicture.maxWidth
+        , Maybe.map Css.borderStyle c.embeddedContent.imgOrPicture.borderStyle
+        ]
+    , whereIfNonEmpty "iframe"
+        [ Maybe.map Css.borderStyle c.embeddedContent.iframe.borderStyle ]
 
     -- Table
     , whereIfNonEmpty "table"
@@ -220,6 +317,12 @@ toSnippets c =
         , Maybe.map Css.verticalAlign c.table.thOrTd.verticalAlign
         , Maybe.map Css.fontWeight c.table.thOrTd.fontWeight
         , Maybe.map Css.border c.table.thOrTd.border
+        ]
+    , -- Form
+      whereIfNonEmpty "input, button, textarea, select, optgroup"
+        [ Maybe.map (property "-webkit-appearance") c.form.elements.appearance
+        , Maybe.map (property "appearance") c.form.elements.appearance
+        , Maybe.map (property "font") c.form.elements.font
         ]
     ]
 
