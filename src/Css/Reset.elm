@@ -154,40 +154,40 @@ type alias Form =
 
 init : Config
 init =
-    { everything = empty_everything
-    , root = empty_root
-    , body = empty_body
-    , headings = empty_headings
-    , groupingContent = empty_groupingContent
-    , textLevel = empty_textLevel
-    , embeddedContent = empty_embeddedContent
-    , table = empty_table
-    , form = empty_form
+    { everything = everything_empty
+    , root = root_empty
+    , body = body_empty
+    , headings = headings_empty
+    , groupingContent = groupingContent_empty
+    , textLevel = textLevel_empty
+    , embeddedContent = embeddedContent_empty
+    , table = table_empty
+    , form = form_empty
     }
 
 
-empty_everything : Everything
-empty_everything =
+everything_empty : Everything
+everything_empty =
     { boxSizing = Nothing, borderWidth = Nothing }
 
 
-empty_root : Root
-empty_root =
+root_empty : Root
+root_empty =
     { textSizeAdjust = Nothing }
 
 
-empty_body : Body
-empty_body =
+body_empty : Body
+body_empty =
     { minHeight = Nothing }
 
 
-empty_headings : Headings
-empty_headings =
+headings_empty : Headings
+headings_empty =
     { fontSize = Nothing, fontWeight = Nothing }
 
 
-empty_groupingContent : GroupingContent
-empty_groupingContent =
+groupingContent_empty : GroupingContent
+groupingContent_empty =
     { ulOrOl = { listStyle = Nothing }
     , hr =
         { boxSizing = Nothing
@@ -201,16 +201,16 @@ empty_groupingContent =
     }
 
 
-empty_textLevel : TextLevel
-empty_textLevel =
+textLevel_empty : TextLevel
+textLevel_empty =
     { a = { textDecoration = Nothing, color = Nothing }
     , b = { fontWeight = Nothing }
     , subOrSup = { fontSize = Nothing }
     }
 
 
-empty_embeddedContent : EmbeddedContent
-empty_embeddedContent =
+embeddedContent_empty : EmbeddedContent
+embeddedContent_empty =
     { imgOrPicture =
         { display = Nothing
         , maxWidth = Nothing
@@ -220,8 +220,8 @@ empty_embeddedContent =
     }
 
 
-empty_table : Table
-empty_table =
+table_empty : Table
+table_empty =
     { table =
         { borderCollapse = Nothing
         , borderSpacing = Nothing
@@ -236,8 +236,8 @@ empty_table =
     }
 
 
-empty_form : Form
-empty_form =
+form_empty : Form
+form_empty =
     { elements = { appearance = Nothing, font = Nothing } }
 
 
