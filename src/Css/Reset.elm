@@ -180,8 +180,8 @@ reset =
     }
 
 
-normalize : Config
-normalize =
+normalize_ : Config
+normalize_ =
     { everything = everything_normalize
     , root = root_normalize
     , body = body_normalize
