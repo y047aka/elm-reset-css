@@ -166,9 +166,47 @@ init =
     }
 
 
+reset : Config
+reset =
+    { everything = everything_reset
+    , root = root_reset
+    , body = body_reset
+    , headings = headings_reset
+    , groupingContent = groupingContent_reset
+    , textLevel = textLevel_reset
+    , embeddedContent = embeddedContent_reset
+    , table = table_reset
+    , form = form_reset
+    }
+
+
+normalize : Config
+normalize =
+    { everything = everything_normalize
+    , root = root_normalize
+    , body = body_normalize
+    , headings = headings_normalize
+    , groupingContent = groupingContent_normalize
+    , textLevel = textLevel_normalize
+    , embeddedContent = embeddedContent_normalize
+    , table = table_normalize
+    , form = form_normalize
+    }
+
+
 everything_empty : Everything
 everything_empty =
     { boxSizing = Nothing, borderWidth = Nothing }
+
+
+everything_reset : Everything
+everything_reset =
+    everything_empty
+
+
+everything_normalize : Everything
+everything_normalize =
+    everything_empty
 
 
 root_empty : Root
@@ -176,14 +214,44 @@ root_empty =
     { textSizeAdjust = Nothing }
 
 
+root_reset : Root
+root_reset =
+    root_empty
+
+
+root_normalize : Root
+root_normalize =
+    root_empty
+
+
 body_empty : Body
 body_empty =
     { minHeight = Nothing }
 
 
+body_reset : Body
+body_reset =
+    body_empty
+
+
+body_normalize : Body
+body_normalize =
+    body_empty
+
+
 headings_empty : Headings
 headings_empty =
     { fontSize = Nothing, fontWeight = Nothing }
+
+
+headings_reset : Headings
+headings_reset =
+    headings_empty
+
+
+headings_normalize : Headings
+headings_normalize =
+    headings_empty
 
 
 groupingContent_empty : GroupingContent
@@ -201,12 +269,32 @@ groupingContent_empty =
     }
 
 
+groupingContent_reset : GroupingContent
+groupingContent_reset =
+    groupingContent_empty
+
+
+groupingContent_normalize : GroupingContent
+groupingContent_normalize =
+    groupingContent_empty
+
+
 textLevel_empty : TextLevel
 textLevel_empty =
     { a = { textDecoration = Nothing, color = Nothing }
     , b = { fontWeight = Nothing }
     , subOrSup = { fontSize = Nothing }
     }
+
+
+textLevel_reset : TextLevel
+textLevel_reset =
+    textLevel_empty
+
+
+textLevel_normalize : TextLevel
+textLevel_normalize =
+    textLevel_empty
 
 
 embeddedContent_empty : EmbeddedContent
@@ -218,6 +306,16 @@ embeddedContent_empty =
         }
     , iframe = { borderStyle = Nothing }
     }
+
+
+embeddedContent_reset : EmbeddedContent
+embeddedContent_reset =
+    embeddedContent_empty
+
+
+embeddedContent_normalize : EmbeddedContent
+embeddedContent_normalize =
+    embeddedContent_empty
 
 
 table_empty : Table
@@ -236,16 +334,29 @@ table_empty =
     }
 
 
+table_reset : Table
+table_reset =
+    table_empty
+
+
+table_normalize : Table
+table_normalize =
+    table_empty
+
+
 form_empty : Form
 form_empty =
     { elements = { appearance = Nothing, font = Nothing } }
 
 
-config : Config
-config =
-    { init
-        | everything = (\ev -> { ev | boxSizing = Just Css.borderBox }) init.everything
-    }
+form_reset : Form
+form_reset =
+    form_empty
+
+
+form_normalize : Form
+form_normalize =
+    form_empty
 
 
 toSnippets : Config -> List Snippet
