@@ -56,11 +56,9 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-     ( { slots = [ Nothing, Nothing, Nothing ] }
-     , Cmd.none
-     )
-
-
+    ( { slots = [ Just Reset, Nothing, Nothing ] }
+    , Cmd.none
+    )
 
 
 

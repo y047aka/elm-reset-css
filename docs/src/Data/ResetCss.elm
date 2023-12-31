@@ -2,8 +2,8 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 
 import Css exposing (..)
 import Css.Global exposing (Snippet)
-import Css.Reset exposing (..)
-import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
+import Css.Reset exposing (destyle, erc_HardReset, erc_Normalize, ericMeyer, html5Doctor, normalize, reset, ress, sanitize, theNewCssReset)
+import Css.Reset.ElmResetCss as ERC exposing (ResetMode)
 import Css.Reset.ModernCssResert as ModernCssResert
 import Css.Reset.Ress
 
@@ -22,6 +22,7 @@ type ResetCss
     | ERC_Normalize
     | ERC_Opinionated
     | ERC_FollowRessV3
+    | Reset
 
 
 type alias Summary =
@@ -76,6 +77,9 @@ fromString str =
         "ERC_FollowRessV3" ->
             Just ERC_FollowRessV3
 
+        "Reset" ->
+            Just Reset
+
         _ ->
             Nothing
 
@@ -122,6 +126,9 @@ toString resetCss =
         ERC_FollowRessV3 ->
             "ERC_FollowRessV3"
 
+        Reset ->
+            "Reset"
+
 
 toSnippet : ResetCss -> List Snippet
 toSnippet resetCss =
@@ -161,31 +168,32 @@ toSnippet resetCss =
 
         ERC_Opinionated ->
             ERC.snippetsWith
-                { margin = BrowserDefault
-                , font = Opinionated
-                , lineHeight = Opinionated
-                , border = BrowserDefault
-                , headings = BrowserDefault
-                , lists = Opinionated
-                , a = BrowserDefault
-                , table = Reset
-                , forms = Opinionated
+                { margin = ERC.BrowserDefault
+                , font = ERC.Opinionated
+                , lineHeight = ERC.Opinionated
+                , border = ERC.BrowserDefault
+                , headings = ERC.BrowserDefault
+                , lists = ERC.Opinionated
+                , a = ERC.BrowserDefault
+                , table = ERC.Reset
+                , forms = ERC.Opinionated
                 }
-
 
         ERC_FollowRessV3 ->
             ERC.snippetsWith
-                { margin = Reset
-                , font = BrowserDefault
-                , lineHeight = BrowserDefault
-                , border = Reset
-                , headings = BrowserDefault
-                , lists = Reset
-                , a = BrowserDefault
-                , table = BrowserDefault
-                , forms = Opinionated
+                { margin = ERC.Reset
+                , font = ERC.BrowserDefault
+                , lineHeight = ERC.BrowserDefault
+                , border = ERC.Reset
+                , headings = ERC.BrowserDefault
+                , lists = ERC.Reset
+                , a = ERC.BrowserDefault
+                , table = ERC.BrowserDefault
+                , forms = ERC.Opinionated
                 }
 
+        Reset ->
+            reset
 
 
 toRootStyles : ResetCss -> List Style
@@ -274,6 +282,9 @@ toRootStyles resetCss =
 
         ERC_FollowRessV3 ->
             []
+
+        Reset ->
+            [ lineHeight (num 1) ]
 
 
 toSummary : ResetCss -> Summary
@@ -396,6 +407,15 @@ toSummary resetCss =
             , url = "https://github.com/y047aka/elm-reset-css"
             }
 
+        Reset ->
+            { name = "reset"
+            , version = "v3.0.0"
+            , updatedAt = "2023-12-27"
+            , author = "Yoshitaka Totsuka"
+            , license = "MIT"
+            , url = "https://github.com/y047aka/elm-reset-css"
+            }
+
 
 all : List ResetCss
 all =
@@ -412,4 +432,5 @@ all =
     , ERC_Normalize
     , ERC_Opinionated
     , ERC_FollowRessV3
+    , Reset
     ]
