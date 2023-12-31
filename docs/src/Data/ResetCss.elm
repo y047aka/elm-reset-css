@@ -2,7 +2,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 
 import Css exposing (..)
 import Css.Global exposing (Snippet)
-import Css.Reset exposing (destyle, erc_HardReset, erc_Normalize, ericMeyer, html5Doctor, normalize, reset, ress, sanitize, theNewCssReset)
+import Css.Reset exposing (destyle, erc_Normalize, ericMeyer, normalize, reset, ress, sanitize, theNewCssReset)
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode)
 import Css.Reset.ModernCssResert as ModernCssResert
 import Css.Reset.Ress
@@ -10,7 +10,6 @@ import Css.Reset.Ress
 
 type ResetCss
     = EricMeyer
-    | Html5Doctor
     | Destyle
     | Normalize
     | Ress
@@ -18,7 +17,6 @@ type ResetCss
     | Sanitize
     | ModernCssResert
     | TheNewCssReset
-    | ERC_HardReset
     | ERC_Normalize
     | ERC_Opinionated
     | ERC_FollowRessV3
@@ -41,9 +39,6 @@ fromString str =
         "EricMeyer" ->
             Just EricMeyer
 
-        "Html5Doctor" ->
-            Just Html5Doctor
-
         "Destyle" ->
             Just Destyle
 
@@ -64,9 +59,6 @@ fromString str =
 
         "TheNewCssReset" ->
             Just TheNewCssReset
-
-        "ERC_HardReset" ->
-            Just ERC_HardReset
 
         "ERC_Normalize" ->
             Just ERC_Normalize
@@ -90,9 +82,6 @@ toString resetCss =
         EricMeyer ->
             "EricMeyer"
 
-        Html5Doctor ->
-            "Html5Doctor"
-
         Destyle ->
             "Destyle"
 
@@ -114,9 +103,6 @@ toString resetCss =
         TheNewCssReset ->
             "TheNewCssReset"
 
-        ERC_HardReset ->
-            "ERC_HardReset"
-
         ERC_Normalize ->
             "ERC_Normalize"
 
@@ -135,9 +121,6 @@ toSnippet resetCss =
     case resetCss of
         EricMeyer ->
             ericMeyer
-
-        Html5Doctor ->
-            html5Doctor
 
         Destyle ->
             destyle
@@ -159,9 +142,6 @@ toSnippet resetCss =
 
         TheNewCssReset ->
             theNewCssReset
-
-        ERC_HardReset ->
-            erc_HardReset
 
         ERC_Normalize ->
             erc_Normalize
@@ -206,17 +186,6 @@ toRootStyles resetCss =
             , fontSize (pct 100)
             , property "font" "inherit"
             , verticalAlign baseline
-            , lineHeight (num 1)
-            ]
-
-        Html5Doctor ->
-            [ margin zero
-            , padding zero
-            , border zero
-            , outline zero
-            , fontSize (pct 100)
-            , verticalAlign baseline
-            , property "background" "transparent"
             , lineHeight (num 1)
             ]
 
@@ -267,11 +236,6 @@ toRootStyles resetCss =
             , property "display" "revert"
             ]
 
-        ERC_HardReset ->
-            [ fontFamilies [ "sans-serif" ]
-            , lineHeight (num 1)
-            ]
-
         ERC_Normalize ->
             [ fontFamilies [ "sans-serif" ] ]
 
@@ -297,15 +261,6 @@ toSummary resetCss =
             , author = "Eric Meyer"
             , license = "none (public domain)"
             , url = "https://meyerweb.com/eric/tools/css/reset/"
-            }
-
-        Html5Doctor ->
-            { name = "html5doctor.com Reset Stylesheet"
-            , version = "v1.6.1"
-            , updatedAt = "2010-09-17"
-            , author = "Richard Clark"
-            , license = "Free of charge under a CC0 Public Domain Dedication and MIT License"
-            , url = "https://github.com/richclark/HTML5resetCSS"
             }
 
         Destyle ->
@@ -371,15 +326,6 @@ toSummary resetCss =
             , url = "https://github.com/elad2412/the-new-css-reset"
             }
 
-        ERC_HardReset ->
-            { name = "elm-reset-css (hard reset)"
-            , version = "v2.3.0"
-            , updatedAt = "2021-11-14"
-            , author = "Yoshitaka Totsuka"
-            , license = "MIT"
-            , url = "https://github.com/y047aka/elm-reset-css"
-            }
-
         ERC_Normalize ->
             { name = "elm-reset-css (normalize)"
             , version = "v2.3.0"
@@ -420,7 +366,6 @@ toSummary resetCss =
 all : List ResetCss
 all =
     [ EricMeyer
-    , Html5Doctor
     , Destyle
     , Normalize
     , Ress
@@ -428,7 +373,6 @@ all =
     , Sanitize
     , ModernCssResert
     , TheNewCssReset
-    , ERC_HardReset
     , ERC_Normalize
     , ERC_Opinionated
     , ERC_FollowRessV3

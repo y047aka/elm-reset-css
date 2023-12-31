@@ -11,7 +11,7 @@ module Css.Reset.ElmResetCss exposing
 -}
 
 import Css exposing (..)
-import Css.Global exposing (Snippet, each, everything, selector)
+import Css.Global exposing (Snippet, each, selector)
 
 
 
@@ -50,10 +50,7 @@ snippetsWith c =
     [ selector "*, ::before, ::after"
         [ boxSizing borderBox
         , backgroundRepeat noRepeat
-        , batchIf (c.border == Reset) [ borderWidth zero ]
         ]
-    , everything
-        [ batchIf (c.margin == Reset) [ margin zero ] ]
     , where_ ":root"
         [ case c.font of
             BrowserDefault ->
@@ -65,32 +62,11 @@ snippetsWith c =
             _ ->
                 fontFamilies [ "sans-serif" ]
         , case c.lineHeight of
-            Reset ->
-                lineHeight (num 1)
-
             Opinionated ->
                 lineHeight (num 1.5)
 
             _ ->
                 batch []
-        ]
-
-    -- Headings
-    , whereIf (c.headings == Reset) "h1, h2, h3, h4, h5, h6" <|
-        [ fontSize inherit
-        , fontWeight inherit
-        ]
-
-    -- List
-    , whereIf (c.lists == Reset) "ol, ul" <|
-        [ padding zero
-        , listStyle none
-        ]
-
-    -- Text-level semantics
-    , whereIf (c.a == Reset) "a" <|
-        [ textDecoration none
-        , color inherit
         ]
 
     -- Grouping content
@@ -102,16 +78,9 @@ snippetsWith c =
     -- Table
     , where_ "table"
         [ borderCollapse collapse ]
-    , whereIf (c.table == Reset) "caption" <|
-        [ textAlign left ]
-    , whereIf (c.table == Reset) "th, td" <|
-        [ textAlign left
-        , verticalAlign top
-        , fontWeight normal
-        ]
 
     -- Forms
-    , whereIf (c.forms == Reset || c.forms == Opinionated) "button, input, optgroup, select, textarea" <|
+    , whereIf (c.forms == Opinionated) "button, input, optgroup, select, textarea" <|
         [ property "appearance" "none"
         , padding zero
         , property "font" "inherit"
@@ -141,15 +110,6 @@ snippetsWith c =
 
 
 -- HELPERS
-
-
-batchIf : Bool -> List Style -> Style
-batchIf bool styles =
-    if bool then
-        batch styles
-
-    else
-        batch []
 
 
 selectorIf : Bool -> String -> List Style -> Snippet

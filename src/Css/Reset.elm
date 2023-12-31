@@ -1,8 +1,8 @@
 module Css.Reset exposing
-    ( ericMeyer, html5Doctor
+    ( ericMeyer
     , normalize, sanitize, ress, destyle
     , theNewCssReset
-    , erc_HardReset, erc_Normalize
+    , erc_Normalize
     , reset
     )
 
@@ -40,10 +40,10 @@ module Css.Reset exposing
             , footer [] [ text "©2021 y047aka" ]
             ]
 
-@docs ericMeyer, html5Doctor
+@docs ericMeyer
 @docs normalize, sanitize, ress, destyle
 @docs theNewCssReset
-@docs erc_HardReset, erc_Normalize
+@docs erc_Normalize
 
 -}
 
@@ -52,7 +52,6 @@ import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 import Css.Reset.EricMeyer as EricMeyer
-import Css.Reset.Html5Doctor as Html5Doctor
 import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
@@ -570,12 +569,6 @@ ericMeyer =
 
 
 {-| -}
-html5Doctor : List Snippet
-html5Doctor =
-    Html5Doctor.snippets
-
-
-{-| -}
 normalize : List Snippet
 normalize =
     Normalize.snippets
@@ -603,22 +596,6 @@ destyle =
 theNewCssReset : List Snippet
 theNewCssReset =
     TheNewCssReset.snippets
-
-
-{-| -}
-erc_HardReset : List Snippet
-erc_HardReset =
-    ERC.snippetsWith
-        { margin = Reset
-        , font = Reset
-        , lineHeight = Reset
-        , border = Reset
-        , headings = Reset
-        , lists = Reset
-        , a = Reset
-        , table = Reset
-        , forms = Reset
-        }
 
 
 {-| -}
