@@ -47,7 +47,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, ExplicitLength, FontFamily, FontSize, FontWeight, IncompatibleUnits, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Style, Visibility, property)
+import Css exposing (BackgroundClip, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -132,7 +132,7 @@ type alias TextLevel =
         { fontSize : Maybe String
         , lineHeight : Maybe String
         , position : Maybe (Position {})
-        , verticalAlign : Maybe (ExplicitLength IncompatibleUnits -> Style)
+        , verticalAlign : Maybe String
         }
     , sub : { bottom : Maybe Px }
     , sup : { top : Maybe Px }
@@ -140,7 +140,7 @@ type alias TextLevel =
 
 
 type alias EmbeddedContent =
-    { verticalAlign : Maybe (ExplicitLength IncompatibleUnits -> Style)
+    { verticalAlign : Maybe String
     , imgOrPicture :
         { display : Maybe (Display {})
         , maxWidth : Maybe (LengthOrNoneOrMinMaxDimension {})
@@ -156,11 +156,11 @@ type alias Table =
         , borderCollapse : Maybe (BorderCollapse (Visibility {}))
         , borderColor : Maybe String
         }
-    , caption : { textAlign : Maybe (ExplicitLength IncompatibleUnits -> Style) }
+    , caption : { textAlign : Maybe String }
     , thOrTd :
         { padding : Maybe (Length {} {})
-        , textAlign : Maybe (ExplicitLength IncompatibleUnits -> Style)
-        , verticalAlign : Maybe (ExplicitLength IncompatibleUnits -> Style)
+        , textAlign : Maybe String
+        , verticalAlign : Maybe String
         , fontWeight : Maybe String
         , border : Maybe (Length {} {})
         }
@@ -385,7 +385,7 @@ textLevel_reset =
             { fontSize = Just (Css.pct 75).value
             , lineHeight = Just Css.zero.value
             , position = Just Css.relative
-            , verticalAlign = Just Css.baseline
+            , verticalAlign = Just "baseline"
             }
         , sub = { bottom = Just (Css.px -0.25) }
         , sup = { top = Just (Css.px -0.5) }
@@ -406,7 +406,7 @@ textLevel_normalize =
             { fontSize = Just (Css.pct 75).value
             , lineHeight = Just Css.zero.value
             , position = Just Css.relative
-            , verticalAlign = Just Css.baseline
+            , verticalAlign = Just "baseline"
             }
         , sub = { bottom = Just (Css.px -0.25) }
         , sup = { top = Just (Css.px -0.5) }
@@ -427,13 +427,13 @@ embeddedContent_empty =
 
 embeddedContent_reset : EmbeddedContent
 embeddedContent_reset =
-    { embeddedContent_empty | verticalAlign = Just Css.bottom }
+    { embeddedContent_empty | verticalAlign = Just "bottom" }
 
 
 embeddedContent_normalize : EmbeddedContent
 embeddedContent_normalize =
     { embeddedContent_empty
-        | verticalAlign = Just Css.middle
+        | verticalAlign = Just "middle"
         , iframe = { borderStyle = Just Css.none.value }
     }
 
@@ -463,10 +463,10 @@ table_reset =
         , borderCollapse = Just Css.collapse
         , borderColor = Nothing
         }
-    , caption = { textAlign = Just Css.left }
+    , caption = { textAlign = Just "left" }
     , thOrTd =
         { padding = Nothing
-        , textAlign = Just Css.left
+        , textAlign = Just "left"
         , verticalAlign = Nothing
         , fontWeight = Just Css.inherit.value
         , border = Nothing
@@ -543,128 +543,128 @@ form_normalize =
 toSnippets : Config -> List Snippet
 toSnippets c =
     [ selectorIfNonEmpty "*, ::before, ::after"
-        [ Maybe.map Css.boxSizing c.everything.boxSizing
-        , Maybe.map (property "border-width") c.everything.borderWidth
+        [ ( "box-sizing", c.everything.boxSizing |> Maybe.map .value )
+        , ( "border-width", c.everything.borderWidth )
         ]
     , selectorIfNonEmpty "*"
-        [ Maybe.map (property "margin") c.everything.margin
-        , Maybe.map (property "padding") c.everything.padding
+        [ ( "margin", c.everything.margin )
+        , ( "padding", c.everything.padding )
         ]
 
     -- Root
     , whereIfNonEmpty ":root"
-        [ Maybe.map (property "line-height") c.root.lineHeight
+        [ ( "line-height", c.root.lineHeight )
 
         -- text-size-adjust
-        , Maybe.map (property "-moz-text-size-adjust") c.root.textSizeAdjust
-        , Maybe.map (property "-webkit-text-size-adjust") c.root.textSizeAdjust
-        , Maybe.map (property "text-size-adjust") c.root.textSizeAdjust
+        , ( "-moz-text-size-adjust", c.root.textSizeAdjust )
+        , ( "-webkit-text-size-adjust", c.root.textSizeAdjust )
+        , ( "text-size-adjust", c.root.textSizeAdjust )
 
         -- tab-size
-        , Maybe.map (String.fromInt >> property "-moz-tab-size") c.root.tabSize
-        , Maybe.map (String.fromInt >> property "tab-size") c.root.tabSize
+        , ( "-moz-tab-size", c.root.tabSize |> Maybe.map String.fromInt )
+        , ( "tab-size", c.root.tabSize |> Maybe.map String.fromInt )
         ]
 
     -- Body
     , whereIfNonEmpty "body"
-        [ Maybe.map Css.minHeight c.body.minHeight
-        , Maybe.map (property "margin") c.body.margin
+        [ ( "min-height", c.body.minHeight |> Maybe.map .value )
+        , ( "margin", c.body.margin )
         ]
 
     -- Headings
     , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
-        [ Maybe.map (property "font-size") c.headings.fontSize
-        , Maybe.map (property "font-weight") c.headings.fontWeight
+        [ ( "font-size", c.headings.fontSize )
+        , ( "font-weight", c.headings.fontWeight )
         ]
 
     -- Grouping content
     , whereIfNonEmpty """ul[role="list"], ol[role="list"]"""
-        [ Maybe.map (property "list-style") c.groupingContent.ulOrOl.listStyle ]
+        [ ( "list-style", c.groupingContent.ulOrOl.listStyle ) ]
     , whereIfNonEmpty "hr"
-        [ Maybe.map Css.boxSizing c.groupingContent.hr.boxSizing
-        , Maybe.map (property "height") c.groupingContent.hr.height
-        , Maybe.map Css.overflow c.groupingContent.hr.overflow
-        , Maybe.map Css.borderTopWidth c.groupingContent.hr.borderTopWidth
-        , Maybe.map (property "color") c.groupingContent.hr.color
+        [ ( "box-sizing", c.groupingContent.hr.boxSizing |> Maybe.map .value )
+        , ( "height", c.groupingContent.hr.height )
+        , ( "overflow", c.groupingContent.hr.overflow |> Maybe.map .value )
+        , ( "border-top-width", c.groupingContent.hr.borderTopWidth |> Maybe.map .value )
+        , ( "color", c.groupingContent.hr.color )
         ]
     , whereIfNonEmpty "pre"
-        [ Maybe.map (List.map .value >> Css.fontFamilies) c.groupingContent.pre.fontFamilies
-        , Maybe.map Css.fontSize c.groupingContent.pre.fontSize
+        [ ( "font-family", c.groupingContent.pre.fontFamilies |> Maybe.map (List.map .value >> String.join ", ") )
+        , ( "font-size", c.groupingContent.pre.fontSize |> Maybe.map .value )
         ]
     , whereIfNonEmpty "address"
-        [ Maybe.map (property "font-style") c.groupingContent.address.fontStyle ]
+        [ ( "font-style", c.groupingContent.address.fontStyle ) ]
 
     -- Text-level
     , whereIfNonEmpty "a"
-        [ Maybe.map (property "text-decoration") c.textLevel.a.textDecoration
-        , Maybe.map (property "color") c.textLevel.a.color
+        [ ( "text-decoration", c.textLevel.a.textDecoration )
+        , ( "color", c.textLevel.a.color )
         ]
     , whereIfNonEmpty "abbr[title]"
-        [ Maybe.map (property "text-decoration") c.textLevel.abbr_title.textDecoration ]
+        [ ( "text-decoration", c.textLevel.abbr_title.textDecoration ) ]
     , whereIfNonEmpty "b, strong"
-        [ Maybe.map Css.fontWeight c.textLevel.bOrStrong.fontWeight ]
+        [ ( "font-weight", c.textLevel.bOrStrong.fontWeight |> Maybe.map .value ) ]
     , whereIfNonEmpty "code, kbd, samp"
-        [ Maybe.map (List.map .value >> Css.fontFamilies) c.textLevel.codeOrKbdOrSamp.fontFamilies ]
+        [ ( "font-family", c.textLevel.codeOrKbdOrSamp.fontFamilies |> Maybe.map (List.map .value >> String.join ", ") ) ]
     , whereIfNonEmpty "small"
-        [ Maybe.map (property "font-size") c.textLevel.small.fontSize ]
+        [ ( "font-size", c.textLevel.small.fontSize ) ]
     , whereIfNonEmpty "sub, sup"
-        [ Maybe.map (property "font-size") c.textLevel.subOrSup.fontSize
-        , Maybe.map (property "line-height") c.textLevel.subOrSup.lineHeight
-        , Maybe.map Css.position c.textLevel.subOrSup.position
-        , Maybe.map Css.verticalAlign c.textLevel.subOrSup.verticalAlign
+        [ ( "font-size", c.textLevel.subOrSup.fontSize )
+        , ( "line-height", c.textLevel.subOrSup.lineHeight )
+        , ( "position", c.textLevel.subOrSup.position |> Maybe.map .value )
+        , ( "vertical-align", c.textLevel.subOrSup.verticalAlign )
         ]
     , whereIfNonEmpty "sub"
-        [ Maybe.map Css.bottom c.textLevel.sub.bottom ]
+        [ ( "bottom", c.textLevel.sub.bottom |> Maybe.map .value ) ]
     , whereIfNonEmpty "sup"
-        [ Maybe.map Css.top c.textLevel.sup.top ]
+        [ ( "top", c.textLevel.sup.top |> Maybe.map .value ) ]
 
     -- Embedded content
     , whereIfNonEmpty "img, svg, iframe, audio, embed, object"
-        [ Maybe.map Css.verticalAlign c.embeddedContent.verticalAlign ]
+        [ ( "vertical-align", c.embeddedContent.verticalAlign ) ]
     , whereIfNonEmpty "img, picture"
-        [ Maybe.map Css.display c.embeddedContent.imgOrPicture.display
-        , Maybe.map Css.maxWidth c.embeddedContent.imgOrPicture.maxWidth
-        , Maybe.map Css.borderStyle c.embeddedContent.imgOrPicture.borderStyle
+        [ ( "display", c.embeddedContent.imgOrPicture.display |> Maybe.map .value )
+        , ( "max-width", c.embeddedContent.imgOrPicture.maxWidth |> Maybe.map .value )
+        , ( "border-style", c.embeddedContent.imgOrPicture.borderStyle |> Maybe.map .value )
         ]
     , whereIfNonEmpty "iframe"
-        [ Maybe.map (property "border-style") c.embeddedContent.iframe.borderStyle ]
+        [ ( "border-style", c.embeddedContent.iframe.borderStyle ) ]
 
     -- Table
     , whereIfNonEmpty "table"
-        [ Maybe.map (property "text-indent") c.table.table.textIndent
-        , Maybe.map Css.borderCollapse c.table.table.borderCollapse
-        , Maybe.map (property "border-color") c.table.table.borderColor
+        [ ( "text-indent", c.table.table.textIndent )
+        , ( "border-collapse", c.table.table.borderCollapse |> Maybe.map .value )
+        , ( "border-color", c.table.table.borderColor )
         ]
     , whereIfNonEmpty "caption"
-        [ Maybe.map Css.textAlign c.table.caption.textAlign ]
+        [ ( "text-align", c.table.caption.textAlign ) ]
     , whereIfNonEmpty "th, td"
-        [ Maybe.map Css.padding c.table.thOrTd.padding
-        , Maybe.map Css.textAlign c.table.thOrTd.textAlign
-        , Maybe.map Css.verticalAlign c.table.thOrTd.verticalAlign
-        , Maybe.map (property "font-weight") c.table.thOrTd.fontWeight
-        , Maybe.map Css.border c.table.thOrTd.border
+        [ ( "padding", c.table.thOrTd.padding |> Maybe.map .value )
+        , ( "text-align", c.table.thOrTd.textAlign )
+        , ( "vertical-align", c.table.thOrTd.verticalAlign )
+        , ( "font-weight", c.table.thOrTd.fontWeight )
+        , ( "border", c.table.thOrTd.border |> Maybe.map .value )
         ]
 
     -- Form
     , whereIfNonEmpty "input, button, textarea, select, optgroup"
-        [ Maybe.map (property "-webkit-appearance") c.form.elements.appearance
-        , Maybe.map (property "appearance") c.form.elements.appearance
-        , Maybe.map (property "margin") c.form.elements.margin
-        , Maybe.map (property "font") c.form.elements.font
-        , Maybe.map (property "font-family") c.form.elements.fontFamily
-        , Maybe.map Css.fontSize c.form.elements.fontSize
-        , Maybe.map (Css.num >> Css.lineHeight) c.form.elements.lineHeight
-        , Maybe.map Css.backgroundColor c.form.elements.backgroundColor
-        , Maybe.map (property "color") c.form.elements.color
+        [ ( "-webkit-appearance", c.form.elements.appearance )
+        , ( "appearance", c.form.elements.appearance )
+        , ( "margin", c.form.elements.margin )
+        , ( "font", c.form.elements.font )
+        , ( "font-family", c.form.elements.fontFamily )
+        , ( "font-size", c.form.elements.fontSize |> Maybe.map .value )
+        , ( "lineHeight", c.form.elements.lineHeight |> Maybe.map String.fromFloat )
+        , ( "background-color", c.form.elements.backgroundColor |> Maybe.map .value )
+        , ( "color", c.form.elements.color )
         ]
     , whereIfNonEmpty "textarea"
-        [ Maybe.map Css.resize c.form.textarea.resize ]
+        [ ( "resize", c.form.textarea.resize |> Maybe.map .value ) ]
     , selectorIfNonEmpty "::placeholder"
-        [ Maybe.map (property "color") c.form.placeholder.color ]
+        [ ( "color", c.form.placeholder.color ) ]
     , selectorIfNonEmpty """button, [type="button"], [type="reset"], [type="submit"]"""
-        [ Maybe.map Css.cursor c.form.cursor.default ]
+        [ ( "cursor", c.form.cursor.default |> Maybe.map .value ) ]
     , selectorIfNonEmpty ":disabled"
-        [ Maybe.map Css.cursor c.form.cursor.disabled ]
+        [ ( "cursor", c.form.cursor.disabled |> Maybe.map .value ) ]
     ]
 
 

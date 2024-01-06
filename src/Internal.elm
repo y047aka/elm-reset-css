@@ -1,6 +1,6 @@
 module Internal exposing (selectorIfNonEmpty, whereIfNonEmpty)
 
-import Css exposing (Style, batch)
+import Css exposing (Style, batch, property)
 import Css.Global exposing (Snippet, each, selector)
 
 
@@ -26,9 +26,13 @@ selectorIf bool selectorStr styles =
         each [] []
 
 
-selectorIfNonEmpty : String -> List (Maybe Style) -> Snippet
+selectorIfNonEmpty : String -> List ( String, Maybe String ) -> Snippet
 selectorIfNonEmpty selectorStr styles =
-    case List.filterMap identity styles of
+    let
+        fn ( propertyStr, maybeValue ) =
+            maybeValue |> Maybe.map (property propertyStr)
+    in
+    case List.filterMap fn styles of
         [] ->
             each [] []
 
@@ -46,9 +50,13 @@ whereIf bool selectorStr styles =
     selectorIf bool (":where(" ++ selectorStr ++ ")") styles
 
 
-whereIfNonEmpty : String -> List (Maybe Style) -> Snippet
+whereIfNonEmpty : String -> List ( String, Maybe String ) -> Snippet
 whereIfNonEmpty selectorStr styles =
-    case List.filterMap identity styles of
+    let
+        fn ( propertyStr, maybeValue ) =
+            maybeValue |> Maybe.map (property propertyStr)
+    in
+    case List.filterMap fn styles of
         [] ->
             each [] []
 
