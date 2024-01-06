@@ -1,9 +1,9 @@
 module Css.Reset exposing
     ( ericMeyer
-    , normalize, sanitize, ress, destyle
+    , normalize_outdated, sanitize, ress, destyle
     , theNewCssReset
     , erc_Normalize
-    , reset
+    , normalize, reset
     )
 
 {-| Compile it with your [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) code.
@@ -41,13 +41,13 @@ module Css.Reset exposing
             ]
 
 @docs ericMeyer
-@docs normalize, sanitize, ress, destyle
+@docs normalize_outdated, sanitize, ress, destyle
 @docs theNewCssReset
 @docs erc_Normalize
 
 -}
 
-import Css exposing (BackgroundClip, BorderCollapse, BorderStyle, BoxSizing, Color, ColorValue, Cursor, Display, ExplicitLength, FontFamily, FontSize, FontWeight, IncompatibleUnits, Length, LengthOrAuto, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Position, Px, Resize, Style, Visibility, property)
+import Css exposing (BackgroundClip, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, ExplicitLength, FontFamily, FontSize, FontWeight, IncompatibleUnits, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Style, Visibility, property)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -83,21 +83,24 @@ type alias Everything =
 type alias Root =
     { lineHeight : Maybe String
     , textSizeAdjust : Maybe String
+    , tabSize : Maybe Int
     }
 
 
 type alias Body =
-    { minHeight : Maybe (LengthOrMinMaxDimension {}) }
+    { minHeight : Maybe (LengthOrMinMaxDimension {})
+    , margin : Maybe String
+    }
 
 
 type alias GroupingContent =
     { ulOrOl : { listStyle : Maybe String }
     , hr :
         { boxSizing : Maybe (BoxSizing (Visibility {}))
-        , height : Maybe (LengthOrAuto {})
+        , height : Maybe String
         , overflow : Maybe (Overflow {})
         , borderTopWidth : Maybe (Length {} {})
-        , color : Maybe Color
+        , color : Maybe String
         }
     , pre :
         { fontFamilies : Maybe (List (FontFamily {}))
@@ -118,8 +121,13 @@ type alias TextLevel =
         { textDecoration : Maybe String
         , color : Maybe String
         }
-    , b : { fontWeight : Maybe (FontWeight {}) }
-    , codeOrKbdOrSamp : { fontFamilies : Maybe (List (FontFamily {})) }
+    , abbr_title : { textDecoration : Maybe String }
+    , bOrStrong : { fontWeight : Maybe (FontWeight {}) }
+    , codeOrKbdOrSamp :
+        { fontFamilies : Maybe (List (FontFamily {}))
+        , fontSize : Maybe String
+        }
+    , small : { fontSize : Maybe String }
     , subOrSup :
         { fontSize : Maybe String
         , lineHeight : Maybe String
@@ -138,12 +146,16 @@ type alias EmbeddedContent =
         , maxWidth : Maybe (LengthOrNoneOrMinMaxDimension {})
         , borderStyle : Maybe (BorderStyle {})
         }
-    , iframe : { borderStyle : Maybe (BorderStyle {}) }
+    , iframe : { borderStyle : Maybe String }
     }
 
 
 type alias Table =
-    { table : { borderCollapse : Maybe (BorderCollapse (Visibility {})) }
+    { table :
+        { textIndent : Maybe String
+        , borderCollapse : Maybe (BorderCollapse (Visibility {}))
+        , borderColor : Maybe String
+        }
     , caption : { textAlign : Maybe (ExplicitLength IncompatibleUnits -> Style) }
     , thOrTd :
         { padding : Maybe (Length {} {})
@@ -158,7 +170,11 @@ type alias Table =
 type alias Form =
     { elements :
         { appearance : Maybe String
+        , margin : Maybe String
         , font : Maybe String
+        , fontFamily : Maybe String
+        , fontSize : Maybe Pct
+        , lineHeight : Maybe Float
         , backgroundColor : Maybe (ColorValue NonMixable)
         , color : Maybe String
         }
@@ -200,8 +216,8 @@ reset =
         |> toSnippets
 
 
-normalize_ : Config
-normalize_ =
+normalize : List Snippet
+normalize =
     { everything = everything_normalize
     , root = root_normalize
     , body = body_normalize
@@ -212,6 +228,7 @@ normalize_ =
     , table = table_normalize
     , form = form_normalize
     }
+        |> toSnippets
 
 
 everything_empty : Everything
@@ -226,7 +243,8 @@ everything_empty =
 everything_reset : Everything
 everything_reset =
     { everything_empty
-        | borderWidth = Just Css.zero.value
+        | boxSizing = Just Css.borderBox
+        , borderWidth = Just Css.zero.value
         , margin = Just Css.zero.value
         , padding = Just Css.zero.value
     }
@@ -234,13 +252,14 @@ everything_reset =
 
 everything_normalize : Everything
 everything_normalize =
-    everything_empty
+    { everything_empty | boxSizing = Just Css.borderBox }
 
 
 root_empty : Root
 root_empty =
     { lineHeight = Nothing
     , textSizeAdjust = Nothing
+    , tabSize = Nothing
     }
 
 
@@ -251,12 +270,15 @@ root_reset =
 
 root_normalize : Root
 root_normalize =
-    root_empty
+    { lineHeight = Just (Css.num 1.15).value
+    , textSizeAdjust = Just (Css.pct 100).value
+    , tabSize = Just 4
+    }
 
 
 body_empty : Body
 body_empty =
-    { minHeight = Nothing }
+    { minHeight = Nothing, margin = Nothing }
 
 
 body_reset : Body
@@ -266,7 +288,7 @@ body_reset =
 
 body_normalize : Body
 body_normalize =
-    body_empty
+    { body_empty | margin = Just Css.zero.value }
 
 
 headings_empty : Headings
@@ -315,14 +337,28 @@ groupingContent_reset =
 
 groupingContent_normalize : GroupingContent
 groupingContent_normalize =
-    groupingContent_empty
+    { groupingContent_empty
+        | hr =
+            { boxSizing = Nothing
+            , height = Just Css.zero.value
+            , overflow = Nothing
+            , borderTopWidth = Nothing
+            , color = Just Css.inherit.value
+            }
+        , pre =
+            { fontFamilies = Just [ Css.monospace, Css.monospace ]
+            , fontSize = Nothing
+            }
+    }
 
 
 textLevel_empty : TextLevel
 textLevel_empty =
     { a = { textDecoration = Nothing, color = Nothing }
-    , b = { fontWeight = Nothing }
-    , codeOrKbdOrSamp = { fontFamilies = Nothing }
+    , abbr_title = { textDecoration = Nothing }
+    , bOrStrong = { fontWeight = Nothing }
+    , codeOrKbdOrSamp = { fontFamilies = Nothing, fontSize = Nothing }
+    , small = { fontSize = Nothing }
     , subOrSup =
         { fontSize = Nothing
         , lineHeight = Nothing
@@ -341,7 +377,10 @@ textLevel_reset =
             { textDecoration = Just Css.none.value
             , color = Just Css.inherit.value
             }
-        , codeOrKbdOrSamp = { fontFamilies = Just [ Css.monospace, Css.monospace ] }
+        , codeOrKbdOrSamp =
+            { fontFamilies = Just [ Css.monospace, Css.monospace ]
+            , fontSize = Nothing
+            }
         , subOrSup =
             { fontSize = Just (Css.pct 75).value
             , lineHeight = Just Css.zero.value
@@ -355,7 +394,23 @@ textLevel_reset =
 
 textLevel_normalize : TextLevel
 textLevel_normalize =
-    textLevel_empty
+    { textLevel_empty
+        | abbr_title = { textDecoration = Just "underline dotted" }
+        , bOrStrong = { fontWeight = Just Css.bolder }
+        , codeOrKbdOrSamp =
+            { fontFamilies = Just [ Css.monospace, Css.monospace ]
+            , fontSize = Just (Css.em 1).value
+            }
+        , small = { fontSize = Just (Css.pct 80).value }
+        , subOrSup =
+            { fontSize = Just (Css.pct 75).value
+            , lineHeight = Just Css.zero.value
+            , position = Just Css.relative
+            , verticalAlign = Just Css.baseline
+            }
+        , sub = { bottom = Just (Css.px -0.25) }
+        , sup = { top = Just (Css.px -0.5) }
+    }
 
 
 embeddedContent_empty : EmbeddedContent
@@ -377,12 +432,19 @@ embeddedContent_reset =
 
 embeddedContent_normalize : EmbeddedContent
 embeddedContent_normalize =
-    embeddedContent_empty
+    { embeddedContent_empty
+        | verticalAlign = Just Css.middle
+        , iframe = { borderStyle = Just Css.none.value }
+    }
 
 
 table_empty : Table
 table_empty =
-    { table = { borderCollapse = Nothing }
+    { table =
+        { textIndent = Nothing
+        , borderCollapse = Nothing
+        , borderColor = Nothing
+        }
     , caption = { textAlign = Nothing }
     , thOrTd =
         { padding = Nothing
@@ -396,7 +458,11 @@ table_empty =
 
 table_reset : Table
 table_reset =
-    { table = { borderCollapse = Just Css.collapse }
+    { table =
+        { textIndent = Nothing
+        , borderCollapse = Just Css.collapse
+        , borderColor = Nothing
+        }
     , caption = { textAlign = Just Css.left }
     , thOrTd =
         { padding = Nothing
@@ -410,14 +476,24 @@ table_reset =
 
 table_normalize : Table
 table_normalize =
-    table_empty
+    { table_empty
+        | table =
+            { textIndent = Just Css.zero.value
+            , borderCollapse = Nothing
+            , borderColor = Just Css.inherit.value
+            }
+    }
 
 
 form_empty : Form
 form_empty =
     { elements =
         { appearance = Nothing
+        , margin = Nothing
         , font = Nothing
+        , fontFamily = Nothing
+        , fontSize = Nothing
+        , lineHeight = Nothing
         , backgroundColor = Nothing
         , color = Nothing
         }
@@ -431,7 +507,11 @@ form_reset : Form
 form_reset =
     { elements =
         { appearance = Just Css.none.value
+        , margin = Nothing
         , font = Just Css.inherit.value
+        , fontFamily = Nothing
+        , fontSize = Nothing
+        , lineHeight = Nothing
         , backgroundColor = Just Css.transparent
         , color = Just Css.inherit.value
         }
@@ -446,7 +526,18 @@ form_reset =
 
 form_normalize : Form
 form_normalize =
-    form_empty
+    { form_empty
+        | elements =
+            { appearance = Nothing
+            , margin = Just Css.zero.value
+            , font = Nothing
+            , fontFamily = Just Css.inherit.value
+            , fontSize = Just (Css.pct 100)
+            , lineHeight = Just 1.15
+            , backgroundColor = Nothing
+            , color = Nothing
+            }
+    }
 
 
 toSnippets : Config -> List Snippet
@@ -463,14 +554,22 @@ toSnippets c =
     -- Root
     , whereIfNonEmpty ":root"
         [ Maybe.map (property "line-height") c.root.lineHeight
+
+        -- text-size-adjust
         , Maybe.map (property "-moz-text-size-adjust") c.root.textSizeAdjust
         , Maybe.map (property "-webkit-text-size-adjust") c.root.textSizeAdjust
         , Maybe.map (property "text-size-adjust") c.root.textSizeAdjust
+
+        -- tab-size
+        , Maybe.map (String.fromInt >> property "-moz-tab-size") c.root.tabSize
+        , Maybe.map (String.fromInt >> property "tab-size") c.root.tabSize
         ]
 
     -- Body
     , whereIfNonEmpty "body"
-        [ Maybe.map Css.minHeight c.body.minHeight ]
+        [ Maybe.map Css.minHeight c.body.minHeight
+        , Maybe.map (property "margin") c.body.margin
+        ]
 
     -- Headings
     , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
@@ -483,10 +582,10 @@ toSnippets c =
         [ Maybe.map (property "list-style") c.groupingContent.ulOrOl.listStyle ]
     , whereIfNonEmpty "hr"
         [ Maybe.map Css.boxSizing c.groupingContent.hr.boxSizing
-        , Maybe.map Css.height c.groupingContent.hr.height
+        , Maybe.map (property "height") c.groupingContent.hr.height
         , Maybe.map Css.overflow c.groupingContent.hr.overflow
         , Maybe.map Css.borderTopWidth c.groupingContent.hr.borderTopWidth
-        , Maybe.map Css.color c.groupingContent.hr.color
+        , Maybe.map (property "color") c.groupingContent.hr.color
         ]
     , whereIfNonEmpty "pre"
         [ Maybe.map (List.map .value >> Css.fontFamilies) c.groupingContent.pre.fontFamilies
@@ -500,10 +599,14 @@ toSnippets c =
         [ Maybe.map (property "text-decoration") c.textLevel.a.textDecoration
         , Maybe.map (property "color") c.textLevel.a.color
         ]
+    , whereIfNonEmpty "abbr[title]"
+        [ Maybe.map (property "text-decoration") c.textLevel.abbr_title.textDecoration ]
     , whereIfNonEmpty "b, strong"
-        [ Maybe.map Css.fontWeight c.textLevel.b.fontWeight ]
+        [ Maybe.map Css.fontWeight c.textLevel.bOrStrong.fontWeight ]
     , whereIfNonEmpty "code, kbd, samp"
         [ Maybe.map (List.map .value >> Css.fontFamilies) c.textLevel.codeOrKbdOrSamp.fontFamilies ]
+    , whereIfNonEmpty "small"
+        [ Maybe.map (property "font-size") c.textLevel.small.fontSize ]
     , whereIfNonEmpty "sub, sup"
         [ Maybe.map (property "font-size") c.textLevel.subOrSup.fontSize
         , Maybe.map (property "line-height") c.textLevel.subOrSup.lineHeight
@@ -524,11 +627,14 @@ toSnippets c =
         , Maybe.map Css.borderStyle c.embeddedContent.imgOrPicture.borderStyle
         ]
     , whereIfNonEmpty "iframe"
-        [ Maybe.map Css.borderStyle c.embeddedContent.iframe.borderStyle ]
+        [ Maybe.map (property "border-style") c.embeddedContent.iframe.borderStyle ]
 
     -- Table
     , whereIfNonEmpty "table"
-        [ Maybe.map Css.borderCollapse c.table.table.borderCollapse ]
+        [ Maybe.map (property "text-indent") c.table.table.textIndent
+        , Maybe.map Css.borderCollapse c.table.table.borderCollapse
+        , Maybe.map (property "border-color") c.table.table.borderColor
+        ]
     , whereIfNonEmpty "caption"
         [ Maybe.map Css.textAlign c.table.caption.textAlign ]
     , whereIfNonEmpty "th, td"
@@ -543,7 +649,11 @@ toSnippets c =
     , whereIfNonEmpty "input, button, textarea, select, optgroup"
         [ Maybe.map (property "-webkit-appearance") c.form.elements.appearance
         , Maybe.map (property "appearance") c.form.elements.appearance
+        , Maybe.map (property "margin") c.form.elements.margin
         , Maybe.map (property "font") c.form.elements.font
+        , Maybe.map (property "font-family") c.form.elements.fontFamily
+        , Maybe.map Css.fontSize c.form.elements.fontSize
+        , Maybe.map (Css.num >> Css.lineHeight) c.form.elements.lineHeight
         , Maybe.map Css.backgroundColor c.form.elements.backgroundColor
         , Maybe.map (property "color") c.form.elements.color
         ]
@@ -569,8 +679,8 @@ ericMeyer =
 
 
 {-| -}
-normalize : List Snippet
-normalize =
+normalize_outdated : List Snippet
+normalize_outdated =
     Normalize.snippets
 
 

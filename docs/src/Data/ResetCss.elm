@@ -2,7 +2,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 
 import Css exposing (..)
 import Css.Global exposing (Snippet)
-import Css.Reset exposing (destyle, erc_Normalize, ericMeyer, normalize, reset, ress, sanitize, theNewCssReset)
+import Css.Reset exposing (destyle, erc_Normalize, ericMeyer, normalize, normalize_outdated, reset, ress, sanitize, theNewCssReset)
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode)
 import Css.Reset.ModernCssResert as ModernCssResert
 import Css.Reset.Ress
@@ -11,7 +11,7 @@ import Css.Reset.Ress
 type ResetCss
     = EricMeyer
     | Destyle
-    | Normalize
+    | Normalize_Outdated
     | Ress
     | Ress_v3
     | Sanitize
@@ -21,6 +21,7 @@ type ResetCss
     | ERC_Opinionated
     | ERC_FollowRessV3
     | Reset
+    | Normalize
 
 
 type alias Summary =
@@ -42,8 +43,8 @@ fromString str =
         "Destyle" ->
             Just Destyle
 
-        "Normalize" ->
-            Just Normalize
+        "Normalize_Outdated" ->
+            Just Normalize_Outdated
 
         "Ress" ->
             Just Ress
@@ -72,6 +73,9 @@ fromString str =
         "Reset" ->
             Just Reset
 
+        "Normalize" ->
+            Just Normalize
+
         _ ->
             Nothing
 
@@ -85,8 +89,8 @@ toString resetCss =
         Destyle ->
             "Destyle"
 
-        Normalize ->
-            "Normalize"
+        Normalize_Outdated ->
+            "Normalize_Outdated"
 
         Ress ->
             "Ress"
@@ -115,6 +119,9 @@ toString resetCss =
         Reset ->
             "Reset"
 
+        Normalize ->
+            "Normalize"
+
 
 toSnippet : ResetCss -> List Snippet
 toSnippet resetCss =
@@ -125,8 +132,8 @@ toSnippet resetCss =
         Destyle ->
             destyle
 
-        Normalize ->
-            normalize
+        Normalize_Outdated ->
+            normalize_outdated
 
         Ress ->
             ress
@@ -175,6 +182,9 @@ toSnippet resetCss =
         Reset ->
             reset
 
+        Normalize ->
+            normalize
+
 
 toRootStyles : ResetCss -> List Style
 toRootStyles resetCss =
@@ -195,7 +205,7 @@ toRootStyles resetCss =
             , property "-webkit-tap-highlight-color" "transparent"
             ]
 
-        Normalize ->
+        Normalize_Outdated ->
             [ lineHeight (num 1.15)
             , property "-webkit-text-size-adjust" "100%"
             ]
@@ -250,6 +260,13 @@ toRootStyles resetCss =
         Reset ->
             [ lineHeight (num 1) ]
 
+        Normalize ->
+            [ lineHeight (num 1.5)
+            , property "-moz-text-size-adjust" "100%"
+            , property "-webkit-text-size-adjust" "100%"
+            , property "text-size-adjust" "100%"
+            ]
+
 
 toSummary : ResetCss -> Summary
 toSummary resetCss =
@@ -272,7 +289,7 @@ toSummary resetCss =
             , url = "https://github.com/nicolas-cusan/destyle.css"
             }
 
-        Normalize ->
+        Normalize_Outdated ->
             { name = "Normalize.css"
             , version = "v8.0.1"
             , updatedAt = "2018-11-05"
@@ -362,12 +379,21 @@ toSummary resetCss =
             , url = "https://github.com/y047aka/elm-reset-css"
             }
 
+        Normalize ->
+            { name = "normalize"
+            , version = "v3.0.0"
+            , updatedAt = "2023-12-27"
+            , author = "Yoshitaka Totsuka"
+            , license = "MIT"
+            , url = "https://github.com/y047aka/elm-reset-css"
+            }
+
 
 all : List ResetCss
 all =
     [ EricMeyer
     , Destyle
-    , Normalize
+    , Normalize_Outdated
     , Ress
     , Ress_v3
     , Sanitize
@@ -377,4 +403,5 @@ all =
     , ERC_Opinionated
     , ERC_FollowRessV3
     , Reset
+    , Normalize
     ]
