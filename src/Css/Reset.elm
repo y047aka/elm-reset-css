@@ -543,7 +543,7 @@ form_normalize =
 toSnippets : Config -> List Snippet
 toSnippets c =
     [ selectorIfNonEmpty "*, ::before, ::after"
-        [ ( "box-sizing", c.everything.boxSizing |> Maybe.map .value )
+        [ ( "box-sizing", Maybe.map .value c.everything.boxSizing )
         , ( "border-width", c.everything.borderWidth )
         ]
     , selectorIfNonEmpty "*"
@@ -561,13 +561,13 @@ toSnippets c =
         , ( "text-size-adjust", c.root.textSizeAdjust )
 
         -- tab-size
-        , ( "-moz-tab-size", c.root.tabSize |> Maybe.map String.fromInt )
-        , ( "tab-size", c.root.tabSize |> Maybe.map String.fromInt )
+        , ( "-moz-tab-size", Maybe.map String.fromInt c.root.tabSize )
+        , ( "tab-size", Maybe.map String.fromInt c.root.tabSize )
         ]
 
     -- Body
     , whereIfNonEmpty "body"
-        [ ( "min-height", c.body.minHeight |> Maybe.map .value )
+        [ ( "min-height", Maybe.map .value c.body.minHeight )
         , ( "margin", c.body.margin )
         ]
 
@@ -581,15 +581,15 @@ toSnippets c =
     , whereIfNonEmpty """ul[role="list"], ol[role="list"]"""
         [ ( "list-style", c.groupingContent.ulOrOl.listStyle ) ]
     , whereIfNonEmpty "hr"
-        [ ( "box-sizing", c.groupingContent.hr.boxSizing |> Maybe.map .value )
+        [ ( "box-sizing", Maybe.map .value c.groupingContent.hr.boxSizing )
         , ( "height", c.groupingContent.hr.height )
-        , ( "overflow", c.groupingContent.hr.overflow |> Maybe.map .value )
-        , ( "border-top-width", c.groupingContent.hr.borderTopWidth |> Maybe.map .value )
+        , ( "overflow", Maybe.map .value c.groupingContent.hr.overflow )
+        , ( "border-top-width", Maybe.map .value c.groupingContent.hr.borderTopWidth )
         , ( "color", c.groupingContent.hr.color )
         ]
     , whereIfNonEmpty "pre"
-        [ ( "font-family", c.groupingContent.pre.fontFamilies |> Maybe.map (List.map .value >> String.join ", ") )
-        , ( "font-size", c.groupingContent.pre.fontSize |> Maybe.map .value )
+        [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.groupingContent.pre.fontFamilies )
+        , ( "font-size", Maybe.map .value c.groupingContent.pre.fontSize )
         ]
     , whereIfNonEmpty "address"
         [ ( "font-style", c.groupingContent.address.fontStyle ) ]
@@ -602,29 +602,29 @@ toSnippets c =
     , whereIfNonEmpty "abbr[title]"
         [ ( "text-decoration", c.textLevel.abbr_title.textDecoration ) ]
     , whereIfNonEmpty "b, strong"
-        [ ( "font-weight", c.textLevel.bOrStrong.fontWeight |> Maybe.map .value ) ]
+        [ ( "font-weight", Maybe.map .value c.textLevel.bOrStrong.fontWeight ) ]
     , whereIfNonEmpty "code, kbd, samp"
-        [ ( "font-family", c.textLevel.codeOrKbdOrSamp.fontFamilies |> Maybe.map (List.map .value >> String.join ", ") ) ]
+        [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.textLevel.codeOrKbdOrSamp.fontFamilies ) ]
     , whereIfNonEmpty "small"
         [ ( "font-size", c.textLevel.small.fontSize ) ]
     , whereIfNonEmpty "sub, sup"
         [ ( "font-size", c.textLevel.subOrSup.fontSize )
         , ( "line-height", c.textLevel.subOrSup.lineHeight )
-        , ( "position", c.textLevel.subOrSup.position |> Maybe.map .value )
+        , ( "position", Maybe.map .value c.textLevel.subOrSup.position )
         , ( "vertical-align", c.textLevel.subOrSup.verticalAlign )
         ]
     , whereIfNonEmpty "sub"
-        [ ( "bottom", c.textLevel.sub.bottom |> Maybe.map .value ) ]
+        [ ( "bottom", Maybe.map .value c.textLevel.sub.bottom ) ]
     , whereIfNonEmpty "sup"
-        [ ( "top", c.textLevel.sup.top |> Maybe.map .value ) ]
+        [ ( "top", Maybe.map .value c.textLevel.sup.top ) ]
 
     -- Embedded content
     , whereIfNonEmpty "img, svg, iframe, audio, embed, object"
         [ ( "vertical-align", c.embeddedContent.verticalAlign ) ]
     , whereIfNonEmpty "img, picture"
-        [ ( "display", c.embeddedContent.imgOrPicture.display |> Maybe.map .value )
-        , ( "max-width", c.embeddedContent.imgOrPicture.maxWidth |> Maybe.map .value )
-        , ( "border-style", c.embeddedContent.imgOrPicture.borderStyle |> Maybe.map .value )
+        [ ( "display", Maybe.map .value c.embeddedContent.imgOrPicture.display )
+        , ( "max-width", Maybe.map .value c.embeddedContent.imgOrPicture.maxWidth )
+        , ( "border-style", Maybe.map .value c.embeddedContent.imgOrPicture.borderStyle )
         ]
     , whereIfNonEmpty "iframe"
         [ ( "border-style", c.embeddedContent.iframe.borderStyle ) ]
@@ -632,17 +632,17 @@ toSnippets c =
     -- Table
     , whereIfNonEmpty "table"
         [ ( "text-indent", c.table.table.textIndent )
-        , ( "border-collapse", c.table.table.borderCollapse |> Maybe.map .value )
+        , ( "border-collapse", Maybe.map .value c.table.table.borderCollapse )
         , ( "border-color", c.table.table.borderColor )
         ]
     , whereIfNonEmpty "caption"
         [ ( "text-align", c.table.caption.textAlign ) ]
     , whereIfNonEmpty "th, td"
-        [ ( "padding", c.table.thOrTd.padding |> Maybe.map .value )
+        [ ( "padding", Maybe.map .value c.table.thOrTd.padding )
         , ( "text-align", c.table.thOrTd.textAlign )
         , ( "vertical-align", c.table.thOrTd.verticalAlign )
         , ( "font-weight", c.table.thOrTd.fontWeight )
-        , ( "border", c.table.thOrTd.border |> Maybe.map .value )
+        , ( "border", Maybe.map .value c.table.thOrTd.border )
         ]
 
     -- Form
@@ -652,19 +652,19 @@ toSnippets c =
         , ( "margin", c.form.elements.margin )
         , ( "font", c.form.elements.font )
         , ( "font-family", c.form.elements.fontFamily )
-        , ( "font-size", c.form.elements.fontSize |> Maybe.map .value )
-        , ( "lineHeight", c.form.elements.lineHeight |> Maybe.map String.fromFloat )
-        , ( "background-color", c.form.elements.backgroundColor |> Maybe.map .value )
+        , ( "font-size", Maybe.map .value c.form.elements.fontSize )
+        , ( "lineHeight", Maybe.map String.fromFloat c.form.elements.lineHeight )
+        , ( "background-color", Maybe.map .value c.form.elements.backgroundColor )
         , ( "color", c.form.elements.color )
         ]
     , whereIfNonEmpty "textarea"
-        [ ( "resize", c.form.textarea.resize |> Maybe.map .value ) ]
+        [ ( "resize", Maybe.map .value c.form.textarea.resize ) ]
     , selectorIfNonEmpty "::placeholder"
         [ ( "color", c.form.placeholder.color ) ]
     , selectorIfNonEmpty """button, [type="button"], [type="reset"], [type="submit"]"""
-        [ ( "cursor", c.form.cursor.default |> Maybe.map .value ) ]
+        [ ( "cursor", Maybe.map .value c.form.cursor.default ) ]
     , selectorIfNonEmpty ":disabled"
-        [ ( "cursor", c.form.cursor.disabled |> Maybe.map .value ) ]
+        [ ( "cursor", Maybe.map .value c.form.cursor.disabled ) ]
     ]
 
 
