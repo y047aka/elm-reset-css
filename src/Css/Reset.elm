@@ -47,7 +47,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility)
+import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, px)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -74,22 +74,22 @@ type alias Config =
 
 type alias Everything =
     { boxSizing : Maybe (BoxSizing (BackgroundClip {}))
-    , borderWidth : Maybe String
-    , margin : Maybe String
-    , padding : Maybe String
+    , borderWidth : Maybe Int
+    , margin : Maybe Int
+    , padding : Maybe Int
     }
 
 
 type alias Root =
-    { lineHeight : Maybe String
-    , textSizeAdjust : Maybe String
+    { lineHeight : Maybe Float
+    , textSizeAdjust : Maybe Pct
     , tabSize : Maybe Int
     }
 
 
 type alias Body =
     { minHeight : Maybe (LengthOrMinMaxDimension {})
-    , margin : Maybe String
+    , margin : Maybe Int
     }
 
 
@@ -97,40 +97,40 @@ type alias GroupingContent =
     { ulOrOl : { listStyle : Maybe String }
     , hr :
         { boxSizing : Maybe (BoxSizing (Visibility {}))
-        , height : Maybe String
+        , height : Maybe Int
         , overflow : Maybe (Overflow {})
         , borderTopWidth : Maybe (Length {} {})
-        , color : Maybe String
+        , color : Maybe BasicProperty
         }
     , pre :
         { fontFamilies : Maybe (List (FontFamily {}))
         , fontSize : Maybe (FontSize {})
         }
-    , address : { fontStyle : Maybe String }
+    , address : { fontStyle : Maybe BasicProperty }
     }
 
 
 type alias Headings =
-    { fontSize : Maybe String
-    , fontWeight : Maybe String
+    { fontSize : Maybe BasicProperty
+    , fontWeight : Maybe BasicProperty
     }
 
 
 type alias TextLevel =
     { a :
         { textDecoration : Maybe String
-        , color : Maybe String
+        , color : Maybe BasicProperty
         }
     , abbr_title : { textDecoration : Maybe String }
     , bOrStrong : { fontWeight : Maybe (FontWeight {}) }
     , codeOrKbdOrSamp :
         { fontFamilies : Maybe (List (FontFamily {}))
-        , fontSize : Maybe String
+        , fontSize : Maybe Em
         }
-    , small : { fontSize : Maybe String }
+    , small : { fontSize : Maybe Pct }
     , subOrSup :
-        { fontSize : Maybe String
-        , lineHeight : Maybe String
+        { fontSize : Maybe Pct
+        , lineHeight : Maybe Int
         , position : Maybe (Position {})
         , verticalAlign : Maybe String
         }
@@ -152,16 +152,16 @@ type alias EmbeddedContent =
 
 type alias Table =
     { table :
-        { textIndent : Maybe String
+        { textIndent : Maybe Int
         , borderCollapse : Maybe (BorderCollapse (Visibility {}))
-        , borderColor : Maybe String
+        , borderColor : Maybe BasicProperty
         }
     , caption : { textAlign : Maybe String }
     , thOrTd :
         { padding : Maybe (Length {} {})
         , textAlign : Maybe String
         , verticalAlign : Maybe String
-        , fontWeight : Maybe String
+        , fontWeight : Maybe BasicProperty
         , border : Maybe (Length {} {})
         }
     }
@@ -170,16 +170,16 @@ type alias Table =
 type alias Form =
     { elements :
         { appearance : Maybe String
-        , margin : Maybe String
-        , font : Maybe String
-        , fontFamily : Maybe String
+        , margin : Maybe Int
+        , font : Maybe BasicProperty
+        , fontFamily : Maybe BasicProperty
         , fontSize : Maybe Pct
         , lineHeight : Maybe Float
         , backgroundColor : Maybe (ColorValue NonMixable)
-        , color : Maybe String
+        , color : Maybe BasicProperty
         }
     , textarea : { resize : Maybe (Resize {}) }
-    , placeholder : { color : Maybe String }
+    , placeholder : { color : Maybe BasicProperty }
     , cursor :
         { default : Maybe (Cursor {})
         , disabled : Maybe (Cursor {})
@@ -244,9 +244,9 @@ everything_reset : Everything
 everything_reset =
     { everything_empty
         | boxSizing = Just Css.borderBox
-        , borderWidth = Just Css.zero.value
-        , margin = Just Css.zero.value
-        , padding = Just Css.zero.value
+        , borderWidth = Just 0
+        , margin = Just 0
+        , padding = Just 0
     }
 
 
@@ -265,13 +265,13 @@ root_empty =
 
 root_reset : Root
 root_reset =
-    { root_empty | lineHeight = Just (Css.num 1).value }
+    { root_empty | lineHeight = Just 1 }
 
 
 root_normalize : Root
 root_normalize =
-    { lineHeight = Just (Css.num 1.15).value
-    , textSizeAdjust = Just (Css.pct 100).value
+    { lineHeight = Just 1.15
+    , textSizeAdjust = Just (pct 100)
     , tabSize = Just 4
     }
 
@@ -288,7 +288,7 @@ body_reset =
 
 body_normalize : Body
 body_normalize =
-    { body_empty | margin = Just Css.zero.value }
+    { body_empty | margin = Just 0 }
 
 
 headings_empty : Headings
@@ -298,8 +298,8 @@ headings_empty =
 
 headings_reset : Headings
 headings_reset =
-    { fontSize = Just Css.inherit.value
-    , fontWeight = Just Css.inherit.value
+    { fontSize = Just inherit
+    , fontWeight = Just inherit
     }
 
 
@@ -326,12 +326,12 @@ groupingContent_empty =
 groupingContent_reset : GroupingContent
 groupingContent_reset =
     { groupingContent_empty
-        | ulOrOl = { listStyle = Just Css.none.value }
+        | ulOrOl = { listStyle = Just none.value }
         , pre =
-            { fontFamilies = Just [ Css.monospace, Css.monospace ]
+            { fontFamilies = Just [ monospace, monospace ]
             , fontSize = Nothing
             }
-        , address = { fontStyle = Just Css.inherit.value }
+        , address = { fontStyle = Just inherit }
     }
 
 
@@ -340,13 +340,13 @@ groupingContent_normalize =
     { groupingContent_empty
         | hr =
             { boxSizing = Nothing
-            , height = Just Css.zero.value
+            , height = Just 0
             , overflow = Nothing
             , borderTopWidth = Nothing
-            , color = Just Css.inherit.value
+            , color = Just inherit
             }
         , pre =
-            { fontFamilies = Just [ Css.monospace, Css.monospace ]
+            { fontFamilies = Just [ monospace, monospace ]
             , fontSize = Nothing
             }
     }
@@ -374,21 +374,21 @@ textLevel_reset : TextLevel
 textLevel_reset =
     { textLevel_empty
         | a =
-            { textDecoration = Just Css.none.value
-            , color = Just Css.inherit.value
+            { textDecoration = Just none.value
+            , color = Just inherit
             }
         , codeOrKbdOrSamp =
-            { fontFamilies = Just [ Css.monospace, Css.monospace ]
+            { fontFamilies = Just [ monospace, monospace ]
             , fontSize = Nothing
             }
         , subOrSup =
-            { fontSize = Just (Css.pct 75).value
-            , lineHeight = Just Css.zero.value
+            { fontSize = Just (pct 75)
+            , lineHeight = Just 0
             , position = Just Css.relative
             , verticalAlign = Just "baseline"
             }
-        , sub = { bottom = Just (Css.px -0.25) }
-        , sup = { top = Just (Css.px -0.5) }
+        , sub = { bottom = Just (px -0.25) }
+        , sup = { top = Just (px -0.5) }
     }
 
 
@@ -398,18 +398,18 @@ textLevel_normalize =
         | abbr_title = { textDecoration = Just "underline dotted" }
         , bOrStrong = { fontWeight = Just Css.bolder }
         , codeOrKbdOrSamp =
-            { fontFamilies = Just [ Css.monospace, Css.monospace ]
-            , fontSize = Just (Css.em 1).value
+            { fontFamilies = Just [ monospace, monospace ]
+            , fontSize = Just (em 1)
             }
-        , small = { fontSize = Just (Css.pct 80).value }
+        , small = { fontSize = Just (pct 80) }
         , subOrSup =
-            { fontSize = Just (Css.pct 75).value
-            , lineHeight = Just Css.zero.value
+            { fontSize = Just (pct 75)
+            , lineHeight = Just 0
             , position = Just Css.relative
             , verticalAlign = Just "baseline"
             }
-        , sub = { bottom = Just (Css.px -0.25) }
-        , sup = { top = Just (Css.px -0.5) }
+        , sub = { bottom = Just (px -0.25) }
+        , sup = { top = Just (px -0.5) }
     }
 
 
@@ -434,7 +434,7 @@ embeddedContent_normalize : EmbeddedContent
 embeddedContent_normalize =
     { embeddedContent_empty
         | verticalAlign = Just "middle"
-        , iframe = { borderStyle = Just Css.none.value }
+        , iframe = { borderStyle = Just none.value }
     }
 
 
@@ -468,7 +468,7 @@ table_reset =
         { padding = Nothing
         , textAlign = Just "left"
         , verticalAlign = Nothing
-        , fontWeight = Just Css.inherit.value
+        , fontWeight = Just inherit
         , border = Nothing
         }
     }
@@ -478,9 +478,9 @@ table_normalize : Table
 table_normalize =
     { table_empty
         | table =
-            { textIndent = Just Css.zero.value
+            { textIndent = Just 0
             , borderCollapse = Nothing
-            , borderColor = Just Css.inherit.value
+            , borderColor = Just inherit
             }
     }
 
@@ -506,17 +506,17 @@ form_empty =
 form_reset : Form
 form_reset =
     { elements =
-        { appearance = Just Css.none.value
+        { appearance = Just none.value
         , margin = Nothing
-        , font = Just Css.inherit.value
+        , font = Just inherit
         , fontFamily = Nothing
         , fontSize = Nothing
         , lineHeight = Nothing
         , backgroundColor = Just Css.transparent
-        , color = Just Css.inherit.value
+        , color = Just inherit
         }
     , textarea = { resize = Just Css.vertical }
-    , placeholder = { color = Just Css.inherit.value }
+    , placeholder = { color = Just inherit }
     , cursor =
         { default = Just Css.pointer
         , disabled = Just Css.default
@@ -529,10 +529,10 @@ form_normalize =
     { form_empty
         | elements =
             { appearance = Nothing
-            , margin = Just Css.zero.value
+            , margin = Just 0
             , font = Nothing
-            , fontFamily = Just Css.inherit.value
-            , fontSize = Just (Css.pct 100)
+            , fontFamily = Just inherit
+            , fontSize = Just (pct 100)
             , lineHeight = Just 1.15
             , backgroundColor = Nothing
             , color = Nothing
@@ -544,21 +544,21 @@ toSnippets : Config -> List Snippet
 toSnippets c =
     [ selectorIfNonEmpty "*, ::before, ::after"
         [ ( "box-sizing", Maybe.map .value c.everything.boxSizing )
-        , ( "border-width", c.everything.borderWidth )
+        , ( "border-width", Maybe.map String.fromInt c.everything.borderWidth )
         ]
     , selectorIfNonEmpty "*"
-        [ ( "margin", c.everything.margin )
-        , ( "padding", c.everything.padding )
+        [ ( "margin", Maybe.map String.fromInt c.everything.margin )
+        , ( "padding", Maybe.map String.fromInt c.everything.padding )
         ]
 
     -- Root
     , whereIfNonEmpty ":root"
-        [ ( "line-height", c.root.lineHeight )
+        [ ( "line-height", Maybe.map String.fromFloat c.root.lineHeight )
 
         -- text-size-adjust
-        , ( "-moz-text-size-adjust", c.root.textSizeAdjust )
-        , ( "-webkit-text-size-adjust", c.root.textSizeAdjust )
-        , ( "text-size-adjust", c.root.textSizeAdjust )
+        , ( "-moz-text-size-adjust", Maybe.map .value c.root.textSizeAdjust )
+        , ( "-webkit-text-size-adjust", Maybe.map .value c.root.textSizeAdjust )
+        , ( "text-size-adjust", Maybe.map .value c.root.textSizeAdjust )
 
         -- tab-size
         , ( "-moz-tab-size", Maybe.map String.fromInt c.root.tabSize )
@@ -568,13 +568,13 @@ toSnippets c =
     -- Body
     , whereIfNonEmpty "body"
         [ ( "min-height", Maybe.map .value c.body.minHeight )
-        , ( "margin", c.body.margin )
+        , ( "margin", Maybe.map String.fromInt c.body.margin )
         ]
 
     -- Headings
     , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
-        [ ( "font-size", c.headings.fontSize )
-        , ( "font-weight", c.headings.fontWeight )
+        [ ( "font-size", Maybe.map .value c.headings.fontSize )
+        , ( "font-weight", Maybe.map .value c.headings.fontWeight )
         ]
 
     -- Grouping content
@@ -582,34 +582,36 @@ toSnippets c =
         [ ( "list-style", c.groupingContent.ulOrOl.listStyle ) ]
     , whereIfNonEmpty "hr"
         [ ( "box-sizing", Maybe.map .value c.groupingContent.hr.boxSizing )
-        , ( "height", c.groupingContent.hr.height )
+        , ( "height", Maybe.map String.fromInt c.groupingContent.hr.height )
         , ( "overflow", Maybe.map .value c.groupingContent.hr.overflow )
         , ( "border-top-width", Maybe.map .value c.groupingContent.hr.borderTopWidth )
-        , ( "color", c.groupingContent.hr.color )
+        , ( "color", Maybe.map .value c.groupingContent.hr.color )
         ]
     , whereIfNonEmpty "pre"
         [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.groupingContent.pre.fontFamilies )
         , ( "font-size", Maybe.map .value c.groupingContent.pre.fontSize )
         ]
     , whereIfNonEmpty "address"
-        [ ( "font-style", c.groupingContent.address.fontStyle ) ]
+        [ ( "font-style", Maybe.map .value c.groupingContent.address.fontStyle ) ]
 
     -- Text-level
     , whereIfNonEmpty "a"
         [ ( "text-decoration", c.textLevel.a.textDecoration )
-        , ( "color", c.textLevel.a.color )
+        , ( "color", Maybe.map .value c.textLevel.a.color )
         ]
     , whereIfNonEmpty "abbr[title]"
         [ ( "text-decoration", c.textLevel.abbr_title.textDecoration ) ]
     , whereIfNonEmpty "b, strong"
         [ ( "font-weight", Maybe.map .value c.textLevel.bOrStrong.fontWeight ) ]
     , whereIfNonEmpty "code, kbd, samp"
-        [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.textLevel.codeOrKbdOrSamp.fontFamilies ) ]
+        [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.textLevel.codeOrKbdOrSamp.fontFamilies )
+        , ( "font-size", Maybe.map .value c.textLevel.codeOrKbdOrSamp.fontSize )
+        ]
     , whereIfNonEmpty "small"
-        [ ( "font-size", c.textLevel.small.fontSize ) ]
+        [ ( "font-size", Maybe.map .value c.textLevel.small.fontSize ) ]
     , whereIfNonEmpty "sub, sup"
-        [ ( "font-size", c.textLevel.subOrSup.fontSize )
-        , ( "line-height", c.textLevel.subOrSup.lineHeight )
+        [ ( "font-size", Maybe.map .value c.textLevel.subOrSup.fontSize )
+        , ( "line-height", Maybe.map String.fromInt c.textLevel.subOrSup.lineHeight )
         , ( "position", Maybe.map .value c.textLevel.subOrSup.position )
         , ( "vertical-align", c.textLevel.subOrSup.verticalAlign )
         ]
@@ -631,9 +633,9 @@ toSnippets c =
 
     -- Table
     , whereIfNonEmpty "table"
-        [ ( "text-indent", c.table.table.textIndent )
+        [ ( "text-indent", Maybe.map String.fromInt c.table.table.textIndent )
         , ( "border-collapse", Maybe.map .value c.table.table.borderCollapse )
-        , ( "border-color", c.table.table.borderColor )
+        , ( "border-color", Maybe.map .value c.table.table.borderColor )
         ]
     , whereIfNonEmpty "caption"
         [ ( "text-align", c.table.caption.textAlign ) ]
@@ -641,7 +643,7 @@ toSnippets c =
         [ ( "padding", Maybe.map .value c.table.thOrTd.padding )
         , ( "text-align", c.table.thOrTd.textAlign )
         , ( "vertical-align", c.table.thOrTd.verticalAlign )
-        , ( "font-weight", c.table.thOrTd.fontWeight )
+        , ( "font-weight", Maybe.map .value c.table.thOrTd.fontWeight )
         , ( "border", Maybe.map .value c.table.thOrTd.border )
         ]
 
@@ -649,18 +651,18 @@ toSnippets c =
     , whereIfNonEmpty "input, button, textarea, select, optgroup"
         [ ( "-webkit-appearance", c.form.elements.appearance )
         , ( "appearance", c.form.elements.appearance )
-        , ( "margin", c.form.elements.margin )
-        , ( "font", c.form.elements.font )
-        , ( "font-family", c.form.elements.fontFamily )
+        , ( "margin", Maybe.map String.fromInt c.form.elements.margin )
+        , ( "font", Maybe.map .value c.form.elements.font )
+        , ( "font-family", Maybe.map .value c.form.elements.fontFamily )
         , ( "font-size", Maybe.map .value c.form.elements.fontSize )
         , ( "lineHeight", Maybe.map String.fromFloat c.form.elements.lineHeight )
         , ( "background-color", Maybe.map .value c.form.elements.backgroundColor )
-        , ( "color", c.form.elements.color )
+        , ( "color", Maybe.map .value c.form.elements.color )
         ]
     , whereIfNonEmpty "textarea"
         [ ( "resize", Maybe.map .value c.form.textarea.resize ) ]
     , selectorIfNonEmpty "::placeholder"
-        [ ( "color", c.form.placeholder.color ) ]
+        [ ( "color", Maybe.map .value c.form.placeholder.color ) ]
     , selectorIfNonEmpty """button, [type="button"], [type="reset"], [type="submit"]"""
         [ ( "cursor", Maybe.map .value c.form.cursor.default ) ]
     , selectorIfNonEmpty ":disabled"
