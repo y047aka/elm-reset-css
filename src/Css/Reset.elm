@@ -45,14 +45,13 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, px)
-import Css.Global exposing (Snippet)
+import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, property, px)
+import Css.Global exposing (Snippet, each, selector)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.EricMeyer as EricMeyer
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
-import Internal exposing (selectorIfNonEmpty, whereIfNonEmpty)
 
 
 type alias Config =
@@ -583,17 +582,17 @@ interactive_normalize =
 
 toSnippets : Config -> List Snippet
 toSnippets c =
-    [ selectorIfNonEmpty "*, ::before, ::after"
+    [ selector_ "*, ::before, ::after"
         [ ( "box-sizing", Maybe.map .value c.everything.boxSizing )
         , ( "border-width", Maybe.map String.fromInt c.everything.borderWidth )
         ]
-    , selectorIfNonEmpty "*"
+    , selector_ "*"
         [ ( "margin", Maybe.map String.fromInt c.everything.margin )
         , ( "padding", Maybe.map String.fromInt c.everything.padding )
         ]
 
     -- Root
-    , whereIfNonEmpty ":root"
+    , where_ ":root"
         [ ( "line-height", Maybe.map String.fromFloat c.root.lineHeight )
 
         -- text-size-adjust
@@ -607,80 +606,80 @@ toSnippets c =
         ]
 
     -- Body
-    , whereIfNonEmpty "body"
+    , where_ "body"
         [ ( "min-height", Maybe.map .value c.body.minHeight )
         , ( "margin", Maybe.map String.fromInt c.body.margin )
         ]
 
     -- Headings
-    , whereIfNonEmpty "h1, h2, h3, h4, h5, h6"
+    , where_ "h1, h2, h3, h4, h5, h6"
         [ ( "font-size", Maybe.map .value c.headings.fontSize )
         , ( "font-weight", Maybe.map .value c.headings.fontWeight )
         ]
 
     -- Grouping content
-    , whereIfNonEmpty """ul[role="list"], ol[role="list"]"""
+    , where_ """ul[role="list"], ol[role="list"]"""
         [ ( "list-style", c.groupingContent.ulOrOl.listStyle ) ]
-    , whereIfNonEmpty "hr"
+    , where_ "hr"
         [ ( "box-sizing", Maybe.map .value c.groupingContent.hr.boxSizing )
         , ( "height", Maybe.map String.fromInt c.groupingContent.hr.height )
         , ( "overflow", Maybe.map .value c.groupingContent.hr.overflow )
         , ( "border-top-width", Maybe.map .value c.groupingContent.hr.borderTopWidth )
         , ( "color", Maybe.map .value c.groupingContent.hr.color )
         ]
-    , whereIfNonEmpty "pre"
+    , where_ "pre"
         [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.groupingContent.pre.fontFamilies )
         , ( "font-size", Maybe.map .value c.groupingContent.pre.fontSize )
         ]
-    , whereIfNonEmpty "address"
+    , where_ "address"
         [ ( "font-style", Maybe.map .value c.groupingContent.address.fontStyle ) ]
 
     -- Text-level
-    , whereIfNonEmpty "a"
+    , where_ "a"
         [ ( "text-decoration", c.textLevel.a.textDecoration )
         , ( "color", Maybe.map .value c.textLevel.a.color )
         ]
-    , whereIfNonEmpty "abbr[title]"
+    , where_ "abbr[title]"
         [ ( "text-decoration", c.textLevel.abbr_title.textDecoration ) ]
-    , whereIfNonEmpty "b, strong"
+    , where_ "b, strong"
         [ ( "font-weight", Maybe.map .value c.textLevel.bOrStrong.fontWeight ) ]
-    , whereIfNonEmpty "code, kbd, samp"
+    , where_ "code, kbd, samp"
         [ ( "font-family", Maybe.map (List.map .value >> String.join ", ") c.textLevel.codeOrKbdOrSamp.fontFamilies )
         , ( "font-size", Maybe.map .value c.textLevel.codeOrKbdOrSamp.fontSize )
         ]
-    , whereIfNonEmpty "small"
+    , where_ "small"
         [ ( "font-size", Maybe.map .value c.textLevel.small.fontSize ) ]
-    , whereIfNonEmpty "sub, sup"
+    , where_ "sub, sup"
         [ ( "font-size", Maybe.map .value c.textLevel.subOrSup.fontSize )
         , ( "line-height", Maybe.map String.fromInt c.textLevel.subOrSup.lineHeight )
         , ( "position", Maybe.map .value c.textLevel.subOrSup.position )
         , ( "vertical-align", c.textLevel.subOrSup.verticalAlign )
         ]
-    , whereIfNonEmpty "sub"
+    , where_ "sub"
         [ ( "bottom", Maybe.map .value c.textLevel.sub.bottom ) ]
-    , whereIfNonEmpty "sup"
+    , where_ "sup"
         [ ( "top", Maybe.map .value c.textLevel.sup.top ) ]
 
     -- Embedded content
-    , whereIfNonEmpty "img, svg, iframe, audio, embed, object"
+    , where_ "img, svg, iframe, audio, embed, object"
         [ ( "vertical-align", c.embeddedContent.verticalAlign ) ]
-    , whereIfNonEmpty "img, picture"
+    , where_ "img, picture"
         [ ( "display", Maybe.map .value c.embeddedContent.imgOrPicture.display )
         , ( "max-width", Maybe.map .value c.embeddedContent.imgOrPicture.maxWidth )
         , ( "border-style", Maybe.map .value c.embeddedContent.imgOrPicture.borderStyle )
         ]
-    , whereIfNonEmpty "iframe"
+    , where_ "iframe"
         [ ( "border-style", c.embeddedContent.iframe.borderStyle ) ]
 
     -- Table
-    , whereIfNonEmpty "table"
+    , where_ "table"
         [ ( "text-indent", Maybe.map String.fromInt c.table.table.textIndent )
         , ( "border-collapse", Maybe.map .value c.table.table.borderCollapse )
         , ( "border-color", Maybe.map .value c.table.table.borderColor )
         ]
-    , whereIfNonEmpty "caption"
+    , where_ "caption"
         [ ( "text-align", c.table.caption.textAlign ) ]
-    , whereIfNonEmpty "th, td"
+    , where_ "th, td"
         [ ( "padding", Maybe.map .value c.table.thOrTd.padding )
         , ( "text-align", c.table.thOrTd.textAlign )
         , ( "vertical-align", c.table.thOrTd.verticalAlign )
@@ -689,7 +688,7 @@ toSnippets c =
         ]
 
     -- Form
-    , whereIfNonEmpty "input, button, textarea, select, optgroup"
+    , where_ "input, button, textarea, select, optgroup"
         [ ( "-webkit-appearance", c.form.elements.appearance )
         , ( "appearance", c.form.elements.appearance )
         , ( "margin", Maybe.map String.fromInt c.form.elements.margin )
@@ -700,25 +699,25 @@ toSnippets c =
         , ( "background-color", Maybe.map .value c.form.elements.backgroundColor )
         , ( "color", Maybe.map .value c.form.elements.color )
         ]
-    , whereIfNonEmpty "textarea"
+    , where_ "textarea"
         [ ( "resize", Maybe.map .value c.form.textarea.resize ) ]
-    , whereIfNonEmpty "button, select"
+    , where_ "button, select"
         [ ( "text-transform", c.form.buttonOrSelect.textTransform ) ]
-    , selectorIfNonEmpty "::placeholder"
+    , selector_ "::placeholder"
         [ ( "color", Maybe.map .value c.form.placeholder.color ) ]
-    , selectorIfNonEmpty """button, [type="button"], [type="reset"], [type="submit"]"""
+    , selector_ """button, [type="button"], [type="reset"], [type="submit"]"""
         [ ( "-webkit-appearance", c.form.button.appearance )
         , ( "cursor", Maybe.map .value c.form.button.cursor )
         ]
-    , selectorIfNonEmpty ":disabled"
+    , selector_ ":disabled"
         [ ( "cursor", Maybe.map .value c.form.button.disabled.cursor ) ]
-    , whereIfNonEmpty "legend"
+    , where_ "legend"
         [ ( "padding", Maybe.map String.fromInt c.form.legend.padding ) ]
-    , whereIfNonEmpty "progress"
+    , where_ "progress"
         [ ( "vertical-align", c.form.progress.verticalAlign ) ]
 
     -- Interactive
-    , whereIfNonEmpty "summary"
+    , where_ "summary"
         [ ( "display", Maybe.map .value c.interactive.summary.display ) ]
     ]
 
@@ -755,3 +754,35 @@ destyle =
 theNewCssReset : List Snippet
 theNewCssReset =
     TheNewCssReset.snippets
+
+
+
+-- HELPERS
+
+
+selector_ : String -> List ( String, Maybe String ) -> Snippet
+selector_ selectorStr styles =
+    let
+        fn ( propertyStr, maybeValue ) =
+            maybeValue |> Maybe.map (property propertyStr)
+    in
+    case List.filterMap fn styles of
+        [] ->
+            each [] []
+
+        nonEmpty ->
+            selector selectorStr nonEmpty
+
+
+where_ : String -> List ( String, Maybe String ) -> Snippet
+where_ selectorStr styles =
+    let
+        fn ( propertyStr, maybeValue ) =
+            maybeValue |> Maybe.map (property propertyStr)
+    in
+    case List.filterMap fn styles of
+        [] ->
+            each [] []
+
+        nonEmpty ->
+            selector (":where(" ++ selectorStr ++ ")") nonEmpty
