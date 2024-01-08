@@ -47,7 +47,7 @@ module Css.Reset exposing
 
 -}
 
-import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, px)
+import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, progress, px)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
@@ -69,6 +69,7 @@ type alias Config =
     , embeddedContent : EmbeddedContent
     , table : Table
     , form : Form
+    , interactive : Interactive
     }
 
 
@@ -179,12 +180,20 @@ type alias Form =
         , color : Maybe BasicProperty
         }
     , textarea : { resize : Maybe (Resize {}) }
+    , buttonOrSelect : { textTransform : Maybe String }
     , placeholder : { color : Maybe BasicProperty }
-    , cursor :
-        { default : Maybe (Cursor {})
-        , disabled : Maybe (Cursor {})
+    , button :
+        { appearance : Maybe String
+        , cursor : Maybe (Cursor {})
+        , disabled : { cursor : Maybe (Cursor {}) }
         }
+    , legend : { padding : Maybe Int }
+    , progress : { verticalAlign : Maybe String }
     }
+
+
+type alias Interactive =
+    { summary : { display : Maybe (Display {}) } }
 
 
 init : Config
@@ -198,6 +207,7 @@ init =
     , embeddedContent = embeddedContent_empty
     , table = table_empty
     , form = form_empty
+    , interactive = interactive_empty
     }
 
 
@@ -212,6 +222,7 @@ reset =
     , embeddedContent = embeddedContent_reset
     , table = table_reset
     , form = form_reset
+    , interactive = interactive_reset
     }
         |> toSnippets
 
@@ -227,6 +238,7 @@ normalize =
     , embeddedContent = embeddedContent_normalize
     , table = table_normalize
     , form = form_normalize
+    , interactive = interactive_normalize
     }
         |> toSnippets
 
@@ -498,8 +510,15 @@ form_empty =
         , color = Nothing
         }
     , textarea = { resize = Nothing }
+    , buttonOrSelect = { textTransform = Nothing }
     , placeholder = { color = Nothing }
-    , cursor = { default = Nothing, disabled = Nothing }
+    , button =
+        { appearance = Nothing
+        , cursor = Nothing
+        , disabled = { cursor = Nothing }
+        }
+    , legend = { padding = Nothing }
+    , progress = { verticalAlign = Nothing }
     }
 
 
@@ -516,11 +535,15 @@ form_reset =
         , color = Just inherit
         }
     , textarea = { resize = Just Css.vertical }
+    , buttonOrSelect = { textTransform = Just none.value }
     , placeholder = { color = Just inherit }
-    , cursor =
-        { default = Just Css.pointer
-        , disabled = Just Css.default
+    , button =
+        { appearance = Nothing
+        , cursor = Just Css.pointer
+        , disabled = { cursor = Just Css.default }
         }
+    , legend = { padding = Nothing }
+    , progress = { verticalAlign = Nothing }
     }
 
 
@@ -537,7 +560,29 @@ form_normalize =
             , backgroundColor = Nothing
             , color = Nothing
             }
+        , button =
+            { appearance = Just "button"
+            , cursor = Nothing
+            , disabled = { cursor = Nothing }
+            }
+        , legend = { padding = Just 0 }
+        , progress = { verticalAlign = Just "baseline" }
     }
+
+
+interactive_empty : Interactive
+interactive_empty =
+    { summary = { display = Nothing } }
+
+
+interactive_reset : Interactive
+interactive_reset =
+    interactive_empty
+
+
+interactive_normalize : Interactive
+interactive_normalize =
+    { summary = { display = Just Css.listItem } }
 
 
 toSnippets : Config -> List Snippet
@@ -655,18 +700,30 @@ toSnippets c =
         , ( "font", Maybe.map .value c.form.elements.font )
         , ( "font-family", Maybe.map .value c.form.elements.fontFamily )
         , ( "font-size", Maybe.map .value c.form.elements.fontSize )
-        , ( "lineHeight", Maybe.map String.fromFloat c.form.elements.lineHeight )
+        , ( "line-height", Maybe.map String.fromFloat c.form.elements.lineHeight )
         , ( "background-color", Maybe.map .value c.form.elements.backgroundColor )
         , ( "color", Maybe.map .value c.form.elements.color )
         ]
     , whereIfNonEmpty "textarea"
         [ ( "resize", Maybe.map .value c.form.textarea.resize ) ]
+    , whereIfNonEmpty "button, select"
+        [ ( "text-transform", c.form.buttonOrSelect.textTransform ) ]
     , selectorIfNonEmpty "::placeholder"
         [ ( "color", Maybe.map .value c.form.placeholder.color ) ]
     , selectorIfNonEmpty """button, [type="button"], [type="reset"], [type="submit"]"""
-        [ ( "cursor", Maybe.map .value c.form.cursor.default ) ]
+        [ ( "-webkit-appearance", c.form.button.appearance )
+        , ( "cursor", Maybe.map .value c.form.button.cursor )
+        ]
     , selectorIfNonEmpty ":disabled"
-        [ ( "cursor", Maybe.map .value c.form.cursor.disabled ) ]
+        [ ( "cursor", Maybe.map .value c.form.button.disabled.cursor ) ]
+    , whereIfNonEmpty "legend"
+        [ ( "padding", Maybe.map String.fromInt c.form.legend.padding ) ]
+    , whereIfNonEmpty "progress"
+        [ ( "vertical-align", c.form.progress.verticalAlign ) ]
+
+    -- Interactive
+    , whereIfNonEmpty "summary"
+        [ ( "display", Maybe.map .value c.interactive.summary.display ) ]
     ]
 
 

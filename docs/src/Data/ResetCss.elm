@@ -261,10 +261,12 @@ toRootStyles resetCss =
             [ lineHeight (num 1) ]
 
         Normalize ->
-            [ lineHeight (num 1.5)
+            [ lineHeight (num 1.15)
             , property "-moz-text-size-adjust" "100%"
             , property "-webkit-text-size-adjust" "100%"
             , property "text-size-adjust" "100%"
+            , property "-moz-tab-size" "4"
+            , property "tab-size" "4"
             ]
 
 
