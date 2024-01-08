@@ -2,7 +2,7 @@ module Data.ResetCss exposing (ResetCss(..), all, fromString, toRootStyles, toSn
 
 import Css exposing (..)
 import Css.Global exposing (Snippet)
-import Css.Reset exposing (destyle, erc_Normalize, ericMeyer, normalize, normalize_outdated, reset, ress, sanitize, theNewCssReset)
+import Css.Reset exposing (destyle, ericMeyer, normalize, reset, ress, sanitize, theNewCssReset)
 import Css.Reset.ElmResetCss as ERC exposing (ResetMode)
 import Css.Reset.ModernCssResert as ModernCssResert
 import Css.Reset.Ress
@@ -11,13 +11,11 @@ import Css.Reset.Ress
 type ResetCss
     = EricMeyer
     | Destyle
-    | Normalize_Outdated
     | Ress
     | Ress_v3
     | Sanitize
     | ModernCssResert
     | TheNewCssReset
-    | ERC_Normalize
     | ERC_Opinionated
     | ERC_FollowRessV3
     | Reset
@@ -43,9 +41,6 @@ fromString str =
         "Destyle" ->
             Just Destyle
 
-        "Normalize_Outdated" ->
-            Just Normalize_Outdated
-
         "Ress" ->
             Just Ress
 
@@ -60,9 +55,6 @@ fromString str =
 
         "TheNewCssReset" ->
             Just TheNewCssReset
-
-        "ERC_Normalize" ->
-            Just ERC_Normalize
 
         "ERC_Opinionated" ->
             Just ERC_Opinionated
@@ -89,9 +81,6 @@ toString resetCss =
         Destyle ->
             "Destyle"
 
-        Normalize_Outdated ->
-            "Normalize_Outdated"
-
         Ress ->
             "Ress"
 
@@ -106,9 +95,6 @@ toString resetCss =
 
         TheNewCssReset ->
             "TheNewCssReset"
-
-        ERC_Normalize ->
-            "ERC_Normalize"
 
         ERC_Opinionated ->
             "ERC_Opinionated"
@@ -132,9 +118,6 @@ toSnippet resetCss =
         Destyle ->
             destyle
 
-        Normalize_Outdated ->
-            normalize_outdated
-
         Ress ->
             ress
 
@@ -149,9 +132,6 @@ toSnippet resetCss =
 
         TheNewCssReset ->
             theNewCssReset
-
-        ERC_Normalize ->
-            erc_Normalize
 
         ERC_Opinionated ->
             ERC.snippetsWith
@@ -205,11 +185,6 @@ toRootStyles resetCss =
             , property "-webkit-tap-highlight-color" "transparent"
             ]
 
-        Normalize_Outdated ->
-            [ lineHeight (num 1.15)
-            , property "-webkit-text-size-adjust" "100%"
-            ]
-
         Ress ->
             [ boxSizing borderBox
             , property "-webkit-text-size-adjust" "100%" -- Prevent adjustments of font size after orientation changes in iOS
@@ -245,9 +220,6 @@ toRootStyles resetCss =
             [ Css.all unset
             , property "display" "revert"
             ]
-
-        ERC_Normalize ->
-            [ fontFamilies [ "sans-serif" ] ]
 
         ERC_Opinionated ->
             [ fontFamilies [ "-apple-system", "BlinkMacSystemFont", qt "Helvetica Neue", "Arial", qt "Hiragino Kaku Gothic ProN", qt "Hiragino Sans", "Meiryo", "sans-serif" ]
@@ -289,15 +261,6 @@ toSummary resetCss =
             , author = "Nicolas Cusan"
             , license = "MIT"
             , url = "https://github.com/nicolas-cusan/destyle.css"
-            }
-
-        Normalize_Outdated ->
-            { name = "Normalize.css"
-            , version = "v8.0.1"
-            , updatedAt = "2018-11-05"
-            , author = "Nicolas Gallagher"
-            , license = "MIT"
-            , url = "https://github.com/necolas/normalize.css/"
             }
 
         Ress ->
@@ -345,15 +308,6 @@ toSummary resetCss =
             , url = "https://github.com/elad2412/the-new-css-reset"
             }
 
-        ERC_Normalize ->
-            { name = "elm-reset-css (normalize)"
-            , version = "v2.3.0"
-            , updatedAt = "2021-11-14"
-            , author = "Yoshitaka Totsuka"
-            , license = "MIT"
-            , url = "https://github.com/y047aka/elm-reset-css"
-            }
-
         ERC_Opinionated ->
             { name = "elm-reset-css (opinionated)"
             , version = "v2.3.0"
@@ -395,13 +349,11 @@ all : List ResetCss
 all =
     [ EricMeyer
     , Destyle
-    , Normalize_Outdated
     , Ress
     , Ress_v3
     , Sanitize
     , ModernCssResert
     , TheNewCssReset
-    , ERC_Normalize
     , ERC_Opinionated
     , ERC_FollowRessV3
     , Reset

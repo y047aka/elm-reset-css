@@ -1,8 +1,7 @@
 module Html.ResetCss exposing
     ( ericMeyer
-    , normalize, sanitize, ress, destyle
+    , sanitize, ress, destyle
     , theNewCssReset
-    , erc_Normalize
     )
 
 {-| You can use them with elm/html.
@@ -38,17 +37,14 @@ module Html.ResetCss exposing
             ]
 
 @docs ericMeyer
-@docs normalize, sanitize, ress, destyle
+@docs sanitize, ress, destyle
 @docs theNewCssReset
-@docs erc_Normalize
 
 -}
 
 import Css.Global exposing (global)
-import Css.Reset
 import Css.Reset.Destyle as Destyle
 import Css.Reset.EricMeyer as EricMeyer
-import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
@@ -60,14 +56,6 @@ import Html.Styled exposing (toUnstyled)
 ericMeyer : Html msg
 ericMeyer =
     EricMeyer.snippets
-        |> global
-        |> toUnstyled
-
-
-{-| -}
-normalize : Html msg
-normalize =
-    Normalize.snippets
         |> global
         |> toUnstyled
 
@@ -100,13 +88,5 @@ destyle =
 theNewCssReset : Html msg
 theNewCssReset =
     TheNewCssReset.snippets
-        |> global
-        |> toUnstyled
-
-
-{-| -}
-erc_Normalize : Html msg
-erc_Normalize =
-    Css.Reset.erc_Normalize
         |> global
         |> toUnstyled

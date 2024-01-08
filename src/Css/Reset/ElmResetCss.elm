@@ -22,7 +22,6 @@ import Css.Global exposing (Snippet, each, selector)
 type ResetMode
     = BrowserDefault
     | Reset
-    | Normalize
     | Opinionated
 
 

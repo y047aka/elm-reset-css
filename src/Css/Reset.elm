@@ -1,8 +1,7 @@
 module Css.Reset exposing
     ( ericMeyer
-    , normalize_outdated, sanitize, ress, destyle
+    , sanitize, ress, destyle
     , theNewCssReset
-    , erc_Normalize
     , normalize, reset
     )
 
@@ -41,18 +40,15 @@ module Css.Reset exposing
             ]
 
 @docs ericMeyer
-@docs normalize_outdated, sanitize, ress, destyle
+@docs sanitize, ress, destyle
 @docs theNewCssReset
-@docs erc_Normalize
 
 -}
 
-import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, progress, px)
+import Css exposing (BackgroundClip, BasicProperty, BorderCollapse, BorderStyle, BoxSizing, ColorValue, Cursor, Display, Em, FontFamily, FontSize, FontWeight, Length, LengthOrMinMaxDimension, LengthOrNoneOrMinMaxDimension, NonMixable, Overflow, Pct, Position, Px, Resize, Visibility, em, inherit, monospace, none, pct, px)
 import Css.Global exposing (Snippet)
 import Css.Reset.Destyle as Destyle
-import Css.Reset.ElmResetCss as ERC exposing (ResetMode(..))
 import Css.Reset.EricMeyer as EricMeyer
-import Css.Reset.Normalize as Normalize
 import Css.Reset.Ress as Ress
 import Css.Reset.Sanitize as Sanitize
 import Css.Reset.TheNewCssReset as TheNewCssReset
@@ -738,12 +734,6 @@ ericMeyer =
 
 
 {-| -}
-normalize_outdated : List Snippet
-normalize_outdated =
-    Normalize.snippets
-
-
-{-| -}
 sanitize : List Snippet
 sanitize =
     Sanitize.v13
@@ -765,19 +755,3 @@ destyle =
 theNewCssReset : List Snippet
 theNewCssReset =
     TheNewCssReset.snippets
-
-
-{-| -}
-erc_Normalize : List Snippet
-erc_Normalize =
-    ERC.snippetsWith
-        { margin = BrowserDefault
-        , font = Reset
-        , lineHeight = BrowserDefault
-        , border = BrowserDefault
-        , headings = BrowserDefault
-        , lists = BrowserDefault
-        , a = BrowserDefault
-        , table = Normalize
-        , forms = BrowserDefault
-        }
